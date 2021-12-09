@@ -1,8 +1,7 @@
 # 前言
 使用lua配置nvim.
 配置路径(使用目录链接)：
-    -管理员模式下windows powershell : `New-Item -Path C:\Users\17579\AppData\Local\nvim -ItemType SymbolicLink -Value C:\Users\17579\dotfiles\nvim`
-    -linux: `ln -s ~/dotfiles/nvim/ ~/.config/`
+    -管理员模式下windows powershell : `New-Item -Path C:\Users\17579\AppData\Local\nvim -ItemType SymbolicLink -Value C:\Users\17579\dotfiles\.config\nvim`
 
 插件管理器使用packer.`https://github.com/wbthomason/packer.nvim#quickstart`
 
