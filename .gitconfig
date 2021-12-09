@@ -1,0 +1,14 @@
+[user]
+	email = ahdai19970918@gmail.com
+	name = ahdai
+
+[url "ssh://git@github.com/"]
+        insteadOf = https://github.com/
+[core]
+	editor = vim
+[diff]
+	tool = vimdiff
+[difftool]
+	prompt = false
+[http "https://github.com"]
+	proxy = socks5://192.168.1.24:10808
