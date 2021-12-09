@@ -10,5 +10,3 @@
 	tool = nvim -d
 [difftool]
 	prompt = false
-[http "https://github.com"]
-	proxy = socks5://192.168.1.24:10808

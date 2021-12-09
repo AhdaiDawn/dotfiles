@@ -113,10 +113,10 @@ alias rm='trash'
 alias dotfiles="/usr/bin/env git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME"
 
 # wsl 配置代理 注意打开代理软件可被外部访问
-WINDOWS_IP=$(ipconfig.exe | grep IPv4 | cut -d: -f2 | awk 'NR==1' | tr -d " \t\n\r")
-PROXY_SOCKS5="socks5://${WINDOWS_IP}:10808"
 # set proxy
 set_proxy () {
+  WINDOWS_IP=$(ipconfig.exe | grep IPv4 | cut -d: -f2 | awk 'NR==1' | tr -d " \t\n\r")
+  PROXY_SOCKS5="socks5://${WINDOWS_IP}:10808"
   export http_proxy=${PROXY_SOCKS5}
   export https_proxy=${PROXY_SOCKS5}
   git config --global http.https://github.com.proxy ${PROXY_SOCKS5}
