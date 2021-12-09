@@ -95,3 +95,5 @@ fails if there are too many of them (git cuts the message at some point).
 ## Tips
 Show all tracked files.
 `dotfiles ls-tree --full-tree -r --name-only HEAD`
+
+Thank to `https://github.com/alfunx/.dotfiles`.
