@@ -7,3 +7,4 @@
 - jq 格式化json
 - htop 系统状态
 - ncdu 显示磁盘占用
+- neofetch 优雅的打印系统信息
