@@ -50,7 +50,7 @@ map('n', '<leader>5', '5gt', default_opts)
 -- Applications & Plugins shortcuts:
 -----------------------------------------------------------
 -- open terminal
-map('n', '<leader>t', ':Term<CR>', { noremap = true })
+map('n', '<leader>tt', ':Term<CR>', { noremap = true })
 map('t', 'jj', '<C-\\><C-n>', default_opts)
 
 -- nvim-tree
