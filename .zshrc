@@ -108,7 +108,7 @@ alias cls='clear'
 alias vim='nvim'
 alias vi='nvim'
 
-alias rm=trash
+alias rm='trash'
 
 alias dotfiles="/usr/bin/env git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME"
 
