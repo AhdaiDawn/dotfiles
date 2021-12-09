@@ -30,6 +30,29 @@ autocmd BufReadPost *
      \   exe "normal! g`\"" |
      \ endif
 ]]
+
+exec([[
+    " 允许备份
+    set backup
+
+    " 保存时备份
+    set writebackup
+
+    " 备份文件地址，统一管理
+    set backupdir=~/.vimtemp/backup
+
+    " 备份文件扩展名
+    set backupext=.bak
+
+    " 禁用交换文件
+    set noswapfile
+
+    set undofile "设置撤回文件
+    set undodir=~/.vimtemp/undo-dir//
+
+    " 创建目录，并且忽略可能出现的警告
+    silent! call mkdir(expand('~/.vimtemp/backup'), "p", 0755)
+]], false)
 -----------------------------------------------------------
 -- Neovim UI
 -----------------------------------------------------------
