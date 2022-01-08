@@ -108,8 +108,6 @@ alias cls='clear'
 alias vim='nvim'
 alias vi='nvim'
 
-alias rm='trash'
-
 alias dotfiles="/usr/bin/env git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME"
 
 # wsl 配置代理 注意打开代理软件可被外部访问
