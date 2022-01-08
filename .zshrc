@@ -116,6 +116,7 @@ alias dotfiles="/usr/bin/env git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME"
 # set proxy
 set_proxy () {
   WINDOWS_IP=$(ipconfig.exe | grep IPv4 | cut -d: -f2 | awk 'NR==1' | tr -d " \t\n\r")
+  echo "ip=${WINDOWS_IP}"
   PROXY_SOCKS5="socks5://${WINDOWS_IP}:10808"
   export http_proxy=${PROXY_SOCKS5}
   export https_proxy=${PROXY_SOCKS5}

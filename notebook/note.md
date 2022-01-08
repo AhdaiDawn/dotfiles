@@ -9,3 +9,4 @@
 - ncdu 显示磁盘占用
 - neofetch 优雅的打印系统信息
 - axel 多线程下载器
+- extract zsh解压插件
