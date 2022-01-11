@@ -143,6 +143,6 @@ fi
 unset __conda_setup
 # <<< conda initialize <<<
 
-export GOPATH="/home/ahdai/go"
-export GOBIN="$GOPATH/bin"
+export GOPATH="$HOME/go:$HOME/code/go"
+export GOBIN="$HOME/go/bin"
 export PATH="$PATH:$GOBIN"
