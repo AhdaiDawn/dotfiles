@@ -142,3 +142,7 @@ else
 fi
 unset __conda_setup
 # <<< conda initialize <<<
+
+export GOPATH="/home/ahdai/go"
+export GOBIN="$GOPATH/bin"
+export PATH="$PATH:$GOBIN"
