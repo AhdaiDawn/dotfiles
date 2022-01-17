@@ -10,6 +10,7 @@ fd
 flex
 gcc
 git
+go
 groff
 jq
 less
@@ -34,6 +35,7 @@ sudo
 systemd
 texinfo
 tmux
+tree
 wget
 which
 zsh

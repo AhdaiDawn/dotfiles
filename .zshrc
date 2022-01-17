@@ -109,6 +109,7 @@ alias vim='nvim'
 alias vi='nvim'
 
 alias dotfiles="/usr/bin/env git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME"
+compdef dotfiles='git' # provide autocompletion
 
 # wsl 配置代理 注意打开代理软件可被外部访问
 # set proxy

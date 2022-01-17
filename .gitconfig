@@ -7,6 +7,6 @@
 [core]
 	editor = nvim
 [diff]
-	tool = nvim -d
+	tool = nvimdiff
 [difftool]
 	prompt = false
