@@ -25,3 +25,7 @@
 | tmux	| `_zsh_tmux_plugin_run`Start a new tmux session |
 
 使用.tmux<https://github.com/gpakosz/.tmux>
+
+tmux-resurrect
+- prefix + Ctrl-s - save
+- prefix + Ctrl-r - restore
