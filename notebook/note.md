@@ -10,6 +10,7 @@
 - neofetch 优雅的打印系统信息
 - axel 多线程下载器
 - extract zsh解压插件
+- cloc 分析统计代码工具
 
 ## tmux 命令
 使用zsh tmux插件<https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/tmux>
