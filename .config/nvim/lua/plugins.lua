@@ -83,7 +83,6 @@ return packer.startup(function()
     'hrsh7th/nvim-cmp',
     requires = {
       'L3MON4D3/LuaSnip', -- 片段
-      'rafamadriz/friendly-snippets', -- vscode片段
       'hrsh7th/cmp-nvim-lsp',
       'hrsh7th/cmp-path',
       'hrsh7th/cmp-buffer',
@@ -91,7 +90,6 @@ return packer.startup(function()
     }
   }
   require('plugins/nvim-cmp')
-  require('plugins/snippets')
 
   -- statusline
   use {
