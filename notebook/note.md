@@ -26,7 +26,14 @@
 | tmux	| `_zsh_tmux_plugin_run`Start a new tmux session |
 
 使用.tmux<https://github.com/gpakosz/.tmux>
+    - <C-l> 清屏
+    - prefix + Enter 进入复制模式
+    - prefix + <C-c> 创建新的会话
+    - prefix + <C-f> 按名称切换会话（默认按照0 1命名）
+    - prefix + t 显示屏保
+    - prefix + w 列出所有窗口
 
 tmux-resurrect
 - prefix + Ctrl-s - save
 - prefix + Ctrl-r - restore
+
