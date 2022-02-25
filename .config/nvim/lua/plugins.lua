@@ -119,7 +119,7 @@ return packer.startup(function()
     'goolord/alpha-nvim',
     requires = { 'kyazdani42/nvim-web-devicons' },
     config = function ()
-      require'alpha'.setup(require'alpha.themes.startify'.opts)
+      require('alpha').setup(require'alpha.themes.startify'.opts)
     end
   }
 
@@ -127,11 +127,6 @@ return packer.startup(function()
   use {
     'nvim-telescope/telescope.nvim',
     requires = { {'nvim-lua/plenary.nvim'} },
-  }
-
-  -- format
-  use {
-    'sbdchd/neoformat',
   }
 
   -- Comment

@@ -137,6 +137,9 @@ cmd [[
 -----------------------------------------------------------
 -- Startup
 -----------------------------------------------------------
+-- disable nvim intro
+opt.shortmess:append "sI"
+
 -- disable builtins plugins
 local disabled_built_ins = {
     "netrw",
@@ -162,6 +165,3 @@ local disabled_built_ins = {
 for _, plugin in pairs(disabled_built_ins) do
     g["loaded_" .. plugin] = 1
 end
-
--- disable nvim intro
-opt.shortmess:append "sI"
