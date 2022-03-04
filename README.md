@@ -96,4 +96,4 @@ fails if there are too many of them (git cuts the message at some point).
 Show all tracked files.
 `dotfiles ls-tree --full-tree -r --name-only HEAD`
 
-Thank to [](https://github.com/alfunx/.dotfiles).
+Thank to <https://github.com/alfunx/.dotfiles>.
