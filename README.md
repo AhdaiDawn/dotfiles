@@ -10,7 +10,7 @@ In the following sections I'll explain how this dotfiles repository was set up,
 how to use it and how to restore them, for example on a new device.
 
 **Note**: I migrated to
-[dotfiles.sh](https://github.com/eli-schwartz/dotfiles.sh) by Eli Schwartz,
+[dotfiles.sh](https://github.com/AhdaiDawn/dotfiles.sh) by Eli Schwartz,
 which is a thin wrapper for git that implements the method described here.
 
 ## Setup Repository
@@ -31,7 +31,7 @@ echo '.dotfiles' >> "$HOME/.gitignore"
 dotfiles add "$HOME/.gitignore"
 dotfiles commit -m 'Git: Add gitignore'
 
-dotfiles remote add origin https://github.com/alfunx/.dotfiles
+dotfiles remote add origin https://github.com/AhdaiDawn/dotfiles
 dotfiles push --set-upstream origin master
 dotfiles config --local status.showUntrackedFiles no
 ```
@@ -96,4 +96,4 @@ fails if there are too many of them (git cuts the message at some point).
 Show all tracked files.
 `dotfiles ls-tree --full-tree -r --name-only HEAD`
 
-Thank to `https://github.com/alfunx/.dotfiles`.
+Thank to [](https://github.com/alfunx/.dotfiles).
