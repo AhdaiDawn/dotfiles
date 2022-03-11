@@ -71,8 +71,6 @@ map('n', '<leader>fq', ':Telescope quickfix<CR>', default_opts) -- search marks
 map('n', '<leader>gm', ':Telescope git_commits<CR>', default_opts) -- search commits
 map('n', '<leader>gb', ':Telescope git_branches<CR>', default_opts) -- search command_history
 map('n', '<leader>gs', ':Telescope git_status<CR>', default_opts) -- search command_history
--- Vista tag-viewer
-map('n', '<leader>tv', ':Vista!!<CR>', default_opts)   -- open/close
 
 map('n', '<leader>cd', ':ProjectRoot<CR>', default_opts) -- 工作目录为当前文件目录
 

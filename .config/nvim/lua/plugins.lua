@@ -47,12 +47,6 @@ return packer.startup(function()
   -- icons
   use 'kyazdani42/nvim-web-devicons'
 
-  -- tagviewer
-  use {
-    'liuchengxu/vista.vim',
-  }
-  require('plugins/vista')
-
   -- treesitter interface
   use {
     'nvim-treesitter/nvim-treesitter',run = 'TSUpdate'
