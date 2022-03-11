@@ -75,5 +75,4 @@ map('n', '<leader>gs', ':Telescope git_status<CR>', default_opts) -- search comm
 map('n', '<leader>tv', ':Vista!!<CR>', default_opts)   -- open/close
 
 map('n', '<leader>cd', ':ProjectRoot<CR>', default_opts) -- 工作目录为当前文件目录
-map('v', '<leader>sc', ':s/\\\\/\\//g<CR>', default_opts)   --windows path to linux path
 

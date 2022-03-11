@@ -1,3 +1,5 @@
+windows path to linux path:`:s/\\\\/\\//g<CR>`
+
 cpp单文件
 
     - 编译 `:!clang++ % -o ./build/%:t:r`
