@@ -109,11 +109,6 @@ return packer.startup(function()
     end
   }
 
-  -- Git support for nvim.
-  use {
-    "tpope/vim-fugitive",
-  }
-
   -- dashboard
   use {
     'goolord/alpha-nvim',
