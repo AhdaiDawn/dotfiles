@@ -107,10 +107,11 @@ alias cls='clear'
 
 alias vim='nvim'
 alias vi='nvim'
-alias lg='lazygit'
 
+alias lg='lazygit'
 alias dotfiles="/usr/bin/env git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME"
 compdef dotfiles='git' # provide autocompletion
+alias lgd="lazygit --git-dir=$HOME/.dotfiles/ --work-tree=$HOME"
 
 # wsl 配置代理 注意打开代理软件可被外部访问
 # set proxy
