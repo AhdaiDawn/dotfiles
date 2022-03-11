@@ -1,1 +1,3 @@
+daemonize
+systemd-altctl
 yay-bin
