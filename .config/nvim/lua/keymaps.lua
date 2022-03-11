@@ -59,18 +59,15 @@ map('n', '<leader>n', ':NvimTreeToggle<CR>', default_opts) -- search file
 
 -- find
 map('n', '<leader>ff', ':Telescope find_files<CR>', default_opts) -- search file
-map('n', '<leader>m', ':Telescope oldfiles<CR>', default_opts) -- search file
-map('n', '<leader>b', ':Telescope buffers<CR>', default_opts) -- search file
-map('n', '<leader>fl', ':Telescope live_grep<CR>', default_opts) -- search file
-map('n', '<leader>fh', ':Telescope help_tags<CR>', default_opts) -- search file
-map('n', '<leader>ft', ':Telescope tags<CR>', default_opts) -- search file
+map('n', '<leader>m', ':Telescope oldfiles<CR>', default_opts)
+map('n', '<leader>b', ':Telescope buffers<CR>', default_opts)
+map('n', '<leader>fl', ':Telescope live_grep<CR>', default_opts)
+map('n', '<leader>fh', ':Telescope help_tags<CR>', default_opts)
+map('n', '<leader>ft', ':Telescope tags<CR>', default_opts)
 map('n', '<leader>fc', ':Telescope command_history<CR>', default_opts) -- search command_history
 map('n', '<leader>fp', ':Telescope projects<CR>', default_opts) -- search command_history
 map('n', '<leader>fm', ':Telescope marks<CR>', default_opts) -- search marks
 map('n', '<leader>fq', ':Telescope quickfix<CR>', default_opts) -- search marks
-map('n', '<leader>gm', ':Telescope git_commits<CR>', default_opts) -- search commits
-map('n', '<leader>gb', ':Telescope git_branches<CR>', default_opts) -- search command_history
-map('n', '<leader>gs', ':Telescope git_status<CR>', default_opts) -- search command_history
 
 map('n', '<leader>cd', ':ProjectRoot<CR>', default_opts) -- 工作目录为当前文件目录
 
