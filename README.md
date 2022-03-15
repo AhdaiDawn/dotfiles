@@ -21,6 +21,9 @@ git directory `~/.dotfiles/` to the gitignore as a security measure. Setup
 remote and push. Hide untracked files when querying the status.
 
 ```bash
+# 1. install zsh
+# 2. install oh-my-zsh
+
 git init --bare "$HOME/.dotfiles"
 
 echo 'alias dotfiles="/usr/bin/env git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME"' \
@@ -65,8 +68,8 @@ checkout. If there exist files that collide with your repository (like a default
 submodules and again hide untracked files when querying the status.
 
 ```bash
-git clone https://github.com/robbyrussell/oh-my-zsh \
-    "$HOME/.oh-my-zsh"
+# 1. install zsh
+# 2. install oh-my-zsh
 
 git clone --bare --recursive https://github.com/AhdaiDawn/dotfiles \
     "$HOME/.dotfiles"
