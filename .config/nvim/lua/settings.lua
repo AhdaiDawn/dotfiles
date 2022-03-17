@@ -16,7 +16,7 @@ local opt = vim.opt           -- global/buffer/windows-scoped options
 -- General
 -----------------------------------------------------------
 g.mapleader = ' '             -- change leader to a comma
-opt.mouse = 'a'               -- enable mouse support
+-- opt.mouse = 'a'               -- enable mouse support
 
 -- 共享剪切板 https://github.com/neovim/neovim/wiki/FAQ#how-to-use-the-windows-clipboard-from-wsl
 opt.clipboard = 'unnamedplus' -- copy/paste to system clipboard
