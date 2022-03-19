@@ -1,16 +1,19 @@
 # note
 
 ## 常用命令
-- vim `<C-z>`把前台任务放在后台
+- vim `<C-z>`把前台任务放在后台 --clean 不加载配置文件
 - jobs 查看后台任务 - fg %n 将后台任务移到前台 kill
 - <C-x><C-e> 将命令行命令放在vim中编辑
 - jq 格式化json
 - htop 系统状态
 - ncdu 显示磁盘占用
+- df -h 显示磁盘空间
 - neofetch 优雅的打印系统信息
 - axel 多线程下载器
 - extract zsh解压插件
 - cloc 分析统计代码工具
+- tldr 平易近人的man手册
+- type 获取命令来源 -a 查看所有定义
 
 ## tmux 命令
 使用zsh tmux插件<https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/tmux>
@@ -36,4 +39,3 @@
 tmux-resurrect
 - prefix + Ctrl-s - save
 - prefix + Ctrl-r - restore
-
