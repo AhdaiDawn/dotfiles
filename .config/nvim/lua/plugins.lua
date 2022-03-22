@@ -25,12 +25,6 @@ return packer.startup(function()
   }
   require('plugins/nvim-tree')
 
-  -- indent line
-  use {
-    'lukas-reineke/indent-blankline.nvim',
-  }
-  require('plugins/indent-blankline')
-
   -- This plugin show trailing whitespace.
   use {
     "ntpeters/vim-better-whitespace",
