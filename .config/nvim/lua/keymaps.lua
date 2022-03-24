@@ -71,3 +71,5 @@ map('n', '<leader>fq', ':Telescope quickfix<CR>', default_opts) -- search marks
 
 map('n', '<leader>cd', ':ProjectRoot<CR>', default_opts) -- 工作目录为当前文件目录
 
+map('v', '<leader>y', ':OSCYank<CR>', default_opts) -- 复制到系统剪切板
+

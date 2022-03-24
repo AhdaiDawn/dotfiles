@@ -131,4 +131,7 @@ return packer.startup(function()
     end
   }
 
+  -- 复制到系统剪切板
+  use "ojroques/vim-oscyank"
+
 end)
