@@ -19,6 +19,10 @@ local packer = require 'packer'
 return packer.startup(function()
   use 'wbthomason/packer.nvim' -- packer can manage itself
 
+  -- colorschemes
+  use {"ellisonleao/gruvbox.nvim", requires = {"rktjmp/lush.nvim"}}
+  cmd [[colorscheme gruvbox]]
+
   -- file explorer
   use {
     'kyazdani42/nvim-tree.lua',
@@ -56,9 +60,6 @@ return packer.startup(function()
   use {
     'justinmk/vim-sneak'
   }
-
-  -- colorschemes
-  use {"ellisonleao/gruvbox.nvim", requires = {"rktjmp/lush.nvim"}}
 
   -- LSP
   use {
@@ -133,5 +134,6 @@ return packer.startup(function()
 
   -- 复制到系统剪切板
   use "ojroques/vim-oscyank"
+  cmd [[autocmd TextYankPost * if v:event.operator is 'y' && v:event.regname is '' | execute 'OSCYankReg "' | endif]]
 
 end)
