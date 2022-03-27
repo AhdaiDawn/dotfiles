@@ -24,7 +24,6 @@ grep
 groff
 grub
 gzip
-iwd
 jq
 lazygit
 libtool
@@ -33,6 +32,7 @@ linux-firmware
 lua
 m4
 make
+mariadb
 ncdu
 neofetch
 neovim

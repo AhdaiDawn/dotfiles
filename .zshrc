@@ -116,8 +116,9 @@ alias lgd="lazygit --git-dir=$HOME/.dotfiles/ --work-tree=$HOME"
 # wsl 配置代理 注意打开代理软件可被外部访问
 # set proxy
 set_proxy () {
-  WINDOWS_IP=$(ipconfig.exe | grep -a IPv4 | cut -d: -f2 | awk 'NR==1' | tr -d " \t\n\r")
-  echo "ip=${WINDOWS_IP}"
+  # WINDOWS_IP=$(ipconfig.exe | grep -a IPv4 | cut -d: -f2 | awk 'NR==1' | tr -d " \t\n\r")
+  # echo "ip=${WINDOWS_IP}"
+  WINDOWS_IP="192.168.153.1"
   PROXY_SOCKS5="socks5://${WINDOWS_IP}:10808"
   export http_proxy=${PROXY_SOCKS5}
   export https_proxy=${PROXY_SOCKS5}
