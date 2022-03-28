@@ -26,8 +26,10 @@ return packer.startup(function()
   -- file explorer
   use {
     'kyazdani42/nvim-tree.lua',
+    config = function()
+      require('plugins/nvim-tree').setup()
+    end
   }
-  require('plugins/nvim-tree')
 
   -- This plugin show trailing whitespace.
   use {
@@ -47,9 +49,11 @@ return packer.startup(function()
 
   -- treesitter interface
   use {
-    'nvim-treesitter/nvim-treesitter',run = 'TSUpdate'
+    'nvim-treesitter/nvim-treesitter',run = 'TSUpdate',
+    config = function()
+      require('plugins/nvim-treesitter').setup()
+    end
   }
-  require('plugins/nvim-treesitter')
 
   -- surround
   use {
@@ -64,12 +68,17 @@ return packer.startup(function()
   -- LSP
   use {
     'neovim/nvim-lspconfig',
+    config = function()
+      require('plugins/nvim-lspconfig').setup()
+    end
   }
-  require('plugins/nvim-lspconfig')
 
   -- autocomplete
   use {
     'hrsh7th/nvim-cmp',
+    config = function()
+      require('plugins/nvim-cmp').setup()
+    end,
     requires = {
       'L3MON4D3/LuaSnip', -- 片段
       'hrsh7th/cmp-nvim-lsp',
@@ -78,7 +87,6 @@ return packer.startup(function()
       'saadparwaiz1/cmp_luasnip',
     }
   }
-  require('plugins/nvim-cmp')
 
   -- statusline
   use {
