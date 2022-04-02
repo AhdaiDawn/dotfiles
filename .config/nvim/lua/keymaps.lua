@@ -26,8 +26,8 @@ map('n', '<C-k>', '<C-w>k', default_opts)
 map('n', '<C-l>', '<C-w>l', default_opts)
 
 -- splits windows
-map('n', '<leader>w\\', '<C-w>v', default_opts)
-map('n', '<leader>w-', '<C-w>s', default_opts)
+map('n', '<leader>\\', '<C-w>v', default_opts)
+map('n', '<leader>-', '<C-w>s', default_opts)
 map('n', '<leader>w=', '<C-w>=', default_opts)
 
 -- close all windows and exit from neovim
