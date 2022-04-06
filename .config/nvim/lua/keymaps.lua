@@ -11,6 +11,9 @@ local cmd = vim.cmd
 -- Neovim shortcuts:
 -----------------------------------------------------------
 
+-- Don't copy the replaced text after pasting.
+map("v", "p", '"_dP', default_opts)
+
 -- clear search highlighting
 -- map('n', '<leader>c', ':nohl<CR>', default_opts)
 
@@ -55,7 +58,7 @@ map('t', 'jj', '<C-\\><C-n>', default_opts)
 
 -- nvim-tree
 map('n', '<leader>r', ':NvimTreeRefresh<CR>', default_opts)  -- refresh
-map('n', '<leader>n', ':NvimTreeToggle<CR>', default_opts) -- search file
+map('n', '<leader>n', ':NvimTreeFindFileToggle<CR>', default_opts) -- search file
 
 -- find
 map('n', '<leader>ff', ':Telescope find_files<CR>', default_opts) -- search file

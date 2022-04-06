@@ -15,6 +15,7 @@ local opt = vim.opt           -- global/buffer/windows-scoped options
 -----------------------------------------------------------
 -- General
 -----------------------------------------------------------
+
 g.mapleader = ' '             -- change leader to a comma
 -- opt.mouse = 'a'               -- enable mouse support
 
@@ -56,7 +57,18 @@ exec([[
 -----------------------------------------------------------
 -- Neovim UI
 -----------------------------------------------------------
+-- Decrease time of completion menu.
+opt.updatetime = 300
+vim.g.cursorhold_updatetime = 100
+
 opt.number = true             -- show line number{{{{{{{{{
+
+-- Remove showing mode.
+opt.showmode = false
+
+-- True collor support.
+opt.termguicolors = true
+
 opt.showmatch = true          -- highlight matching parenthesis
 -- opt.foldmethod = 'syntax'     -- enable folding (default 'foldmarker')
 opt.foldlevel = 99     -- enable folding (default 'foldmarker')
@@ -101,6 +113,9 @@ opt.shiftwidth = 4        -- shift 4 spaces when tab
 opt.tabstop = 4           -- 1 tab == 4 spaces
 opt.smartindent = true    -- autoindent new lines
 
+-- Without this option some times backspace did not work correctly.
+opt.backspace = "indent,eol,start"
+
 -- don't auto commenting new lines
 cmd [[au BufEnter * set fo-=c fo-=r fo-=o]]
 
@@ -111,6 +126,21 @@ cmd [[autocmd FileType text,markdown,html,xhtml,javascript setlocal cc=0]]
 cmd [[
   autocmd FileType xml,html,xhtml,css,scss,javascript,lua,yaml setlocal shiftwidth=2 tabstop=2
 ]]
+
+local NoWhitespace = exec(
+  [[
+    function! NoWhitespace()
+        let l:save = winsaveview()
+        keeppatterns %s/\s\+$//e
+        call winrestview(l:save)
+    endfunction
+    call NoWhitespace()
+    ]],
+  true
+)
+
+-- Trim Whitespace
+exec([[au BufWritePre * call NoWhitespace()]], false)
 
 -----------------------------------------------------------
 -- Autocompletion
