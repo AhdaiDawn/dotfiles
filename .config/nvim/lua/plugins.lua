@@ -77,26 +77,58 @@ return require("packer").startup({
 
     -- LSP
     use {
-      'neovim/nvim-lspconfig',
+      "neovim/nvim-lspconfig",
+      event = "BufEnter",
+    }
+
+    use {
+      "williamboman/nvim-lsp-installer",
+      after = "nvim-lspconfig",
       config = function()
         require('plugins/nvim-lspconfig').setup()
-      end
+      end,
     }
 
     -- autocomplete
-    use {
-      'hrsh7th/nvim-cmp',
+    use({
+      "rafamadriz/friendly-snippets",
+      event = "InsertEnter",
+    })
+    use({
+      "hrsh7th/nvim-cmp",
+      after = "friendly-snippets",
       config = function()
-        require('plugins/nvim-cmp').setup()
+        require("plugins/nvim-cmp")
       end,
-      requires = {
-        'L3MON4D3/LuaSnip', -- 片段
-        'hrsh7th/cmp-nvim-lsp',
-        'hrsh7th/cmp-path',
-        'hrsh7th/cmp-buffer',
-        'saadparwaiz1/cmp_luasnip',
-      }
-    }
+    })
+    use({
+      "hrsh7th/cmp-buffer",
+      after = "nvim-cmp",
+    })
+    use({
+      "hrsh7th/cmp-path",
+      after = "cmp-buffer",
+    })
+    use({
+      "hrsh7th/cmp-nvim-lsp",
+      after = "nvim-lsp-installer",
+    })
+    use({
+      "L3MON4D3/LuaSnip",
+      after = "nvim-cmp",
+      config = function()
+        require("luasnip/loaders/from_vscode").load()
+      end,
+    })
+    use({
+      "saadparwaiz1/cmp_luasnip",
+      after = "LuaSnip",
+    })
+    -- TODO: Lazyload this on just lua filetype.
+    use({
+      "hrsh7th/cmp-nvim-lua",
+      after = "nvim-cmp",
+    })
 
     -- statusline
     use {
