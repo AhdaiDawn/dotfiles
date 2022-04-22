@@ -57,19 +57,18 @@ map('n', '<leader>tt', ':Term<CR>', { noremap = true })
 map('t', 'jj', '<C-\\><C-n>', default_opts)
 
 -- nvim-tree
-map('n', '<leader>r', ':NvimTreeRefresh<CR>', default_opts)  -- refresh
-map('n', '<leader>n', ':NvimTreeFindFileToggle<CR>', default_opts) -- search file
+map('n', '<leader>n', ':NvimTreeFindFileToggle<CR>', default_opts) -- open fileExplorer
 
 -- find
-map('n', '<leader>ff', ':Telescope find_files<CR>', default_opts) -- search file
+map('n', '<leader>ff', ':Telescope find_files<CR>', default_opts)
 map('n', '<leader>m', ':Telescope oldfiles<CR>', default_opts)
 map('n', '<leader>b', ':Telescope buffers<CR>', default_opts)
 map('n', '<leader>fl', ':Telescope live_grep<CR>', default_opts)
 map('n', '<leader>fh', ':Telescope help_tags<CR>', default_opts)
 map('n', '<leader>ft', ':Telescope tags<CR>', default_opts)
-map('n', '<leader>fc', ':Telescope command_history<CR>', default_opts) -- search command_history
-map('n', '<leader>fp', ':Telescope projects<CR>', default_opts) -- search command_history
-map('n', '<leader>fm', ':Telescope marks<CR>', default_opts) -- search marks
-map('n', '<leader>fq', ':Telescope quickfix<CR>', default_opts) -- search marks
+map('n', '<leader>fc', ':Telescope command_history<CR>', default_opts)
+map('n', '<leader>fp', ':Telescope projects<CR>', default_opts)
+map('n', '<leader>fm', ':Telescope marks<CR>', default_opts)
+map('n', '<leader>fq', ':Telescope quickfix<CR>', default_opts)
 
-map('n', '<leader>cd', ':ProjectRoot<CR>', default_opts) -- 工作目录为当前文件目录
+map('n', '<leader>cd', ':ProjectRoot<CR>', default_opts) -- 切换工作目录为当前文件目录

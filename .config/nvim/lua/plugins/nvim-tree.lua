@@ -28,7 +28,7 @@ function M.setup()
   }
 
   g.nvim_tree_icons = {
-  	default = "‣ "
+    default = "‣ "
   }
 
   require('nvim-tree').setup {
