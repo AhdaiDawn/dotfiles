@@ -9,11 +9,7 @@ example `cat .pkglist/pacman | pacman -S -`
 In the following sections I'll explain how this dotfiles repository was set up,
 how to use it and how to restore them, for example on a new device.
 
-**Note**: I migrated to
-[dotfiles.sh](https://github.com/AhdaiDawn/dotfiles.sh) by Eli Schwartz,
-which is a thin wrapper for git that implements the method described here.
-
-## Setup Repository
+## Init Repository
 
 Setup a bare git repository in your home directory. Bare repositories have no
 working directory, so setup an alias to avoid typing the long command. Add the
@@ -69,7 +65,7 @@ submodules and again hide untracked files when querying the status.
 
 ```bash
 # 1. install zsh
-# 2. install oh-my-zsh
+# 2. install oh-my-zsh <https://ohmyz.sh>
 
 git clone --bare --recursive https://github.com/AhdaiDawn/dotfiles \
     "$HOME/.dotfiles"
@@ -88,8 +84,16 @@ if [ "$?" -ne 0 ]; then
     dotfiles checkout
 fi
 
-dotfiles submodule update --recursive --remote
 dotfiles config --local status.showUntrackedFiles no
+
+source .zshrc
+# install missing dependency
+
+# install .tmux <https://github.com/tmux/tmux>
+
+sudo pacman -S lazygit tmux
+
+# install yay <https://github.com/Jguer/yay>
 ```
 
 Note that the automatic moving of already existing (thus conflicting) files
