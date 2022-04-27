@@ -15,8 +15,6 @@
 local M = {}
 function M.setup()
   local g = vim.g
-  -- g.nvim_tree_gitignore = 1
-  -- g.nvim_tree_indent_markers = 1
   g.nvim_tree_git_hl = 1
   g.nvim_tree_highlight_opened_files = 1
   g.nvim_tree_respect_buf_cwd = 1
@@ -33,10 +31,6 @@ function M.setup()
 
   require('nvim-tree').setup {
     open_on_setup = true,
-    view = {
-      width = 32,
-      auto_resize = true
-    },
     filters = {
       dotfiles = false,
       custom = { '.git', 'node_modules', '.cache', '.bin' },
