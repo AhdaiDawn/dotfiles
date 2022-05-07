@@ -98,7 +98,7 @@ return require("packer").startup({
       "hrsh7th/nvim-cmp",
       after = "friendly-snippets",
       config = function()
-        require("plugins/nvim-cmp")
+        require("plugins/nvim-cmp").setup()
       end,
     })
     use({
