@@ -79,10 +79,6 @@ opt.ignorecase = true         -- ignore case letters when search
 opt.smartcase = true          -- ignore lowercase for the whole pattern
 opt.linebreak = true          -- wrap on word boundary
 
--- remove whitespace on save
-cmd [[au BufWritePre * :%s/\s\+$//e]]
-
-
 -- highlight on yank
 exec([[
   augroup YankHighlight
@@ -126,21 +122,6 @@ cmd [[autocmd FileType text,markdown,html,xhtml,javascript setlocal cc=0]]
 cmd [[
   autocmd FileType xml,html,xhtml,css,scss,javascript,lua,yaml setlocal shiftwidth=2 tabstop=2
 ]]
-
-local NoWhitespace = exec(
-  [[
-    function! NoWhitespace()
-        let l:save = winsaveview()
-        keeppatterns %s/\s\+$//e
-        call winrestview(l:save)
-    endfunction
-    call NoWhitespace()
-    ]],
-  true
-)
-
--- Trim Whitespace
-exec([[au BufWritePre * call NoWhitespace()]], false)
 
 -----------------------------------------------------------
 -- Autocompletion
