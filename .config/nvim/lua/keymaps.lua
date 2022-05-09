@@ -12,10 +12,11 @@ local cmd = vim.cmd
 -----------------------------------------------------------
 
 -- Don't copy the replaced text after pasting.
-map("v", "p", '"_dP', default_opts)
+-- https://vim.fandom.com/wiki/Replace_a_word_with_yanked_text#Alternative_mapping_for_paste
+map("v", "p", 'p:let @+=@0<CR>:let @"=@0<CR>', default_opts)
 
--- clear search highlighting
--- map('n', '<leader>c', ':nohl<CR>', default_opts)
+-- use ESC to turn off search highlighting
+map("n", "<Esc>", "<cmd> :noh <CR>", default_opts)
 
 -- fast saving with <leader>
 map('n', '<leader>fs', ':w<CR>', default_opts)

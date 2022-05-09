@@ -11,6 +11,7 @@ local exec = vim.api.nvim_exec  -- execute Vimscript
 local fn = vim.fn           -- call Vim functions
 local g = vim.g             -- global variables
 local opt = vim.opt           -- global/buffer/windows-scoped options
+local autocmd = vim.api.nvim_create_autocmd
 
 -----------------------------------------------------------
 -- General
@@ -25,12 +26,14 @@ opt.swapfile = false          -- don't use swapfile
 -- opt.autochdir = true          --auto to change work dir ,使用 <leader>cd替代
 
 -- 返回上次编辑位置
-cmd [[
-autocmd BufReadPost *
-     \ if line("'\"") > 0 && line("'\"") <= line("$") |
-     \   exe "normal! g`\"" |
-     \ endif
-]]
+autocmd("BufReadPost", {
+   callback = function()
+      if not vim.fn.expand("%:p"):match ".git" and vim.fn.line "'\"" > 1 and vim.fn.line "'\"" <= vim.fn.line "$" then
+         vim.cmd "normal! g'\""
+         vim.cmd "normal zz"
+      end
+   end,
+})
 
 exec([[
     " 允许备份
@@ -61,7 +64,9 @@ exec([[
 opt.updatetime = 300
 vim.g.cursorhold_updatetime = 100
 
-opt.number = true             -- show line number{{{{{{{{{
+opt.number = true
+opt.numberwidth = 2
+opt.relativenumber = false
 
 -- Remove showing mode.
 opt.showmode = false
@@ -87,9 +92,6 @@ exec([[
   augroup end
 ]], false)
 
------------------------------------------------------------
--- Memory, CPU
------------------------------------------------------------
 opt.hidden = true         -- enable background buffers
 opt.history = 100         -- remember n lines in history
 opt.lazyredraw = true     -- faster scrolling}}}

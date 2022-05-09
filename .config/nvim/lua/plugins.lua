@@ -28,6 +28,8 @@ local use = require("packer").use
 
 return require("packer").startup({
   function()
+    use 'lewis6991/impatient.nvim'
+
     use 'wbthomason/packer.nvim' -- packer can manage itself
 
     -- colorschemes
