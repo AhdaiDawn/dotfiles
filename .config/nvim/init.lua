@@ -7,7 +7,7 @@ end
 local core_modules = {
    "settings",
    "plugins",
-   "afterPlugins",
+   "theme",
    "keymaps",
 }
 

@@ -73,3 +73,6 @@ map('n', '<leader>fm', ':Telescope marks<CR>', default_opts)
 map('n', '<leader>fq', ':Telescope quickfix<CR>', default_opts)
 
 map('n', '<leader>cd', ':ProjectRoot<CR>', default_opts) -- 切换工作目录为当前文件目录
+
+-- 使用OSC yank
+cmd [[autocmd TextYankPost * if v:event.operator is 'y' && v:event.regname is '' | execute 'OSCYankReg "' | endif]]
