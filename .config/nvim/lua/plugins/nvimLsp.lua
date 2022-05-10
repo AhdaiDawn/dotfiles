@@ -1,4 +1,46 @@
-local nvim_lsp = require 'lspconfig'
+-- nvim-lsp-installer
+local present, lsp_installer = pcall(require, "nvim-lsp-installer")
+
+if not present then
+  return
+end
+
+local options = {
+  -- ensure_installed is not needed as automatic_installation is enabled
+  -- then any lsp server you setup by lspconfig is going to get installed automatically!
+
+  -- ensure_installed = { "lua" },
+  automatic_installation = true,
+
+  ui = {
+    icons = {
+      server_installed = "",
+      server_pending = "",
+      server_uninstalled = "ﮊ",
+    },
+    keymaps = {
+      toggle_server_expand = "<CR>",
+      install_server = "i",
+      update_server = "u",
+      check_server_version = "c",
+      update_all_servers = "U",
+      check_outdated_servers = "C",
+      uninstall_server = "X",
+    },
+  },
+
+  max_concurrent_installers = 20,
+}
+
+lsp_installer.setup(options)
+
+-------------------------------------------------------------------------
+-- lsp-config
+local present, lspconfig = pcall(require, "lspconfig")
+
+if not present then
+  return
+end
 
 -- Add additional capabilities supported by nvim-cmp
 local capabilities = vim.lsp.protocol.make_client_capabilities()
@@ -43,12 +85,33 @@ local on_attach = function(client, bufnr)
 
 end
 
-local lsp_installer = require("nvim-lsp-installer")
-lsp_installer.on_server_ready(function(server)
-  local opts = {}
-  server:setup({
+
+for _, server in pairs(lsp_installer.get_installed_servers()) do
+  lspconfig[server.name].setup {
     on_attach = on_attach,
     capabilities = capabilities,
-  })
-  vim.cmd([[ do User LspAttachBuffers ]])
-end)
+  }
+end
+
+-- lsp server 独立的配置
+lspconfig.sumneko_lua.setup {
+  on_attach = on_attach,
+  capabilities = capabilities,
+
+  settings = {
+    Lua = {
+      diagnostics = {
+        globals = { "vim" },
+      },
+      workspace = {
+        library = {
+          [vim.fn.expand "$VIMRUNTIME/lua"] = true,
+          [vim.fn.expand "$VIMRUNTIME/lua/vim/lsp"] = true,
+        },
+        maxPreload = 100000,
+        preloadFileSize = 10000,
+      },
+    },
+  },
+}
+

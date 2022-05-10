@@ -94,18 +94,14 @@ return require("packer").startup({
       'justinmk/vim-sneak'
     }
 
-    -- LSP
-    use {
-      "neovim/nvim-lspconfig",
-      event = "BufEnter",
-    }
-
     use {
       "williamboman/nvim-lsp-installer",
-      after = "nvim-lspconfig",
-      config = function()
-        require('plugins/nvimLspInstaller')
-      end,
+      {
+        "neovim/nvim-lspconfig",
+        config = function()
+          require('plugins/nvimLsp')
+        end
+      }
     }
 
     -- autocomplete
