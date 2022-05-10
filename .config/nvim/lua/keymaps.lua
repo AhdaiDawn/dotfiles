@@ -59,7 +59,7 @@ map('n', '<leader>n', ':NvimTreeFindFileToggle<CR>', default_opts) -- open fileE
 -- find
 map('n', '<leader>ff', ':Telescope find_files<CR>', default_opts)
 map('n', '<leader>m', ':Telescope oldfiles<CR>', default_opts)
-map('n', '<leader>b', ':Telescope buffers<CR>', default_opts)
+map('n', '<leader>b', ":lua require('telescope.builtin').buffers({ sort_mru=true, ignore_current_buffer=true })<CR>", default_opts)
 map('n', '<leader>fl', ':Telescope live_grep<CR>', default_opts)
 map('n', '<leader>fh', ':Telescope help_tags<CR>', default_opts)
 map('n', '<leader>ft', ':Telescope tags<CR>', default_opts)

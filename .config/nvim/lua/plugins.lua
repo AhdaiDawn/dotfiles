@@ -180,9 +180,6 @@ return require("packer").startup({
     use {
       'nvim-telescope/telescope.nvim',
       requires = { { 'nvim-lua/plenary.nvim' } },
-      config = function()
-        require('telescope.builtin').buffers({ sort_mru = true })
-      end
     }
 
     -- Comment
