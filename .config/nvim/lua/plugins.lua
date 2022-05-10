@@ -33,13 +33,13 @@ return require("packer").startup({
     use 'wbthomason/packer.nvim' -- packer can manage itself
 
     -- colorschemes
-    use {"ellisonleao/gruvbox.nvim", requires = {"rktjmp/lush.nvim"}}
+    use { "ellisonleao/gruvbox.nvim", requires = { "rktjmp/lush.nvim" } }
 
     -- file explorer
     use {
       'kyazdani42/nvim-tree.lua',
       config = function()
-        require('plugins/nvim-tree').setup()
+        require('plugins/nvimTree')
       end
     }
 
@@ -61,9 +61,9 @@ return require("packer").startup({
 
     -- treesitter interface
     use {
-      'nvim-treesitter/nvim-treesitter',run = 'TSUpdate',
+      'nvim-treesitter/nvim-treesitter', run = 'TSUpdate',
       config = function()
-        require('plugins/nvim-treesitter').setup()
+        require('plugins/nvimTreesitter')
       end
     }
 
@@ -87,7 +87,7 @@ return require("packer").startup({
       "williamboman/nvim-lsp-installer",
       after = "nvim-lspconfig",
       config = function()
-        require('plugins/nvim-lsp-installer').setup()
+        require('plugins/nvimLspInstaller')
       end,
     }
 
@@ -100,7 +100,7 @@ return require("packer").startup({
       "hrsh7th/nvim-cmp",
       after = "friendly-snippets",
       config = function()
-        require("plugins/nvim-cmp").setup()
+        require("plugins/nvimCmp")
       end,
     })
     use({
@@ -135,9 +135,9 @@ return require("packer").startup({
     -- statusline
     use {
       'nvim-lualine/lualine.nvim',
-      requires = {'kyazdani42/nvim-web-devicons', opt = true},
+      requires = { 'kyazdani42/nvim-web-devicons', opt = true },
       config = function()
-        require('lualine').setup { theme = 'gruvbox'}
+        require('lualine').setup { theme = 'gruvbox' }
       end
     }
 
@@ -154,15 +154,15 @@ return require("packer").startup({
     use {
       'goolord/alpha-nvim',
       requires = { 'kyazdani42/nvim-web-devicons' },
-      config = function ()
-        require('alpha').setup(require'alpha.themes.startify'.opts)
+      config = function()
+        require('alpha').setup(require 'alpha.themes.startify'.opts)
       end
     }
 
     -- find
     use {
       'nvim-telescope/telescope.nvim',
-      requires = { {'nvim-lua/plenary.nvim'} },
+      requires = { { 'nvim-lua/plenary.nvim' } },
     }
 
     -- Comment
@@ -178,8 +178,8 @@ return require("packer").startup({
       "ahmedkhalf/project.nvim",
       config = function()
         require("project_nvim").setup {
-          manual_mode = true,  -- 使用 :ProjectRoot
-          patterns = {'.git','.vscode'},
+          manual_mode = true, -- 使用 :ProjectRoot
+          patterns = { '.git', '.vscode' },
           require('telescope').load_extension('projects')
         }
       end
