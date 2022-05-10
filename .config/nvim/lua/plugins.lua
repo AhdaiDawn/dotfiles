@@ -35,6 +35,14 @@ return require("packer").startup({
     -- colorschemes
     use { "ellisonleao/gruvbox.nvim", requires = { "rktjmp/lush.nvim" } }
 
+    use {
+      "lukas-reineke/indent-blankline.nvim",
+      event = { "BufRead", "BufNewFile" },
+      config = function()
+        require('plugins/indentBlankline')
+      end
+    }
+
     -- file explorer
     use {
       'kyazdani42/nvim-tree.lua',
@@ -42,6 +50,15 @@ return require("packer").startup({
         require('plugins/nvimTree')
       end
     }
+
+    use({
+      "akinsho/toggleterm.nvim",
+      keys = "<C-t>",
+      cmd = "ToggleTerm",
+      config = function()
+        require("plugins/toggleterm")
+      end,
+    })
 
     -- This plugin show trailing whitespace.
     use {
