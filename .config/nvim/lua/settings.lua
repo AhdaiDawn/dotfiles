@@ -22,7 +22,6 @@ g.mapleader = ' ' -- change leader to a comma
 
 -- 共享剪切板 https://github.com/neovim/neovim/wiki/FAQ#how-to-use-the-windows-clipboard-from-wsl
 opt.clipboard = 'unnamedplus' -- copy/paste to system clipboard
-opt.swapfile = false -- don't use swapfile
 -- opt.autochdir = true          --auto to change work dir ,使用 <leader>cd替代
 
 -- 返回上次编辑位置
@@ -35,34 +34,20 @@ autocmd("BufReadPost", {
   end,
 })
 
-exec([[
-    " 允许备份
-    set backup
+opt.backup = false
+opt.undofile = true
+opt.undodir = table.concat({ vim.call("stdpath", "cache"), "undo" }, "/")
+opt.swapfile = false -- don't use a swap file
+opt.writebackup = false -- if a file is being edited by another program (or was written to file while editing with another program), it is not allowed to be edited
 
-    " 保存时备份
-    set writebackup
-
-    " 备份文件地址，统一管理
-    set backupdir=~/.vimtemp/backup
-
-    " 备份文件扩展名
-    set backupext=.bak
-
-    " 禁用交换文件
-    set noswapfile
-
-    set undofile "设置撤回文件
-    set undodir=~/.vimtemp/undo-dir//
-
-    " 创建目录，并且忽略可能出现的警告
-    silent! call mkdir(expand('~/.vimtemp/backup'), "p", 0755)
-]], false)
 -----------------------------------------------------------
 -- Neovim UI
 -----------------------------------------------------------
 -- Decrease time of completion menu.
 opt.updatetime = 300
 vim.g.cursorhold_updatetime = 100
+
+opt.more = false -- don't pause listing when screen is filled
 
 opt.number = true
 opt.numberwidth = 2
@@ -71,13 +56,16 @@ opt.relativenumber = false
 -- Remove showing mode.
 opt.showmode = false
 
+opt.cursorline = true -- highlight the current line
+opt.signcolumn = "yes" -- always show the sign column, otherwise it would shift the text each time
 -- True collor support.
 opt.termguicolors = true
 
 opt.showmatch = true -- highlight matching parenthesis
--- opt.foldmethod = 'syntax'     -- enable folding (default 'foldmarker')
+opt.foldmethod = "manual" -- folding, set to "expr" for treesitter based folding
+opt.foldexpr = "" -- set to "nvim_treesitter#foldexpr()" for treesitter based folding
 opt.foldlevel = 99 -- enable folding (default 'foldmarker')
-opt.colorcolumn = '80' -- line lenght marker at 80 columns
+opt.colorcolumn = "99999" -- fixes indentline for now
 opt.splitright = true -- vertical split to the right
 opt.splitbelow = true -- orizontal split to the bottom
 opt.ignorecase = true -- ignore case letters when search
