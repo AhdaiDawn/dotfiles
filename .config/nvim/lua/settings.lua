@@ -27,9 +27,9 @@ opt.clipboard = 'unnamedplus' -- copy/paste to system clipboard
 -- 返回上次编辑位置
 autocmd("BufReadPost", {
   callback = function()
-    if not vim.fn.expand("%:p"):match ".git" and vim.fn.line "'\"" > 1 and vim.fn.line "'\"" <= vim.fn.line "$" then
-      vim.cmd "normal! g'\""
-      vim.cmd "normal zz"
+    if not fn.expand("%:p"):match ".git" and fn.line "'\"" > 1 and fn.line "'\"" <= fn.line "$" then
+      cmd "normal! g'\""
+      cmd "normal zz"
     end
   end,
 })
