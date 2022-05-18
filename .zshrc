@@ -115,6 +115,7 @@ alias cls='clear'
 alias vim='nvim'
 alias vi='nvim'
 
+alias ra=ranger
 alias lg='lazygit'
 alias dotfiles="/usr/bin/env git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME"
 compdef dotfiles='git' # provide autocompletion
