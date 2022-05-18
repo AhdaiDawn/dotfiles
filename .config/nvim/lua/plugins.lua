@@ -5,11 +5,6 @@
 -- Plugin manager: packer.nvim
 -- https://github.com/wbthomason/packer.nvim
 
--- For information about installed plugins see the README
---- neovim-lua/README.md
---- https://github.com/brainfucksec/neovim-lua#readme
-
-
 local fn = vim.fn
 
 -- Install packer.nvim if it's not installed.
