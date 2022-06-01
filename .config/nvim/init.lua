@@ -7,7 +7,6 @@ end
 local core_modules = {
   "settings",
   "plugins",
-  "theme",
   "keymaps",
 }
 
@@ -17,3 +16,6 @@ for _, module in ipairs(core_modules) do
     error("Error loading " .. module .. "\n\n" .. err)
   end
 end
+
+-- theme
+vim.cmd [[colorscheme gruvbox]]
