@@ -11,6 +11,7 @@ local fn = vim.fn
 local packer_bootstrap
 local install_path = fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
 if fn.empty(fn.glob(install_path)) > 0 then
+  print "Cloning packer ..."
   packer_bootstrap = fn.system({
     "git",
     "clone",
@@ -19,18 +20,26 @@ if fn.empty(fn.glob(install_path)) > 0 then
     "https://github.com/wbthomason/packer.nvim",
     install_path,
   })
+
+  vim.cmd "packadd packer.nvim"
 end
 
 local use = require("packer").use
 
-return require("packer").startup({
+require("packer").startup({
   function()
     use 'lewis6991/impatient.nvim'
 
     use 'wbthomason/packer.nvim' -- packer can manage itself
 
     -- colorschemes
-    use { "ellisonleao/gruvbox.nvim", requires = { "rktjmp/lush.nvim" } }
+    use {
+      "ellisonleao/gruvbox.nvim",
+      requires = { "rktjmp/lush.nvim" },
+      config = function()
+        vim.cmd("colorscheme gruvbox")
+      end,
+  }
 
     use {
       "lukas-reineke/indent-blankline.nvim",

@@ -17,5 +17,4 @@ for _, module in ipairs(core_modules) do
   end
 end
 
--- theme
-vim.cmd [[colorscheme gruvbox]]
+-- vim.cmd("colorscheme gruvbox")
