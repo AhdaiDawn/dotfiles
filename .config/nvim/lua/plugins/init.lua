@@ -28,30 +28,34 @@ local use = require("packer").use
 
 require("packer").startup({
   function()
+    use 'nvim-lua/plenary.nvim'
     use 'lewis6991/impatient.nvim'
-
     use 'wbthomason/packer.nvim' -- packer can manage itself
 
     -- colorschemes
     use {
       "ellisonleao/gruvbox.nvim",
-      requires = { "rktjmp/lush.nvim" },
       config = function()
         vim.cmd("colorscheme gruvbox")
+        vim.o.background = "dark"
       end,
-  }
+    }
 
+    use 'kyazdani42/nvim-web-devicons' -- icons
+
+    -- statusline
     use {
-      "lukas-reineke/indent-blankline.nvim",
-      event = { "BufRead", "BufNewFile" },
+      'nvim-lualine/lualine.nvim',
+      requires = { 'kyazdani42/nvim-web-devicons', opt = true },
       config = function()
-        require('plugins/indentBlankline')
+        require('lualine').setup { theme = 'gruvbox' }
       end
     }
 
     -- file explorer
     use {
       'kyazdani42/nvim-tree.lua',
+      ft = "alpha",
       config = function()
         require('plugins/nvimTree')
       end
@@ -66,9 +70,31 @@ require("packer").startup({
       end,
     })
 
-    -- This plugin show trailing whitespace.
     use {
-      "ntpeters/vim-better-whitespace",
+      "lukas-reineke/indent-blankline.nvim",
+      event = "BufRead",
+      config = function()
+        require('plugins/indentBlankline')
+      end
+    }
+
+    -- treesitter interface
+    use {
+      "nvim-treesitter/nvim-treesitter",
+      run = 'TSUpdate',
+      event = { "BufRead", "BufNewFile" },
+      config = function()
+        require('plugins/nvimTreesitter')
+      end
+    }
+
+    -- git labels
+    use {
+      'lewis6991/gitsigns.nvim',
+      opt = true,
+      config = function()
+        require('gitsigns').setup()
+      end
     }
 
     -- autopair
@@ -79,35 +105,21 @@ require("packer").startup({
       end
     }
 
-    -- icons
-    use 'kyazdani42/nvim-web-devicons'
-
-    -- treesitter interface
-    use {
-      'nvim-treesitter/nvim-treesitter', run = 'TSUpdate',
-      config = function()
-        require('plugins/nvimTreesitter')
-      end
-    }
-
     -- surround
-    use {
-      'tpope/vim-surround'
-    }
+    use 'tpope/vim-surround'
 
     -- sneak
-    use {
-      'justinmk/vim-sneak'
-    }
+    use 'justinmk/vim-sneak'
 
     use {
       "williamboman/nvim-lsp-installer",
-      {
-        "neovim/nvim-lspconfig",
-        config = function()
-          require('plugins/nvimLsp')
-        end
-      }
+    }
+    use {
+      "neovim/nvim-lspconfig",
+      after = "nvim-lsp-installer",
+      config = function()
+        require('plugins/nvimLsp')
+      end
     }
 
     -- autocomplete
@@ -151,24 +163,6 @@ require("packer").startup({
       after = "nvim-cmp",
     })
 
-    -- statusline
-    use {
-      'nvim-lualine/lualine.nvim',
-      requires = { 'kyazdani42/nvim-web-devicons', opt = true },
-      config = function()
-        require('lualine').setup { theme = 'gruvbox' }
-      end
-    }
-
-    -- git labels
-    use {
-      'lewis6991/gitsigns.nvim',
-      requires = { 'nvim-lua/plenary.nvim' },
-      config = function()
-        require('gitsigns').setup()
-      end
-    }
-
     -- dashboard
     use {
       'goolord/alpha-nvim',
@@ -179,10 +173,7 @@ require("packer").startup({
     }
 
     -- find
-    use {
-      'nvim-telescope/telescope.nvim',
-      requires = { { 'nvim-lua/plenary.nvim' } },
-    }
+    use { 'nvim-telescope/telescope.nvim' }
 
     -- Comment
     use {
@@ -203,6 +194,9 @@ require("packer").startup({
         }
       end
     }
+
+    -- This plugin show trailing whitespace.
+    use 'ntpeters/vim-better-whitespace'
 
     -- 复制到系统剪切板
     use "ojroques/vim-oscyank"

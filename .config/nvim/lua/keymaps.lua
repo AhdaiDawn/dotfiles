@@ -53,25 +53,28 @@ map('n', '<leader>5', '5gt', default_opts)
 -----------------------------------------------------------
 -- Applications & Plugins shortcuts:
 -----------------------------------------------------------
--- nvim-tree
-map('n', '<leader>n', ':NvimTreeFindFileToggle<CR>', default_opts) -- open fileExplorer
+vim.defer_fn(function()
+  -- nvim-tree
+  map('n', '<leader>n', ':NvimTreeFindFileToggle<CR>', default_opts) -- open fileExplorer
 
--- find
-map('n', '<leader>ff', ':Telescope find_files<CR>', default_opts)
-map('n', '<leader>m', ':Telescope oldfiles<CR>', default_opts)
-map('n', '<leader>b', ":lua require('telescope.builtin').buffers({ sort_mru=true, ignore_current_buffer=true })<CR>", default_opts)
-map('n', '<leader>fl', ':Telescope live_grep<CR>', default_opts)
-map('n', '<leader>fh', ':Telescope help_tags<CR>', default_opts)
-map('n', '<leader>ft', ':Telescope tags<CR>', default_opts)
-map('n', '<leader>fc', ':Telescope command_history<CR>', default_opts)
-map('n', '<leader>fp', ':Telescope projects<CR>', default_opts)
-map('n', '<leader>fm', ':Telescope marks<CR>', default_opts)
-map('n', '<leader>fq', ':Telescope quickfix<CR>', default_opts)
+  -- find
+  map('n', '<leader>ff', ':Telescope find_files<CR>', default_opts)
+  map('n', '<leader>m', ':Telescope oldfiles<CR>', default_opts)
+  map('n', '<leader>b', ":lua require('telescope.builtin').buffers({ sort_mru=true, ignore_current_buffer=true })<CR>", default_opts)
+  map('n', '<leader>fl', ':Telescope live_grep<CR>', default_opts)
+  map('n', '<leader>fh', ':Telescope help_tags<CR>', default_opts)
+  map('n', '<leader>ft', ':Telescope tags<CR>', default_opts)
+  map('n', '<leader>fc', ':Telescope command_history<CR>', default_opts)
+  map('n', '<leader>fp', ':Telescope projects<CR>', default_opts)
+  map('n', '<leader>fm', ':Telescope marks<CR>', default_opts)
+  map('n', '<leader>fq', ':Telescope quickfix<CR>', default_opts)
+  map('n', '<leader>fd', ':Telescope diagnostics<CR>', default_opts)
 
-map('n', '<leader>cd', ':ProjectRoot<CR>', default_opts) -- 切换工作目录为当前文件目录
+  map('n', '<leader>cd', ':ProjectRoot<CR>', default_opts) -- 切换工作目录为当前文件目录
 
--- term
-map("t", "<esc>", "<C-\\><C-n>", default_opts)
+  -- term
+  map("t", "<esc>", "<C-\\><C-n>", default_opts)
 
--- 使用OSC yank
-cmd [[autocmd TextYankPost * if v:event.operator is 'y' && v:event.regname is '' | execute 'OSCYankReg "' | endif]]
+  -- 使用OSC yank
+  cmd [[autocmd TextYankPost * if v:event.operator is 'y' && v:event.regname is '' | execute 'OSCYankReg "' | endif]]
+end, 0)

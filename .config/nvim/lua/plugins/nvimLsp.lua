@@ -79,9 +79,6 @@ local on_attach = function(client, bufnr)
   buf_set_keymap('n', 'gh', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
   buf_set_keymap('n', '<space>lr', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
   buf_set_keymap('n', 'gl', "<cmd>lua vim.diagnostic.open_float(0,{scope='line'})<CR>", opts)
-  buf_set_keymap('n', '<space>lk', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
-  buf_set_keymap('n', '<space>lj', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
-  buf_set_keymap('n', '<space>lq', '<cmd>lua vim.diagnostic.setloclist()<CR>', opts)
   buf_set_keymap('n', '<space>lf', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
 
 end
@@ -115,4 +112,3 @@ lspconfig.sumneko_lua.setup {
     },
   },
 }
-

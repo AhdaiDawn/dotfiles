@@ -75,7 +75,6 @@ end
 vim.opt.shortmess:append "sI" -- disable nvim intro
 
 vim.g.cursorhold_updatetime = 100
-vim.o.background = "dark"
 
 -- 返回上次编辑位置
 autocmd("BufReadPost", {
