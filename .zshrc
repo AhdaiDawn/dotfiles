@@ -77,7 +77,7 @@ ZSH_THEME="robbyrussell"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git z extract tmux zsh-vi-mode zsh-autosuggestions zsh-syntax-highlighting )
+plugins=(git z extract tmux zsh-autosuggestions zsh-syntax-highlighting )
 
 source $ZSH/oh-my-zsh.sh
 
@@ -116,6 +116,7 @@ alias vim='nvim'
 alias vi='nvim'
 
 alias ra=ranger
+
 alias lg='lazygit'
 alias dotfiles="/usr/bin/env git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME"
 compdef dotfiles='git' # provide autocompletion
@@ -126,7 +127,7 @@ alias lgd="lazygit --git-dir=$HOME/.dotfiles/ --work-tree=$HOME"
 set_proxy () {
   # WINDOWS_IP=$(ipconfig.exe | grep -a IPv4 | cut -d: -f2 | awk 'NR==1' | tr -d " \t\n\r")
   # echo "ip=${WINDOWS_IP}"
-  WINDOWS_IP="192.168.153.1"
+  WINDOWS_IP="192.168.1.41"
   PROXY_SOCKS5="socks5://${WINDOWS_IP}:10808"
   export http_proxy=${PROXY_SOCKS5}
   export https_proxy=${PROXY_SOCKS5}
