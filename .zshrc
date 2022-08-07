@@ -123,17 +123,15 @@ compdef dotfiles='git' # provide autocompletion
 alias lgd="lazygit --git-dir=$HOME/.dotfiles/ --work-tree=$HOME"
 
 # wsl 配置代理 注意打开代理软件可被外部访问
-# set proxy
 set_proxy () {
   # WINDOWS_IP=$(ipconfig.exe | grep -a IPv4 | cut -d: -f2 | awk 'NR==1' | tr -d " \t\n\r")
-  # echo "ip=${WINDOWS_IP}"
-  WINDOWS_IP="192.168.1.41"
-  PROXY_SOCKS5="socks5://${WINDOWS_IP}:10808"
+  LINUX_IP=`ip addr |grep 'inet 192.168' | awk '{print $2}' | awk -F/ '{print $1}'`
+  echo "ip=${LINUX_IP}"
+  PROXY_SOCKS5="socks5://${LINUX_IP}:10808"
   export http_proxy=${PROXY_SOCKS5}
   export https_proxy=${PROXY_SOCKS5}
   git config --global http.https://github.com.proxy ${PROXY_SOCKS5}
 }
-# Unset proxy
 unset_proxy () {
   unset http_proxy
   unset https_proxy
