@@ -14,6 +14,7 @@
 - cloc 分析统计代码工具
 - tldr 平易近人的man手册
 - type 获取命令来源 -a 查看所有定义
+- zsh 插件sudo 使用两次esc来增加sudo
 
 ## tmux 命令
 使用zsh tmux插件<https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/tmux>
