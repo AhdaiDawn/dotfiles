@@ -11,8 +11,9 @@ base
 binutils
 bison
 clang
-code
 dhcpcd
+docker
+docker-compose
 dolphin
 efibootmgr
 fakeroot
@@ -30,6 +31,7 @@ fuse2
 gawk
 gcc
 gettext
+gnome-keyring
 go
 grep
 groff
@@ -43,6 +45,7 @@ jq
 lazygit
 lib32-mesa
 lib32-vulkan-intel
+libgnome-keyring
 libtool
 linux
 linux-firmware
@@ -65,6 +68,8 @@ pacman
 patch
 pkgconf
 plasma-meta
+ripgrep
+rust
 sed
 sof-firmware
 sudo
@@ -74,12 +79,14 @@ tlp
 tlp-rdw
 tmux
 tree
+ttf-fira-code
 unzip
 vulkan-intel
 wget
 which
 wqy-zenhei
 xcape
+xclip
 yay
 zsh
 zsh-completions
