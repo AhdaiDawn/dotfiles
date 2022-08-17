@@ -40,3 +40,12 @@
 tmux-resurrect
 - prefix + Ctrl-s - save
 - prefix + Ctrl-r - restore
+
+zsh
+- <C-u> 清空当前行
+- <C-a> 移动行首
+- <C-e> 移动行末尾
+- <C-f> 向前移动
+- <C-b> 向后移动
+- <C-r> 搜索历史
+- <C-g> 逃离搜索模式
