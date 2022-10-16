@@ -10,6 +10,7 @@ M.general = {
     ["<leader>qq"] = { "<cmd> q <CR>", "quit"},
     ["<leader>wq"] = { "<cmd> wq <CR>", "save & quit"},
     ["<leader>fs"] = { "<cmd> w <CR>", "save"},
+    ["<leader>cd"] = { "<cmd> :ProjectRoot <CR>", "switch projectRoot"},
   },
   t = {
     ["<esc>"] = { "<C-\\><C-n>", "exit term"},
