@@ -67,6 +67,9 @@ submodules and again hide untracked files when querying the status.
 # 1. install zsh
 # 2. install oh-my-zsh <https://ohmyz.sh>
 
+# install NvChad
+git clone https://github.com/NvChad/NvChad ~/.config/nvim --depth 1
+
 git clone --bare --recursive https://github.com/AhdaiDawn/dotfiles \
     "$HOME/.dotfiles"
 
