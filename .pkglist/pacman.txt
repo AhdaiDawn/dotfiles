@@ -15,6 +15,7 @@ nano
 ncdu
 neofetch
 neovim
+nmap
 nodejs
 npm
 openssh

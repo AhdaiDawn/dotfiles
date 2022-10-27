@@ -38,4 +38,15 @@ M.telescope = {
     ["<leader>ft"] = { "<cmd> Telescope terms <CR>", "pick hidden term" },
   },
 }
+
+M.lspconfig = {
+  n = {
+    ["gh"] = {
+      function()
+        vim.lsp.buf.hover()
+      end,
+      "lsp hover",
+    },
+  }
+}
 return M

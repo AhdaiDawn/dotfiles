@@ -1,5 +1,4 @@
 return {
-  -- 复制到系统剪切板
   ["ahmedkhalf/project.nvim"] = {
     config = function()
       require("project_nvim").setup {
@@ -13,4 +12,11 @@ return {
   ["ojroques/vim-oscyank"] = {
     disable = false,
   },
+
+  ["neovim/nvim-lspconfig"] = {
+    config = function ()
+      require "plugins.configs.lspconfig"
+      require "custom.plugins.lspconfig"
+    end
+  }
 }
