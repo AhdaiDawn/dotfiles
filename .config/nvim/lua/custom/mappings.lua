@@ -1,6 +1,10 @@
 local M = {}
 
 M.general = {
+  i = {
+    ["<C-h>"] = { "<BS>", "delete char" },
+    ["<C-f>"] = { "<Right>", "move right" },
+  },
   n = {
     -- splits windows
     ["<leader>\\"] = { "<C-w>v", "split window as |" },
