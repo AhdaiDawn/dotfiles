@@ -19,6 +19,7 @@ nmap
 nodejs
 npm
 openssh
+ranger
 ripgrep
 sudo
 tldr
