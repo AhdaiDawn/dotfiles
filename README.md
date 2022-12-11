@@ -18,7 +18,7 @@ remote and push. Hide untracked files when querying the status.
 
 ```bash
 # 1. install zsh
-# 2. install oh-my-zsh
+# 2. sudo pacman -S zsh-autosuggestions zsh-completions zsh-syntax-highlighting 
 
 git init --bare "$HOME/.dotfiles"
 
@@ -65,7 +65,7 @@ submodules and again hide untracked files when querying the status.
 
 ```bash
 # 1. install zsh
-# 2. install oh-my-zsh <https://ohmyz.sh>
+# 2. sudo pacman -S zsh-autosuggestions zsh-completions zsh-syntax-highlighting 
 
 # install NvChad
 git clone https://github.com/NvChad/NvChad ~/.config/nvim --depth 1
