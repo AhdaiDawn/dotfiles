@@ -11,6 +11,16 @@ setopt prompt_subst
 # 设置提示符
 PROMPT='%{$fg[green]%}%n%{$reset_color%}|%{$fg[yellow]%}%1~%{$reset_color%}%{$fg[blue]%}$(git branch --show-current 2&> /dev/null | xargs -I branch echo "(branch)")%{$reset_color%}❱ '
 
+alias ~='cd ~'
+# go to parent
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
+alias .....='cd ../../../..'
+alias ......='cd ../../../../..'
+alias .......='cd ../../../../../..'
+alias ........='cd ../../../../../../..'
+
 alias ll='ls -alhF'
 alias la='ls -A'
 alias l='ls -CF'
