@@ -2,6 +2,15 @@
 source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
+# 启用彩色提示符
+autoload -U colors && colors
+
+# 每次刷新提示符
+setopt prompt_subst
+
+# 设置提示符
+PROMPT='%{$fg[green]%}%n%{$reset_color%}|%{$fg[yellow]%}%1~%{$reset_color%}%{$fg[blue]%}$(git branch --show-current 2&> /dev/null | xargs -I branch echo "(branch)")%{$reset_color%}❱ '
+
 alias ll='ls -alhF'
 alias la='ls -A'
 alias l='ls -CF'
