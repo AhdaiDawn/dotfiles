@@ -22,10 +22,12 @@ openssh
 ranger
 ripgrep
 sudo
-tldr
 tmux
 tree
 unzip
 wget
 which
 zsh
+zsh-autosuggestions
+zsh-completions
+zsh-syntax-highlighting
