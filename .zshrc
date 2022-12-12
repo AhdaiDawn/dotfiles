@@ -28,9 +28,9 @@ alias ......='cd ../../../../..'
 alias .......='cd ../../../../../..'
 alias ........='cd ../../../../../../..'
 
-alias ll='ls -alhF'
-alias la='ls -A'
-alias l='ls -CF'
+alias l='exa --icons'
+alias la='exa -a --icons'
+alias ll='exa -al --icons'
 
 alias cls='clear'
 
