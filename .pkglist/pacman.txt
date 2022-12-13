@@ -5,6 +5,7 @@ base
 clang
 cloc
 exa
+fakeroot
 fd
 gcc
 gdb
