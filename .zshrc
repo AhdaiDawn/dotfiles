@@ -19,6 +19,11 @@ setopt prompt_subst
 # 设置提示符
 PROMPT='%{$fg[green]%}%n%{$reset_color%}|%{$fg[yellow]%}%1~%{$reset_color%}%{$fg[blue]%}$(git branch --show-current 2&> /dev/null | xargs -I branch echo "(branch)")%{$reset_color%}❱ '
 
+# 默认编辑器
+export EDITOR=nvim
+
+# ------------------------------------------------------------------------------
+# alias
 alias ~='cd ~'
 alias ..='cd ..'
 alias ...='cd ../..'
@@ -43,7 +48,8 @@ alias lg='lazygit'
 alias dotfiles="/usr/bin/env git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME"
 alias lgd="lazygit --git-dir=$HOME/.dotfiles/ --work-tree=$HOME"
 
-# wsl 配置代理 注意打开代理软件可被外部访问
+# --------------------------------------------------------------------------
+# wsl 配置代理 注意打开代理软件可被外部访问选项
 set-proxy () {
   IP=$(ipconfig.exe | grep -a IPv4 | cut -d: -f2 | awk 'NR==1' | tr -d " \t\n\r")
   # IP=`ip addr |grep 'inet 192.168' | awk '{print $2}' | awk -F/ '{print $1}'`
