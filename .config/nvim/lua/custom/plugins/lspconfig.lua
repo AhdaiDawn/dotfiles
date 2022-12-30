@@ -7,7 +7,7 @@ if not present then
   return
 end
 
-local servers = { "clangd"}
+local servers = { "clangd" }
 
 for _, lsp in ipairs(servers) do
   lspconfig[lsp].setup {

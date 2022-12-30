@@ -3,9 +3,9 @@ return {
     config = function()
       require("project_nvim").setup {
         manual_mode = true, -- 使用 :ProjectRoot
-        patterns = { '.git', '.vscode' },
+        patterns = { ".git", ".vscode" },
       }
-    end
+    end,
   },
 
   -- 复制到系统剪切板
@@ -14,13 +14,20 @@ return {
   },
 
   ["neovim/nvim-lspconfig"] = {
-    config = function ()
+    config = function()
       require "plugins.configs.lspconfig"
       require "custom.plugins.lspconfig"
-    end
+    end,
+  },
+
+  ["jose-elias-alvarez/null-ls.nvim"] = {
+    config = function()
+      require "custom.plugins.nullls"
+    end,
+    requires = { "nvim-lua/plenary.nvim" },
   },
 
   ["justinmk/vim-sneak"] = {},
 
-  ["kylechui/nvim-surround"]= {},
+  ["kylechui/nvim-surround"] = {},
 }

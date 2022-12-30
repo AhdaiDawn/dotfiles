@@ -11,14 +11,14 @@ M.general = {
     ["<leader>-"] = { "<C-w>s", "split window as -" },
     ["<leader>w="] = { "<C-w>=", "resize split window" },
 
-    ["<leader>qq"] = { "<cmd> q <CR>", "quit"},
-    ["<leader>wq"] = { "<cmd> wq <CR>", "save & quit"},
-    ["<leader>fs"] = { "<cmd> w <CR>", "save"},
-    ["<leader>cd"] = { "<cmd> :ProjectRoot <CR>", "switch projectRoot"},
+    ["<leader>qq"] = { "<cmd> q <CR>", "quit" },
+    ["<leader>wq"] = { "<cmd> wq <CR>", "save & quit" },
+    ["<leader>fs"] = { "<cmd> w <CR>", "save" },
+    ["<leader>cd"] = { "<cmd> :ProjectRoot <CR>", "switch projectRoot" },
   },
   t = {
-    ["<esc>"] = { "<C-\\><C-n>", "exit term"},
-  }
+    ["<esc>"] = { "<C-\\><C-n>", "exit term" },
+  },
 }
 
 M.nvimtree = {
@@ -51,6 +51,6 @@ M.lspconfig = {
       end,
       "lsp hover",
     },
-  }
+  },
 }
 return M
