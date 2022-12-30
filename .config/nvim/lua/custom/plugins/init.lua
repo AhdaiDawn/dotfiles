@@ -30,4 +30,13 @@ return {
   ["justinmk/vim-sneak"] = {},
 
   ["kylechui/nvim-surround"] = {},
+
+  ["goolord/alpha-nvim"] = {
+    after = "base46",
+    disable = false,
+    requires = { "nvim-tree/nvim-web-devicons" },
+    config = function()
+      require("alpha").setup(require("alpha.themes.startify").config)
+    end,
+  },
 }
