@@ -24,7 +24,7 @@ local plugins = {
       },
       "williamboman/mason-lspconfig.nvim"
     },
-    config = function() end, -- Override to setup mason-lspconfig
+    -- config = function() end, -- Override to setup mason-lspconfig
   },
 
   {
@@ -51,7 +51,11 @@ local plugins = {
   {
     "kylechui/nvim-surround",
     lazy = false,
+    config = function(_, opts)
+      require("nvim-surround").setup(opts)
+    end,
   },
+
   {
     "numToStr/Comment.nvim",
     lazy = false,
