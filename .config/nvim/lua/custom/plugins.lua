@@ -52,6 +52,10 @@ local plugins = {
     "kylechui/nvim-surround",
     lazy = false,
   },
+  {
+    "numToStr/Comment.nvim",
+    lazy = false,
+  },
 }
 
 return plugins
