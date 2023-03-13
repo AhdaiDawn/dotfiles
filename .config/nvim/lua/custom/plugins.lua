@@ -58,7 +58,8 @@ local plugins = {
 
   {
     "numToStr/Comment.nvim",
-    lazy = false,
+    keys = { { "gc", mode = { "n", "v" } }, { "gb", mode = { "n", "v" } } },
+    event = "User FileOpened",
   },
 }
 
