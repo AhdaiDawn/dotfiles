@@ -2,6 +2,7 @@ amd-ucode
 arch-install-scripts
 axel
 base
+base-devel
 clang
 cloc
 exa
@@ -12,6 +13,7 @@ gdb
 git
 htop
 lazygit
+lua-language-server
 nano
 ncdu
 neofetch
@@ -22,12 +24,14 @@ npm
 openssh
 ranger
 ripgrep
+stylua
 sudo
 tmux
 tree
 unzip
 wget
 which
+xmake
 zsh
 zsh-autosuggestions
 zsh-completions
