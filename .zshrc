@@ -48,6 +48,8 @@ alias lg='lazygit'
 alias dotfiles="/usr/bin/env git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME"
 alias lgd="lazygit --git-dir=$HOME/.dotfiles/ --work-tree=$HOME"
 
+alias tmux='tmux attach || tmux new'
+
 # --------------------------------------------------------------------------
 # wsl 配置代理 注意打开代理软件可被外部访问选项
 set-proxy () {
