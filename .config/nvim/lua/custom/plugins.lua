@@ -1,30 +1,16 @@
----@type NvPluginSpec[]
 local plugins = {
   {
     "neovim/nvim-lspconfig",
-    event = "VeryLazy",
     dependencies = {
-      -- format & linting
-      {
-        "jose-elias-alvarez/null-ls.nvim",
-        config = function()
-          require("custom.configs.null-ls")
-        end,
-      },
-      {
-        "williamboman/mason.nvim",
-        config = function(_, opts)
-          dofile(vim.g.base46_cache .. "mason")
-          require("mason").setup(opts)
-          vim.api.nvim_create_user_command("MasonInstallAll", function()
-            vim.cmd("MasonInstall " .. table.concat(opts.ensure_installed, " "))
-          end, {})
-          require("custom.configs.lspconfig") -- Load in lsp config
-        end,
-      },
-      "williamboman/mason-lspconfig.nvim"
+      "jose-elias-alvarez/null-ls.nvim",
+      config = function()
+        require "custom.configs.null-ls"
+      end,
     },
-    -- config = function() end, -- Override to setup mason-lspconfig
+    config = function()
+      require "plugins.configs.lspconfig"
+      require "custom.configs.lspconfig"
+    end,
   },
 
   {
@@ -37,11 +23,6 @@ local plugins = {
       }
     end,
   },
-
-  -- {
-  --   "ojroques/vim-oscyank",
-  --   lazy = false,
-  -- },
 
   {
     "justinmk/vim-sneak",
