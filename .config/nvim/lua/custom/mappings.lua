@@ -2,7 +2,6 @@ local M = {}
 
 M.general = {
   i = {
-    ["<C-h>"] = { "<BS>", "delete char" },
     ["<C-f>"] = { "<Right>", "move right" },
   },
   n = {
