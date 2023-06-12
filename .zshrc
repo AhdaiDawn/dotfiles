@@ -40,7 +40,7 @@ alias ll='exa -al --icons'
 alias cls='clear'
 
 alias vim='nvim'
-alias vi='nvim'
+alias vi='neovide.exe --wsl'
 
 alias ra=ranger
 
