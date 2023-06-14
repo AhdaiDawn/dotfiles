@@ -5,6 +5,7 @@ M.general = {
     ["<C-f>"] = { "<Right>", "move right" },
   },
   n = {
+    ["<leader>x"] = {"<cmd> bd <CR>", "close buffer"},
     -- splits windows
     ["<leader>\\"] = { "<C-w>v", "split window as |" },
     ["<leader>-"] = { "<C-w>s", "split window as -" },
