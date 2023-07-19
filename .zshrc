@@ -1,3 +1,5 @@
+eval "$(starship init zsh)"
+
 # 补全大小写不敏感
 autoload -Uz compinit && compinit
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
@@ -7,17 +9,6 @@ HISTFILE=~/.zsh_history
 HISTSIZE=10000
 SAVEHIST=10000
 setopt appendhistory
-
-# plugin
-source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
-source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-
-# 启用彩色提示符
-autoload -U colors && colors
-# 每次刷新提示符
-setopt prompt_subst
-# 设置提示符
-PROMPT='%{$fg[yellow]%}%1~ ➤ '
 
 # 默认编辑器
 export EDITOR=nvim
