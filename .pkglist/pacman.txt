@@ -5,7 +5,7 @@ base
 base-devel
 clang
 cloc
-exa
+eza
 fakeroot
 fd
 gcc
@@ -22,6 +22,8 @@ nmap
 nodejs
 npm
 openssh
+podman
+podman-compose
 ranger
 ripgrep
 stylua
