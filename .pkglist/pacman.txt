@@ -22,8 +22,6 @@ nmap
 nodejs
 npm
 openssh
-podman
-podman-compose
 ranger
 ripgrep
 stylua

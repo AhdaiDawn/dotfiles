@@ -1,15 +1,16 @@
-local plugins = {
+return {
+  {
+    "stevearc/conform.nvim",
+    event = "BufWritePre", -- uncomment for format on save
+    config = function()
+      require "configs.conform"
+    end,
+  },
   {
     "neovim/nvim-lspconfig",
-    dependencies = {
-      "jose-elias-alvarez/null-ls.nvim",
-      config = function()
-        require "custom.configs.null-ls"
-      end,
-    },
     config = function()
-      require "plugins.configs.lspconfig"
-      require "custom.configs.lspconfig"
+      require("nvchad.configs.lspconfig").defaults()
+      require "configs.lspconfig"
     end,
   },
 
@@ -42,6 +43,24 @@ local plugins = {
     keys = { { "gc", mode = { "n", "v" } }, { "gb", mode = { "n", "v" } } },
     event = "User FileOpened",
   },
+  --
+  -- {
+  -- 	"williamboman/mason.nvim",
+  -- 	opts = {
+  -- 		ensure_installed = {
+  -- 			"lua-language-server", "stylua",
+  -- 			"html-lsp", "css-lsp" , "prettier"
+  -- 		},
+  -- 	},
+  -- },
+  --
+  -- {
+  -- 	"nvim-treesitter/nvim-treesitter",
+  -- 	opts = {
+  -- 		ensure_installed = {
+  -- 			"vim", "lua", "vimdoc",
+  --      "html", "css"
+  -- 		},
+  -- 	},
+  -- },
 }
-
-return plugins
