@@ -13,7 +13,6 @@ map("n", "<leader>qq", "<cmd> q <CR>", { desc = "quit" })
 map("n", "<leader>wq", "<cmd> wq <CR>", { desc = "save & quit" })
 map("n", "<leader>fs", "<cmd> w <CR>", { desc = "save" })
 map("n", "<leader>cd", "<cmd> :ProjectRoot <CR>", { desc = "switch projectRoot" })
-map("n", "gh", "<cmd> :ProjectRoot <CR>", { desc = "switch projectRoot" })
 
 -- telescope
 map("n", "<leader>l", "<cmd>Telescope live_grep<CR>", { desc = "Telescope Live grep" })
