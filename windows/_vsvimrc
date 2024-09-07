@@ -1,0 +1,58 @@
+let mapleader=" "
+set ai
+"自动缩进宽度
+set sw=4
+set ts=4
+"关闭高亮显示
+set nohlsearch
+set is
+set ignorecase
+
+"共享剪切板
+set clipboard=unnamed
+
+" save&quit
+noremap <leader>q :q <CR>
+noremap <leader>fs :w <CR>
+noremap <leader>wq :wq <CR>
+
+inoremap <C-f> <right>
+"插入模式下的移动操作
+inoremap <C-e> <c-o>$
+inoremap <C-l> <c-o>a
+
+" 屏幕滚动时在光标上下方保留5行预览代码
+set so=5
+
+"添加注释
+"vv是为了退出visual line模式
+:vnoremap gc :vsc Edit.ToggleLineComment<cr>vv
+:nnoremap gc :vsc Edit.ToggleLineComment<cr>
+
+" :vnoremap gc :s/^/\/\/<cr>vv
+" :vnoremap gv :s/\/\//<cr>vv
+" :nnoremap gc :s/^/\/\/<cr>
+" :nnoremap gv :s/\/\//<cr>
+
+"快速查看方法定义
+:nnoremap gh :vsc Edit.QuickInfo<CR>
+
+nnoremap gd :vsc Edit.GoToDefinition <C-r><C-w><cr>
+nnoremap gf :vsc Edit.GoToDeclaration <C-r><C-w><cr>
+
+"跳转
+nmap <C-O> :vsc View.NavigateBackward<CR>
+nmap <C-I> :vsc View.NavigateForward<CR>
+
+"format code
+:nnoremap <leader>fm :vsc Edit.FormatDocument<CR>
+
+" run debug
+nnoremap <leader>rr :vsc Debug.Start<cr>
+
+" breakpoint
+nnoremap <leader>i :vsc Debug.ToggleBreakpoint<cr>
+" bookmark
+nnoremap <leader>m :vsc Edit.ToggleBookmark<cr>
+
+nnoremap <leader>o :vsc Edit.GoToFile<cr>
