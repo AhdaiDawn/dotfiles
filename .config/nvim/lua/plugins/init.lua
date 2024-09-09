@@ -6,12 +6,21 @@ return {
       require "configs.conform"
     end,
   },
+
   {
     "neovim/nvim-lspconfig",
     config = function()
       require("nvchad.configs.lspconfig").defaults()
       require "configs.lspconfig"
     end,
+  },
+
+  {
+    "hrsh7th/nvim-cmp",
+    opts = function(_, opts)
+      local cmp = require "cmp"
+      opts.mapping["<Tab>"] = cmp.mapping.confirm({ select = true })
+    end
   },
 
   {

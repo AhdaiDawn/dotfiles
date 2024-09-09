@@ -23,3 +23,6 @@ map("n", "<leader>ff", "<cmd>Telescope find_files<cr>", { desc = "Telescope Find
 map("n", "<leader>fc", "<cmd>Telescope command_history<cr>", { desc = "Telescope Find command history" })
 
 map("t", "<esc>", "<C-\\><C-n>", { desc = "exit term" })
+
+-- nvimtree
+map("n", "<A-n>", "<cmd>NvimTreeToggle<CR>", { desc = "nvimtree toggle window" })
