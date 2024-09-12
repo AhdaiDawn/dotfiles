@@ -21,7 +21,10 @@ New-Item -Force -ItemType SymbolicLink -Path "~\AppData\Local\nvim" -Target (ToA
 New-Item -Force -ItemType SymbolicLink -Path "~\AppData\Local\lazygit" -Target (ToAbsolutePath ".config\lazygit")
 
 # powershell profile
-New-Item -Force -ItemType SymbolicLink -Path "~\Documents\PowerShell\Microsoft.PowerShell_profile.ps1" -Target (ToAbsolutePath "windows\Microsoft.PowerShell_profile.ps1")
+New-Item -Force -ItemType SymbolicLink -Path $PROFILE -Target (ToAbsolutePath "windows\Microsoft.PowerShell_profile.ps1")
+
+# z.lua
+New-Item -Force -ItemType SymbolicLink -Path (Join-Path (Split-Path -parent $PROFILE) "z.lua") -Target (ToAbsolutePath "tools\z.lua")
 
 # vsvimrc
 New-Item -Force -ItemType SymbolicLink -Path "~\_vsvimrc" -Target (ToAbsolutePath "windows\_vsvimrc")

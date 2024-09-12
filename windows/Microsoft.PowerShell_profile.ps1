@@ -14,6 +14,9 @@ function prompt {
   "$p> "
 }
 
+$zluaPath = Join-Path (Split-Path -parent $PROFILE) "z.lua"
+Invoke-Expression (& { (lua $zluaPath --init powershell) -join "`n" })
+
 #navigation macros
 function .{ Set-Location . }
 function .. { Set-Location .. }
