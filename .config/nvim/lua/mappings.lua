@@ -19,7 +19,7 @@ map("n", "<leader>l", "<cmd>Telescope live_grep<CR>", { desc = "Telescope Live g
 map("n", "<leader>b", "<cmd>Telescope buffers<CR>", { desc = "Telescope Find buffers" })
 map("n", "<leader>m", "<cmd>Telescope oldfiles<CR>", { desc = "Telescope Find oldfiles" })
 map("n", "<leader>ft", "<cmd>Telescope terms<CR>", { desc = "Telescope Pick hidden term" })
-map("n", "<leader>ff", "<cmd>Telescope find_files<cr>", { desc = "Telescope Find files" })
+map("n", "<leader>o", "<cmd>Telescope find_files<cr>", { desc = "Telescope Find files" })
 map("n", "<leader>fc", "<cmd>Telescope command_history<cr>", { desc = "Telescope Find command history" })
 
 map("t", "<esc>", "<C-\\><C-n>", { desc = "exit term" })
