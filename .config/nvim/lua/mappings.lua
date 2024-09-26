@@ -6,6 +6,9 @@ local map = vim.keymap.set
 
 map("i", "<C-f>", "<Right>", { desc = "move right" })
 
+map("n", "H", "0")
+map("n", "L", "$")
+
 map("n", "<leader>\\", "<C-w>v", { desc = "split window as |" })
 map("n", "<leader>-", "<C-w>s", { desc = "split window as -" })
 map("n", "<leader>=", "<C-w>=", { desc = "resize split window" })
@@ -26,3 +29,4 @@ map("t", "<esc>", "<C-\\><C-n>", { desc = "exit term" })
 
 -- nvimtree
 map("n", "<A-n>", "<cmd>NvimTreeToggle<CR>", { desc = "nvimtree toggle window" })
+
