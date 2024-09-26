@@ -34,9 +34,9 @@ alias ......='cd ../../../../..'
 alias .......='cd ../../../../../..'
 alias ........='cd ../../../../../../..'
 
-alias l='exa --icons'
-alias la='exa -a --icons'
-alias ll='exa -al --icons'
+alias l='eza --icons'
+alias la='eza -a --icons'
+alias ll='eza -al --icons'
 
 alias cls='clear'
 
