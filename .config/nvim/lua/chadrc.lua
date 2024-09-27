@@ -5,12 +5,12 @@
 local M = {}
 
 M.ui = {
-  theme = "gruvbox",
+  theme = "gruvchad",
 
-  -- hl_override = {
-  -- 	Comment = { italic = true },
-  -- 	["@comment"] = { italic = true },
-  -- },
+  statusline = {
+    theme = "vscode_colored",    -- default, vscode, vscode_colored or minimal
+    separator_style = "default", -- default, round, block or arrow
+  }
 }
 
 return M
