@@ -3,8 +3,9 @@ local autocmd = vim.api.nvim_create_autocmd
 
 -- add yours here!
 
--- local o = vim.o
--- o.cursorlineopt ='both' -- to enable cursorline!
+if jit.os == "Windows" then
+  vim.o.shell = "pwsh"
+end
 
 -- 恢复光标位置
 autocmd("BufReadPost", {
