@@ -30,3 +30,8 @@ map("t", "<esc>", "<C-\\><C-n>", { desc = "exit term" })
 -- nvimtree
 map("n", "<A-n>", "<cmd>NvimTreeToggle<CR>", { desc = "nvimtree toggle window" })
 
+map("n", "<leader>1", "1gt")
+map("n", "<leader>2", "2gt")
+map("n", "<leader>3", "3gt")
+map("n", "<leader>4", "4gt")
+map("n", "<leader>5", "5gt")
