@@ -24,6 +24,7 @@ map("n", "<leader>m", "<cmd>Telescope oldfiles<CR>", { desc = "Telescope Find ol
 map("n", "<leader>ft", "<cmd>Telescope terms<CR>", { desc = "Telescope Pick hidden term" })
 map("n", "<leader>o", "<cmd>Telescope find_files<cr>", { desc = "Telescope Find files" })
 map("n", "<leader>fc", "<cmd>Telescope command_history<cr>", { desc = "Telescope Find command history" })
+map("n", "<leader>/", "<cmd>Telescope current_buffer_fuzzy_find<cr>", { desc = "Telescope Find current buffer" })
 
 map("t", "<esc>", "<C-\\><C-n>", { desc = "exit term" })
 
@@ -35,3 +36,11 @@ map("n", "<leader>2", "2gt")
 map("n", "<leader>3", "3gt")
 map("n", "<leader>4", "4gt")
 map("n", "<leader>5", "5gt")
+
+-- Disable mappings
+local nomap = vim.keymap.del
+nomap("n", "<leader>h")
+nomap("n", "<leader>v")
+nomap("n", "<leader>n")
+nomap("n", "<leader>ch")
+nomap("n", "<leader>cm")
