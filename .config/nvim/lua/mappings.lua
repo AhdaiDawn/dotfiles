@@ -42,5 +42,6 @@ local nomap = vim.keymap.del
 nomap("n", "<leader>h")
 nomap("n", "<leader>v")
 nomap("n", "<leader>n")
+nomap("n", "<C-n>")
 nomap("n", "<leader>ch")
 nomap("n", "<leader>cm")
