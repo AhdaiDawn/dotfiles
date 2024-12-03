@@ -5,6 +5,7 @@ require "nvchad.mappings"
 local map = vim.keymap.set
 
 map("i", "<C-f>", "<Right>", { desc = "move right" })
+map("i", "<C-b>", "<Left>", { desc = "move left" })
 
 map("n", "H", "0")
 map("n", "L", "$")
