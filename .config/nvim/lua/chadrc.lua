@@ -4,9 +4,11 @@
 ---@type ChadrcConfig
 local M = {}
 
-M.ui = {
+M.base46 = {
   theme = "gruvchad",
+}
 
+M.ui = {
   statusline = {
     theme = "vscode_colored",    -- default, vscode, vscode_colored or minimal
     separator_style = "default", -- default, round, block or arrow
