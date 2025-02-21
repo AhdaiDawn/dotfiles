@@ -53,4 +53,5 @@ Set-Alias -Name lg -Value lazygit
 function l { eza --icons }
 function la { eza -a --icons }
 function ll { eza -al --icons }
+Set-Alias -Name vim -Value nvim
 
