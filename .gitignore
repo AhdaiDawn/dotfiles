@@ -1,4 +1,5 @@
 .dotfiles
 packer_compiled.lua
 .config/lazygit/state.yml
+.config/nvim/lazy-lock.json
 
