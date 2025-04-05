@@ -11,7 +11,7 @@ setopt appendhistory
 # plugin
 source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-eval "$(lua ~/tools/z.lua --init zsh)"
+source <(fzf --zsh)
 
 # 启用彩色提示符
 autoload -U colors && colors
