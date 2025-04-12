@@ -12,6 +12,7 @@ gcc
 gdb
 git
 htop
+jq
 lazygit
 lua-language-server
 nano
@@ -29,9 +30,9 @@ sudo
 tmux
 tree
 unzip
+uv
 wget
 which
-xmake
 zsh
 zsh-autosuggestions
 zsh-completions

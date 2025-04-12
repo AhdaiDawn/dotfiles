@@ -1,57 +1,53 @@
 return {
+  -- add gruvbox
+  { "ellisonleao/gruvbox.nvim" },
+
+  -- Configure LazyVim to load gruvbox
   {
-    "stevearc/conform.nvim",
-    event = "BufWritePre", -- uncomment for format on save
-    config = function()
-      require "configs.conform"
-    end,
+    "LazyVim/LazyVim",
+    opts = {
+      colorscheme = "gruvbox",
+    },
   },
 
+  -- add more treesitter parsers
   {
-    "neovim/nvim-lspconfig",
-    config = function()
-      require("nvchad.configs.lspconfig").defaults()
-      require "configs.lspconfig"
-    end,
+    "nvim-treesitter/nvim-treesitter",
+    opts = {
+      ensure_installed = {
+        "bash",
+        "html",
+        "javascript",
+        "json",
+        "lua",
+        "markdown",
+        "markdown_inline",
+        "python",
+        "query",
+        "regex",
+        "typescript",
+        "yaml",
+      },
+    },
   },
 
+  -- add any tools you want to have installed below
   {
-    "hrsh7th/nvim-cmp",
-    opts = function(_, opts)
-      local cmp = require "cmp"
-      opts.mapping["<Tab>"] = cmp.mapping.confirm({ select = true })
-    end
+    "williamboman/mason.nvim",
+    opts = {
+      ensure_installed = {
+        "stylua",
+        "shellcheck",
+        "shfmt",
+        "flake8",
+      },
+    },
   },
 
-  {
-    "ahmedkhalf/project.nvim",
-    cmd = "ProjectRoot",
-    config = function()
-      require("project_nvim").setup {
-        manual_mode = true, -- 使用 :ProjectRoot
-        patterns = { ".git", ".vscode" },
-      }
-    end,
+{
+    "saghen/blink.cmp",
+    opts = {
+      keymap = { preset = 'super-tab' },
+    },
   },
-
-  {
-    "justinmk/vim-sneak",
-    lazy = false,
-  },
-
-  {
-    "kylechui/nvim-surround",
-    lazy = false,
-    config = function(_, opts)
-      require("nvim-surround").setup(opts)
-    end,
-  },
-
-  {
-    "numToStr/Comment.nvim",
-    config = function()
-      require("Comment").setup()
-    end,
-    event = "User FileOpened",
-  }
 }
