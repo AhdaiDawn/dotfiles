@@ -41,7 +41,6 @@ alias ll='eza -al --icons'
 alias cls='clear'
 
 alias vim='nvim'
-alias vi='neovide.exe --wsl'
 
 alias ra=ranger
 
@@ -49,13 +48,13 @@ alias lg='lazygit'
 alias dotfiles="/usr/bin/env git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME"
 alias lgd="lazygit --git-dir=$HOME/.dotfiles/ --work-tree=$HOME"
 
-alias tmux='tmux attach || tmux new'
+alias tm='tmux attach || tmux new'
 
 # --------------------------------------------------------------------------
 # wsl 配置代理 注意打开代理软件可被外部访问选项
 set-proxy () {
-  IP=$(ip --json route show default | jq -re '.[].gateway')
-  # IP=$(ipconfig.exe | grep -a 192.168 | cut -d: -f2 | awk 'NR==1' | tr -d " \t\n\r")
+  # IP=$(ip --json route show default | jq -re '.[].gateway')
+  IP=$(ipconfig.exe | grep -a 192.168 | cut -d: -f2 | awk 'NR==1' | tr -d " \t\n\r")
   echo "ip=${IP}"
   PROXY_SOCKS5="socks5://${IP}:10808"
   export http_proxy=${PROXY_SOCKS5}
