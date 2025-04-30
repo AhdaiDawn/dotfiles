@@ -10,23 +10,22 @@ return {
     },
   },
 
+  {
+    "neovim/nvim-lspconfig",
+    opts = {
+      servers = {},
+    },
+  },
+
   -- add more treesitter parsers
   {
     "nvim-treesitter/nvim-treesitter",
     opts = {
       ensure_installed = {
-        "bash",
-        "html",
-        "javascript",
-        "json",
+        "c",
+        "cpp",
         "lua",
-        "markdown",
-        "markdown_inline",
         "python",
-        "query",
-        "regex",
-        "typescript",
-        "yaml",
       },
     },
   },
@@ -35,19 +34,14 @@ return {
   {
     "williamboman/mason.nvim",
     opts = {
-      ensure_installed = {
-        "stylua",
-        "shellcheck",
-        "shfmt",
-        "flake8",
-      },
+      ensure_installed = {},
     },
   },
 
-{
+  {
     "saghen/blink.cmp",
     opts = {
-      keymap = { preset = 'super-tab' },
+      keymap = { preset = "super-tab" },
     },
   },
 }
