@@ -37,6 +37,14 @@ function Set-Proxy {
   $env:ALL_PROXY = "socks5://127.0.0.1:10808"
   # $env:HTTPS_PROXY="https://127.0.0.1:10808"
   # $env:HTTP_PROXY="http://127.0.0.1:10808"
+  scoop config proxy 127.0.0.1:10808
+}
+
+# need: Install-Module VSSetup -Scope CurrentUser
+function Set-VsDev{
+  Import-Module VSSetup
+  Import-Module ((Get-VSSetupInstance)[0].InstallationPath + "\Common7\Tools\Microsoft.VisualStudio.DevShell.dll")
+  Enter-VsDevShell -SkipAutomaticLocation -InstanceId (Get-VSSetupInstance)[0].InstanceId
 }
 
 # 取消代理
@@ -47,6 +55,7 @@ function Reset-Proxy {
   # $env:HTTP_PROXY=""
   # [System.Net.HttpWebRequest]::DefaultWebProxy = New-Object System.Net.WebProxy($null) # for powershell5
   [System.Net.Http.HttpClient]::DefaultProxy = New-Object System.Net.WebProxy($null) # for powershell7
+  scoop config rm proxy
 }
 
 Set-Alias -Name lg -Value lazygit
