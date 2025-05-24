@@ -25,7 +25,6 @@ export EDITOR=nvim
 
 # ------------------------------------------------------------------------------
 # alias
-alias ~='cd ~'
 alias ..='cd ..'
 alias ...='cd ../..'
 alias ....='cd ../../..'
@@ -34,15 +33,15 @@ alias ......='cd ../../../../..'
 alias .......='cd ../../../../../..'
 alias ........='cd ../../../../../../..'
 
-alias l='eza --icons'
-alias la='eza -a --icons'
-alias ll='eza -al --icons'
+alias l='ls'
+alias la='ls -a'
+alias ll='ls -al'
 
 alias cls='clear'
 
 alias vim='nvim'
 
-alias ra=ranger
+alias ra='ranger'
 
 alias lg='lazygit'
 alias dotfiles="/usr/bin/env git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME"
