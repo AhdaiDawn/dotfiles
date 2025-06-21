@@ -43,6 +43,8 @@ alias vim='nvim'
 
 alias ra='ranger'
 
+alias j='just'
+
 alias lg='lazygit'
 alias dotfiles="/usr/bin/env git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME"
 alias lgd="lazygit --git-dir=$HOME/.dotfiles/ --work-tree=$HOME"
