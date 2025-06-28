@@ -41,8 +41,8 @@ vim.o.splitbelow = true -- split go below
 vim.o.splitright = true -- vertical split to the right
 vim.o.termguicolors = true -- terminal gui colors
 vim.o.background = "dark" -- use dark theme only
-vim.cmd('colorscheme habamax')			-- set colorscheme
-vim.cmd('filetype plugin on')			-- set filetype
+vim.cmd('colorscheme gruvbox') -- set colorscheme
+vim.cmd('filetype plugin on') -- set filetype
 vim.o.list = true -- Sets how neovim will display certain whitespace characters in the editor.
 vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
 -- Undo
