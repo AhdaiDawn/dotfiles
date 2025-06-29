@@ -21,12 +21,11 @@ vim.o.backup = false -- set backup
 vim.o.cursorline = true -- current line Highlight
 vim.o.confirm = true
 vim.o.number = true -- turn on line numbers
-vim.o.scrolloff = 10 -- Minimal number of screen lines to keep above and below the cursor.
 vim.o.ignorecase = true -- enable case insensitive searching
 vim.o.smartcase = true -- all searches are case insensitive unless there's a capital letter
 vim.o.hlsearch = true -- disable all highlighted search results
 vim.o.incsearch = true -- enable incremental searching
-vim.o.wrap = false -- enable text wrapping
+vim.o.wrap = true -- enable text wrapping
 vim.o.fileencoding = "utf-8" -- encoding set to utf-8
 vim.o.showtabline = 1 -- always show the tab line  1 = if at-least 2 tab, 2 = always, 0 = never
 vim.o.laststatus = 2 -- always show statusline
@@ -45,6 +44,7 @@ vim.cmd('colorscheme gruvbox') -- set colorscheme
 vim.cmd('filetype plugin on') -- set filetype
 vim.o.list = true -- Sets how neovim will display certain whitespace characters in the editor.
 vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
+vim.o.inccommand = 'split' -- Preview substitutions live, as you type!
 -- Undo
 vim.opt.undodir = vim.fn.stdpath("data") .. "/nvim/undo"
 vim.opt.undofile = true-- clean plugins
@@ -111,7 +111,7 @@ map('n', '<leader>qf', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]u
 
 -- Clipboard
 -- paste text but DONT copy the overridden text
-map("x", "p", [["_dP]])
+map("v", "<leader>p", [["_dP]])
 -- delete text but DONT copy to clipboard
 map({ "n", "v" }, "<leader>d", [["_d]])
 
