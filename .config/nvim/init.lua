@@ -12,7 +12,7 @@ vim.schedule(function()
 end)
 vim.o.signcolumn = 'yes' -- Keep signcolumn on by default
 vim.o.updatetime = 250 -- Decrease update time
-vim.o.timeoutlen = 300 -- Decrease mapped sequence wait time
+vim.o.timeoutlen = 400 -- Decrease mapped sequence wait time
 vim.o.breakindent = true -- Enable break indent
 vim.o.title = true -- show title
 vim.o.keywordprg = ":help" -- Replace :man with :help, fix `K` freeze | :h keywordprg
@@ -29,11 +29,14 @@ vim.o.wrap = true -- enable text wrapping
 vim.o.fileencoding = "utf-8" -- encoding set to utf-8
 vim.o.showtabline = 1 -- always show the tab line  1 = if at-least 2 tab, 2 = always, 0 = never
 vim.o.laststatus = 2 -- always show statusline
+
+-- Indenting
+vim.o.expandtab = true -- expand tab
+vim.o.shiftwidth = 4
+vim.o.smartindent = true
 vim.o.tabstop = 4
 vim.o.softtabstop = 4
-vim.o.shiftwidth = 4
-vim.o.expandtab = true -- expand tab
-vim.o.smartindent = true
+
 vim.o.scrolloff = 8 -- scroll page when cursor is 8 lines from top/bottom
 vim.o.sidescrolloff = 8 -- scroll page when cursor is 8 spaces from left/right
 vim.o.splitbelow = true -- split go below
@@ -48,6 +51,7 @@ vim.o.inccommand = 'split' -- Preview substitutions live, as you type!
 -- Undo
 vim.opt.undodir = vim.fn.stdpath("data") .. "/nvim/undo"
 vim.opt.undofile = true-- clean plugins
+
 -- diasble build-in plugin
 vim.g.loaded_matchit = 1
 vim.g.loaded_matchparen = 1
@@ -146,11 +150,10 @@ vim.cmd("cnoreabbrev Set set")
 vim.cmd("cnoreabbrev SEt set")
 vim.cmd("cnoreabbrev SET set")
 
--- Replace all instances of highlighted words
-map("v", "<leader>r", '"hy:%s/<C-r>h//g<left><left>')
-
 -- AutoCOMMANDS
 ------------------------------
+local group = vim.api.nvim_create_augroup("user_cmds", { clear = true })
+
 -- Mode based Cursorline
 autocmd("InsertEnter", {
     pattern = "*",
@@ -190,16 +193,6 @@ vim.on_key(function(char)
         end
     end
 end, vim.api.nvim_create_namespace("auto_hlsearch"))
-
-local group = vim.api.nvim_create_augroup("user_cmds", { clear = true })
--- Highlight Yank
-autocmd("TextYankPost", {
-    group = group,
-    desc = "Highlight on yank",
-    callback = function()
-        vim.highlight.on_yank({ higroup = "ErrorMsg", timeout = 300 })
-    end,
-})
 
 -- Find
 vim.api.nvim_create_user_command(
@@ -288,99 +281,4 @@ map("i", "[", "[]<left>")
 map("i", "{", "{}<left>")
 map("i", "{;", "{};<left><left>")
 map("i", "/*", "/**/<left><left>")
-
---------------------------------
--- ************** YANK RING ***************************
--- ─────────────── REGISTER ALLOCATION SCHEME ────────────────────────
--- ╭───┬──────────────────────────┬───┬──────────────────╮
--- │ 1 │ Last delete              │ 0 │ Last yank        │
--- │ 2 │ Second last delete       │ 9 │ Second last yank │
--- │ 3 │ Third last delete        │ 8 │ Third last yank  │
--- │ 4 │ Fourth last delete       │ 7 │ Fourth last yank │
--- │ 5 │ Fifth last delete        │ 6 │ Fifth last yank  │
--- ╰───┴──────────────────────────┴───┴──────────────────╯
-local prev0, prev9
-vim.api.nvim_create_autocmd("VimEnter", {
-    group = vim.api.nvim_create_augroup("yank_history", {}),
-    desc = "Store previous yanks in latter half of numbered registers (VimEnter hooks)",
-    pattern = "*",
-    callback = function()
-        prev0 = vim.fn.getreginfo("0")
-        prev9 = vim.fn.getreginfo("9")
-    end,
-})
-vim.api.nvim_create_autocmd("TextYankPost", {
-    group = "yank_history",
-    desc = "Store previous yanks in latter half of numbered registers",
-    pattern = "*",
-    callback = function()
-        if vim.v.event.regname ~= "" then
-            return
-        end
-        vim.fn.setreg("6", vim.fn.getreginfo("7"))
-        vim.fn.setreg("7", vim.fn.getreginfo("8"))
-        vim.fn.setreg("8", vim.fn.getreginfo("9"))
-        if vim.v.event.operator == "y" then
-            prev0.isunnamed = false
-            vim.fn.setreg("9", prev0)
-            prev9 = vim.fn.getreginfo("9")
-            prev0 = vim.fn.getreginfo("0")
-        else
-            vim.fn.setreg("9", prev9)
-        end
-    end,
-})
-
--- *** Everything below implements cycle functionality ***
-local last_put_type = nil
-local last_cycle_register = nil
-vim.api.nvim_create_augroup("yank_cycle", {})
-local function register_autocmd()
-    vim.api.nvim_create_autocmd("CursorMoved", {
-        group = "yank_cycle",
-        desc = "Disallow cycling when cursor was moved, or cursorline changed",
-        pattern = "*",
-        callback = function()
-            last_put_type = nil
-            last_cycle_register = nil
-        end,
-    })
-end
-
-local function hook_put_actions(mode, key)
-    vim.keymap.set(mode, key, function()
-        last_put_type = key
-        vim.api.nvim_clear_autocmds({ group = "yank_cycle" })
-        vim.schedule(register_autocmd)
-        return key
-    end, { expr = true, desc = "Track put actions" })
-end
-for _, key in ipairs({ "p", "P", "gp", "gP", "zp", "zP", "[p", "]p" }) do
-    hook_put_actions("n", key)
-end
-local function cycle_put(amount)
-    return function()
-        if last_put_type ~= nil then
-            if last_cycle_register == nil then
-                last_cycle_register = tonumber(vim.fn.getreginfo('"').points_to) or 0
-            end
-            last_cycle_register = (last_cycle_register + amount) % 10
-            local meta = getmetatable(vim.fn.getreginfo(tostring(last_cycle_register)))
-            if meta ~= getmetatable(vim.empty_dict()) then
-                vim.cmd.normal(string.format('u"%d%s', last_cycle_register, last_put_type))
-                vim.api.nvim_echo({ { string.format("Paste using [%d/9]", last_cycle_register) } }, false, {})
-            else
-                vim.api.nvim_echo(
-                    { { string.format("Skipping register %d since it's empty", last_cycle_register), "ErrorMsg" } },
-                    false,
-                    {}
-                )
-            end
-        else
-            vim.api.nvim_echo({ { "Cannot cycle put. Cursor has moved", "ErrorMsg" } }, false, {})
-        end
-    end
-end
-vim.keymap.set("n", "<c-n>", cycle_put(1), { desc = "Swap put with next register" })
-vim.keymap.set("n", "<c-p>", cycle_put(-1), { desc = "Swap put with previous register" })
 
