@@ -210,7 +210,7 @@ vim.api.nvim_create_user_command(
   end,
   { nargs = '+', complete = 'file' }
 )
-map("n", "<leader>f", ':Find <C-r>h')
+map("n", "<leader>f", ':Find ')
 
 ------------------------------
 -- FileBrowser
