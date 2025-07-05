@@ -214,7 +214,9 @@ vim.cmd([[
 " Minimalist-Tab Complete
     inoremap <expr> <Tab> TabComplete()
     fun! TabComplete()
-        if getline('.')[col('.') - 2] =~ '\K' || pumvisible()
+        if pumvisible()
+            return "\<C-Y>"
+        elseif getline('.')[col('.') - 2] =~ '\K'
             return "\<C-N>"
         else
             return "\<Tab>"
