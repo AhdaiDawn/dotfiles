@@ -1,3 +1,5 @@
+local enable_plugin = true
+
 local map = vim.keymap.set
 local autocmd = vim.api.nvim_create_autocmd
 -- Options
@@ -43,7 +45,6 @@ vim.o.splitbelow = true -- split go below
 vim.o.splitright = true -- vertical split to the right
 vim.o.termguicolors = true -- terminal gui colors
 vim.o.background = "dark" -- use dark theme only
-vim.cmd('colorscheme gruvbox') -- set colorscheme
 vim.cmd('filetype plugin on') -- set filetype
 vim.o.list = true -- Sets how neovim will display certain whitespace characters in the editor.
 vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
@@ -194,17 +195,6 @@ vim.on_key(function(char)
     end
 end, vim.api.nvim_create_namespace("auto_hlsearch"))
 
--- Find
-vim.api.nvim_create_user_command(
-  'Find',
-  function(opts)
-    vim.cmd('cexpr system("rg --vimgrep ' .. opts.args .. '")')
-    vim.cmd('copen')
-  end,
-  { nargs = '+', complete = 'file' }
-)
-map("n", "<leader>f", ':Find ')
-
 ------------------------------
 -- Completion from :h ins-completion
 vim.opt.omnifunc = "syntaxcomplete#Complete" -- Auto Completion - Enable Omni complete features
@@ -247,3 +237,60 @@ map("i", "{", "{}<left>")
 map("i", "{;", "{};<left><left>")
 map("i", "/*", "/**/<left><left>")
 
+--------------------------------------------
+--- Plugin
+--------------------------------------------
+if enable_plugin then
+    local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
+    if not (vim.uv or vim.loop).fs_stat(lazypath) then
+        local lazyrepo = 'https://github.com/folke/lazy.nvim.git'
+        local out = vim.fn.system { 'git', 'clone', '--filter=blob:none', '--branch=stable', lazyrepo, lazypath }
+        if vim.v.shell_error ~= 0 then
+            error('Error cloning lazy.nvim:\n' .. out)
+        end
+    end
+
+    local rtp = vim.opt.rtp
+    rtp:prepend(lazypath)
+
+    require('lazy').setup({
+        { 
+            "ellisonleao/gruvbox.nvim" ,
+            config = function()
+                vim.cmd([[colorscheme gruvbox]])
+            end,
+        },
+        {
+            "ibhagwan/fzf-lua",
+            keys = {
+                { "<leader>;", "<cmd>FzfLua command_history<cr>", desc = "Command History" },
+                { "<leader>f", "<cmd>FzfLua files<cr>", desc = "fzf files" },
+                { "<leader>b", "<cmd>FzfLua buffers sort_mru=true sort_lastused=true<cr>", desc = "Buffers" },
+                { "<leader>r", "<cmd>FzfLua oldfiles<cr>", desc = "Recent" },
+                { "<leader>/", "<cmd>FzfLua grep_curbuf<cr>", desc = "Buffer" },
+                { "<leader>m", "<cmd>FzfLua marks<cr>", desc = "marks" },
+            },
+        },
+    }, {
+        ui = {
+            icons = vim.g.have_nerd_font and {} or {
+                cmd = '⌘',
+                config = '🛠',
+                event = '📅',
+                ft = '📂',
+                init = '⚙',
+                keys = '🗝',
+                plugin = '🔌',
+                runtime = '💻',
+                require = '🌙',
+                source = '📄',
+                start = '🚀',
+                task = '📌',
+                lazy = '💤 ',
+            },
+        },
+    })
+end
+--------------------------------------------
+--- Plugin end
+--------------------------------------------
