@@ -206,43 +206,6 @@ vim.api.nvim_create_user_command(
 map("n", "<leader>f", ':Find ')
 
 ------------------------------
--- FileBrowser
-map("n", "<M-e>", ":Lex<CR>") -- space+e toggles netrw tree view
-vim.g.netrw_browse_split = 4 -- open in prior window
-vim.g.netrw_keepdir = 0 -- Sync current directory with browsing directory
-vim.g.netrw_altv = 1 -- change from left splitting to right splitting
-vim.g.netrw_banner = 0 -- gets rid of the annoying banner for netrw
-vim.g.netrw_liststyle = 3 -- tree style view in netrw
-vim.g.netrw_winsize = 15 -- window size
--- Netrw Keymaps
-local function netrw_mapping()
-    local bufmap = function(lhs, rhs)
-        local opts = { buffer = true, remap = true }
-        vim.keymap.set("n", lhs, rhs, opts)
-    end
-
-    -- Go back in history
-    bufmap("H", "u")
-
-    -- Go up a directory
-    bufmap("h", "-^")
-
-    -- Open file/directory
-    bufmap("l", "<cr>")
-
-    -- Open file/directory then close explorer
-    bufmap("L", "<cr>:Lexplore<CR>")
-
-    -- Toggle dotfiles
-    bufmap(".", "gh")
-end
-vim.api.nvim_create_autocmd("FileType", {
-    pattern = "netrw",
-    group = group,
-    desc = "Keybindings for netrw",
-    callback = netrw_mapping,
-})
-------------------------------
 -- Completion from :h ins-completion
 vim.opt.omnifunc = "syntaxcomplete#Complete" -- Auto Completion - Enable Omni complete features
 vim.cmd("set complete+=k") -- Enable Spelling Suggestions for Auto-Completion:
