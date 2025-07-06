@@ -197,16 +197,6 @@ vim.on_key(function(char)
   end
 end, vim.api.nvim_create_namespace "auto_hlsearch")
 
--- justfile
-autocmd("BufEnter", {
-  group = group,
-  pattern = "justfile",
-  callback = function()
-    -- (可选) 同时设置 makeprg
-    vim.bo.makeprg = "just"
-  end,
-})
-
 ------------------------------
 -- Completion from :h ins-completion
 vim.opt.omnifunc = "syntaxcomplete#Complete" -- Auto Completion - Enable Omni complete features
