@@ -325,6 +325,14 @@ if enable_plugin then
       end,
     },
     {
+      "nvim-lualine/lualine.nvim",
+      event = "VeryLazy",
+      dependencies = { "nvim-tree/nvim-web-devicons" },
+      config = function(_, opts)
+        require("lualine").setup(opts)
+      end,
+    },
+    {
       -- formatting!
       "stevearc/conform.nvim",
       opts = {
