@@ -114,7 +114,7 @@ map("n", "<S-k>", "<cmd>bprevious<cr>", { desc = "Prev Buffer" })
 map("n", "<S-j>", "<cmd>bnext<cr>", { desc = "Next Buffer" })
 map("n", "<leader>bd", "<Cmd>:bd<CR>", { desc = "Delete Buffer and Window" })
 
-map("n", "<leader>qf", vim.diagnostic.setloclist, { desc = "Open diagnostic [Q]uickfix list" })
+map("n", "<leader>qf", "<Cmd>:copen<CR>", { desc = "Open Quickfix" })
 
 -- Clipboard
 -- paste text but DONT copy the overridden text
@@ -197,38 +197,48 @@ vim.on_key(function(char)
   end
 end, vim.api.nvim_create_namespace "auto_hlsearch")
 
+-- justfile
+autocmd("BufEnter", {
+  group = group,
+  pattern = "justfile",
+  callback = function()
+    -- (可选) 同时设置 makeprg
+    vim.bo.makeprg = "just"
+  end,
+})
+
 ------------------------------
 -- Completion from :h ins-completion
 vim.opt.omnifunc = "syntaxcomplete#Complete" -- Auto Completion - Enable Omni complete features
 vim.cmd "set complete+=k" -- Enable Spelling Suggestions for Auto-Completion:
 vim.opt.completeopt = { "menu", "menuone", "noinsert" }
 vim.cmd [[
-" Minimalist-Tab Complete
-    inoremap <expr> <Tab> TabComplete()
-    fun! TabComplete()
-        if pumvisible()
-            return "\<C-Y>"
-        elseif getline('.')[col('.') - 2] =~ '\K'
-            return "\<C-N>"
-        else
-            return "\<Tab>"
-        endif
-    endfun
-""""""""""""""""""""""""""""""""""""""""
-" Minimalist-Autocomplete
-    inoremap <expr> <CR> pumvisible() ? "\<C-Y>" : "\<CR>"
-    autocmd InsertCharPre * call AutoComplete()
-    fun! AutoComplete()
-        if v:char =~ '\K'
-            \ && getline('.')[col('.') - 4] !~ '\K'
-            \ && getline('.')[col('.') - 3] =~ '\K'
-            \ && getline('.')[col('.') - 2] =~ '\K' " last char
-            \ && getline('.')[col('.') - 1] !~ '\K'
+  " Minimalist-Tab Complete
+      inoremap <expr> <Tab> TabComplete()
+      fun! TabComplete()
+          if pumvisible()
+              return "\<C-Y>"
+          elseif getline('.')[col('.') - 2] =~ '\K'
+              return "\<C-N>"
+          else
+              return "\<Tab>"
+          endif
+      endfun
+  """"""""""""""""""""""""""""""""""""""""
+  " Minimalist-Autocomplete
+      inoremap <expr> <CR> pumvisible() ? "\<C-Y>" : "\<CR>"
+      autocmd InsertCharPre * call AutoComplete()
+      fun! AutoComplete()
+          if v:char =~ '\K'
+              \ && getline('.')[col('.') - 4] !~ '\K'
+              \ && getline('.')[col('.') - 3] =~ '\K'
+              \ && getline('.')[col('.') - 2] =~ '\K' " last char
+              \ && getline('.')[col('.') - 1] !~ '\K'
 
-            call feedkeys("\<C-N>", 'n')
-        end
-    endfun
-]]
+              call feedkeys("\<C-N>", 'n')
+          end
+      endfun
+  ]]
 
 if not enable_plugin then
   -- Automatically Pair brackets, parethesis, and quotes
