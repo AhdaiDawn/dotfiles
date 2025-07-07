@@ -1,4 +1,6 @@
+ansifilter
 downgrade
 libcroco
+neofetch
 yay-bin
 yay-bin-debug
