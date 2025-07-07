@@ -201,28 +201,42 @@ end, vim.api.nvim_create_namespace "auto_hlsearch")
 
 ------------------------------
 --- quickfix
-
-function xmake_run(args)
+function cmd_run(args)
+  local cur_cmd = args[1]
   -- 1. 准备一个列表来收集所有输出（stdout 和 stderr）
   local output = {}
   local original_efm = vim.o.errorformat
 
   -- 2. 设置 errorformat
   vim.o.errorformat = table.concat({
-    "%*[^:]:%*\\s%f:%l:%c:%*\\serror:%\\s%m", -- 格式 1: error: file:line:col: error: msg
-    "%f:%l:%c:%*\\serror:%\\s%m", -- 格式 2: file:line:col: error: msg
+    -- xmake
+    "%*[^:]:%*\\s%f:%l:%c:%*\\s%*[^:]:%\\s%m", -- 格式 1: error: file:line:col: error: msg
+    "%f:%l:%c:%*\\s%*[^:]:%\\s%m", -- 格式 2: file:line:col: error: msg
+
+    -- C/C++ Clang/GCC Style (most common)
+    "%f:%l:%c: %t%*[^:]: %m", -- file:line:col: type: message
+    "%f:%l:%c:%*\\s%t%*[^:]: %m", -- file:line:col: type: message (with optional space)
+    "%f:%l: %t%*[^:]: %m", -- file:line: type: message (no column)
+    "%f:%l:%*\\s%t%*[^:]: %m", -- file:line: type: message (no column, with optional space)
+
+    -- For multi-line messages ('note: included from here')
+    "%D%*\\s>>> %f",
+    "%C%*\\s... %#%m",
+    "%Z%p^",
+    "%W%f:%l:%c:%*\\s%t%*[^:]: %m",
+    "%I%f:%l:%c:%*\\s%t%*[^:]: %m",
+
+    -- General catch-all for anything that looks like a file path
+    -- "%f:%l:%m",
+    -- "%f:%l%m",
+
     "%m",
   }, ",")
 
-  -- 3. 构建 xmake 命令
-  local cmd_parts = { "xmake" }
-  -- 将用户传入的参数追加到命令列表中
-  vim.list_extend(cmd_parts, args)
-
-  print("🚀 Starting xmake: " .. table.concat(cmd_parts, " "))
+  print("🚀 Starting : " .. table.concat(args, " "))
 
   -- 4. 使用 jobstart 异步执行
-  vim.fn.jobstart(cmd_parts, {
+  vim.fn.jobstart(args, {
     stdout_buffered = true,
     stderr_buffered = true,
 
@@ -244,15 +258,15 @@ function xmake_run(args)
     -- 当任务退出时触发
     on_exit = function(_, code, _)
       if code == 0 then
-        print "✅ xmake finished successfully."
+        print("✅ " .. cur_cmd .. " finished successfully.")
       else
-        print("❌ xmake finished with errors (code: " .. code .. ").")
+        print("❌ " .. cur_cmd .. " finished with errors (code: " .. code .. ").")
       end
 
       -- 使用 setqflist 和 'lines' 选项，它会自动使用 errorformat 解析
       -- 'r' 表示替换 (replace) quickfix 列表
       vim.fn.setqflist({}, "r", {
-        title = "xmake output",
+        title = cur_cmd .. " output",
         lines = output,
       })
       vim.o.errorformat = original_efm
@@ -260,25 +274,23 @@ function xmake_run(args)
       -- 检查解析后 quickfix 列表中是否有有效条目
       local qf_size = vim.fn.getqflist({ size = true }).size
       if qf_size > 0 then
-        print("Found " .. qf_size .. " issue(s). Opening quickfix list...")
         -- 自动打开 quickfix 窗口
         vim.cmd "copen"
       else
         -- 如果没有错误，可以选择关闭 quickfix 窗口（如果它已经打开）
-        print "No issues found in xmake output."
+        print("No issues found in " .. cur_cmd .. " output.")
         vim.cmd "cclose"
       end
     end,
   })
 end
 
-vim.api.nvim_create_user_command("Xmake", function(opts)
-  -- 调用我们的核心运行函数，并传递参数
-  xmake_run(opts.fargs)
+vim.api.nvim_create_user_command("R", function(opts)
+  cmd_run(opts.fargs)
 end, {
   nargs = "*",
   complete = "shellcmd",
-  desc = "Run xmake asynchronously and populate quickfix list",
+  desc = "Run command asynchronously and populate quickfix list",
 })
 
 ------------------------------
@@ -396,6 +408,11 @@ if enable_plugin then
             height = 1.0,
             row = 0.5,
             col = 0.5,
+          },
+          keymap = {
+            fzf = {
+              ["ctrl-q"] = "select-all+accept",
+            },
           },
         }
       end,
