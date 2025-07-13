@@ -353,7 +353,7 @@ if enable_plugin then
   local rtp = vim.opt.rtp
   rtp:prepend(lazypath)
 
-  require("lazy").setup({
+  require("lazy").setup {
     {
       "ellisonleao/gruvbox.nvim",
       config = function()
@@ -460,25 +460,7 @@ if enable_plugin then
         },
       },
     },
-  }, {
-    ui = {
-      icons = vim.g.have_nerd_font and {} or {
-        cmd = "⌘",
-        config = "🛠",
-        event = "📅",
-        ft = "📂",
-        init = "⚙",
-        keys = "🗝",
-        plugin = "🔌",
-        runtime = "💻",
-        require = "🌙",
-        source = "📄",
-        start = "🚀",
-        task = "📌",
-        lazy = "💤 ",
-      },
-    },
-  })
+  }
 end
 --------------------------------------------
 --- Plugin end
