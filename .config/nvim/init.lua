@@ -34,10 +34,10 @@ vim.o.laststatus = 2 -- always show statusline
 
 -- Indenting
 vim.o.expandtab = true -- expand tab
-vim.o.shiftwidth = 4
+vim.o.shiftwidth = 2
 vim.o.smartindent = true
-vim.o.tabstop = 4
-vim.o.softtabstop = 4
+vim.o.tabstop = 2
+vim.o.softtabstop = 2
 
 vim.o.scrolloff = 8 -- scroll page when cursor is 8 lines from top/bottom
 vim.o.sidescrolloff = 8 -- scroll page when cursor is 8 spaces from left/right
