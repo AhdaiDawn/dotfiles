@@ -294,11 +294,12 @@ end, {
 })
 
 ------------------------------
--- Completion from :h ins-completion
-vim.opt.omnifunc = "syntaxcomplete#Complete" -- Auto Completion - Enable Omni complete features
-vim.cmd "set complete+=k" -- Enable Spelling Suggestions for Auto-Completion:
-vim.opt.completeopt = { "menu", "menuone", "noinsert" }
-vim.cmd [[
+if not enable_plugin then
+  -- Completion from :h ins-completion
+  vim.opt.omnifunc = "syntaxcomplete#Complete" -- Auto Completion - Enable Omni complete features
+  vim.cmd "set complete+=k" -- Enable Spelling Suggestions for Auto-Completion:
+  vim.opt.completeopt = { "menu", "menuone", "noinsert" }
+  vim.cmd [[
   " Minimalist-Tab Complete
       inoremap <expr> <Tab> TabComplete()
       fun! TabComplete()
@@ -326,7 +327,6 @@ vim.cmd [[
       endfun
   ]]
 
-if not enable_plugin then
   -- Automatically Pair brackets, parethesis, and quotes
   map("i", "'", "''<left>")
   map("i", '"', '""<left>')
@@ -379,6 +379,19 @@ if enable_plugin then
       config = function(_, opts)
         require("nvim-tree").setup(opts)
       end,
+    },
+    {
+      "saghen/blink.cmp",
+      version = "1.*",
+      event = "InsertEnter",
+      dependencies = { "rafamadriz/friendly-snippets" },
+      opts = {
+        keymap = { preset = "super-tab" },
+        sources = {
+          default = { "lsp", "path", "snippets", "buffer" },
+        },
+      },
+      opts_extend = { "sources.default" },
     },
     {
       "windwp/nvim-autopairs",
