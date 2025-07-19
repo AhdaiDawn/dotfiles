@@ -1,5 +1,3 @@
-local enable_plugin = true
-
 local map = vim.keymap.set
 local autocmd = vim.api.nvim_create_autocmd
 -- Options
@@ -78,9 +76,8 @@ vim.g.loaded_node_provider = 0
 -- Line movement Soft wrap movement fix
 map("n", "j", "gj") -- move vert by visual line
 map("n", "k", "gk") -- move vert by visual line
--- HL as amplified versions of hjkl
-map({ "n", "v" }, "H", "0^") -- "beginning of line"
-map({ "n", "v" }, "L", "$") --"end of line"
+
+map("i", "<C-f>", "<Right>")
 
 -- Tabs
 map("n", "<leader>to", ":tabnew<CR>") -- open new Tab
@@ -94,7 +91,6 @@ map("n", "<leader>5", "5gt")
 -- Splits  & Windows
 map("n", "<leader>\\", "<C-w>v", { desc = "split window as |" })
 map("n", "<leader>-", "<C-w>s", { desc = "split window as -" })
-map("n", "<leader>=", "<C-w>=", { desc = "resize split window" })
 map("n", "<leader>x", ":close<CR>") -- close current split
 
 -- Resize window using <ctrl> arrow keys
@@ -110,8 +106,8 @@ map("n", "<C-j>", "<C-w>j") -- control+j switches to bottom split
 map("n", "<C-k>", "<C-w>k") -- control+k switches to top split
 
 -- buffer navigation
-map("n", "<S-k>", "<cmd>bprevious<cr>", { desc = "Prev Buffer" })
-map("n", "<S-j>", "<cmd>bnext<cr>", { desc = "Next Buffer" })
+map("n", "H", "<cmd>bprevious<cr>", { desc = "Prev Buffer" })
+map("n", "L", "<cmd>bnext<cr>", { desc = "Next Buffer" })
 map("n", "<leader>bd", "<Cmd>:bd<CR>", { desc = "Delete Buffer and Window" })
 
 map("n", "<leader>qf", "<Cmd>:copen<CR>", { desc = "Open Quickfix" })
@@ -293,190 +289,176 @@ end, {
   desc = "Run command asynchronously and populate quickfix list",
 })
 
-------------------------------
-if not enable_plugin then
-  -- Completion from :h ins-completion
-  vim.opt.omnifunc = "syntaxcomplete#Complete" -- Auto Completion - Enable Omni complete features
-  vim.cmd "set complete+=k" -- Enable Spelling Suggestions for Auto-Completion:
-  vim.opt.completeopt = { "menu", "menuone", "noinsert" }
-  vim.cmd [[
-  " Minimalist-Tab Complete
-      inoremap <expr> <Tab> TabComplete()
-      fun! TabComplete()
-          if pumvisible()
-              return "\<C-Y>"
-          elseif getline('.')[col('.') - 2] =~ '\K'
-              return "\<C-N>"
-          else
-              return "\<Tab>"
-          endif
-      endfun
-  """"""""""""""""""""""""""""""""""""""""
-  " Minimalist-Autocomplete
-      inoremap <expr> <CR> pumvisible() ? "\<C-Y>" : "\<CR>"
-      autocmd InsertCharPre * call AutoComplete()
-      fun! AutoComplete()
-          if v:char =~ '\K'
-              \ && getline('.')[col('.') - 4] !~ '\K'
-              \ && getline('.')[col('.') - 3] =~ '\K'
-              \ && getline('.')[col('.') - 2] =~ '\K' " last char
-              \ && getline('.')[col('.') - 1] !~ '\K'
-
-              call feedkeys("\<C-N>", 'n')
-          end
-      endfun
-  ]]
-
-  -- Automatically Pair brackets, parethesis, and quotes
-  map("i", "'", "''<left>")
-  map("i", '"', '""<left>')
-  map("i", "(", "()<left>")
-  map("i", "[", "[]<left>")
-  map("i", "{", "{}<left>")
-  map("i", "{;", "{};<left><left>")
-  map("i", "/*", "/**/<left><left>")
-end
-
 --------------------------------------------
 --- Plugin
 --------------------------------------------
-if enable_plugin then
-  local lazypath = vim.fn.stdpath "data" .. "/lazy/lazy.nvim"
-  if not (vim.uv or vim.loop).fs_stat(lazypath) then
-    local lazyrepo = "https://github.com/folke/lazy.nvim.git"
-    local out = vim.fn.system { "git", "clone", "--filter=blob:none", "--branch=stable", lazyrepo, lazypath }
-    if vim.v.shell_error ~= 0 then
-      error("Error cloning lazy.nvim:\n" .. out)
-    end
+local lazypath = vim.fn.stdpath "data" .. "/lazy/lazy.nvim"
+if not (vim.uv or vim.loop).fs_stat(lazypath) then
+  local lazyrepo = "https://github.com/folke/lazy.nvim.git"
+  local out = vim.fn.system { "git", "clone", "--filter=blob:none", "--branch=stable", lazyrepo, lazypath }
+  if vim.v.shell_error ~= 0 then
+    error("Error cloning lazy.nvim:\n" .. out)
   end
-
-  local rtp = vim.opt.rtp
-  rtp:prepend(lazypath)
-
-  require("lazy").setup {
-    {
-      "ellisonleao/gruvbox.nvim",
-      config = function()
-        vim.cmd [[colorscheme gruvbox]]
-      end,
-    },
-    {
-      "ggandor/leap.nvim",
-      enabled = true,
-      config = function(_, opts)
-        local leap = require "leap"
-        leap.add_default_mappings(true)
-        vim.keymap.del({ "x", "o" }, "x")
-        vim.keymap.del({ "x", "o" }, "X")
-      end,
-    },
-    {
-      "nvim-tree/nvim-tree.lua",
-      cmd = { "NvimTreeToggle", "NvimTreeFocus" },
-      keys = {
-        { "<A-e>", "<cmd>NvimTreeToggle<cr>", desc = "NvimTreeToggle" },
-      },
-      config = function(_, opts)
-        require("nvim-tree").setup(opts)
-      end,
-    },
-    {
-      "saghen/blink.cmp",
-      version = "1.*",
-      event = "InsertEnter",
-      dependencies = { "rafamadriz/friendly-snippets" },
-      opts = {
-        keymap = { preset = "super-tab" },
-        sources = {
-          default = { "lsp", "path", "snippets", "buffer" },
-        },
-      },
-      opts_extend = { "sources.default" },
-    },
-    {
-      "windwp/nvim-autopairs",
-      config = function(_, opts)
-        require("nvim-autopairs").setup(opts)
-      end,
-    },
-    {
-      "ibhagwan/fzf-lua",
-      keys = {
-        { "<leader>p", "<cmd>FzfLua<cr>", desc = "fzf" },
-        { "<leader>o", "<cmd>FzfLua files<cr>", desc = "fzf files" },
-        { "<leader>f", "<cmd>FzfLua live_grep<cr>", desc = "fzf live_grep" },
-        { "<leader>b", "<cmd>FzfLua buffers sort_mru=true sort_lastused=true<cr>", desc = "Buffers" },
-        { "<leader>r", "<cmd>FzfLua oldfiles<cr>", desc = "Recent" },
-        { "<leader>/", "<cmd>FzfLua grep_curbuf<cr>", desc = "Buffer" },
-        { "<leader>m", "<cmd>FzfLua marks<cr>", desc = "marks" },
-        { "<leader>j", "<cmd>FzfLua jumps<cr>", desc = "jumps" },
-        { "<leader>t", "<cmd>FzfLua tags<cr>", desc = "tags" },
-        {
-          "gd",
-          function()
-            if #vim.fn.tagfiles() > 0 then
-              require("fzf-lua").tags_grep_cword()
-            else
-              require("fzf-lua").grep_cword()
-            end
-          end,
-          desc = "FZF Smart Definition (Tags or Grep)",
-        },
-        { "gw", "<cmd>FzfLua grep_cword<cr>", desc = "FZF word (under cursor)" },
-      },
-      opts = function(_, opts)
-        return {
-          winopts = {
-            width = 1.0,
-            height = 1.0,
-            row = 0.5,
-            col = 0.5,
-          },
-          keymap = {
-            fzf = {
-              ["ctrl-q"] = "select-all+accept",
-            },
-          },
-        }
-      end,
-    },
-    {
-      "ludovicchabant/vim-gutentags",
-      lazy = false,
-      config = function()
-        vim.g.gutentags_project_root = { ".git", ".svn", ".hg", ".project", ".root" }
-        vim.g.gutentags_ctags_tagfile = ".tags"
-      end,
-    },
-    {
-      "nvim-lualine/lualine.nvim",
-      event = "VeryLazy",
-      dependencies = { "nvim-tree/nvim-web-devicons" },
-      config = function(_, opts)
-        require("lualine").setup(opts)
-      end,
-    },
-    {
-      -- formatting!
-      "stevearc/conform.nvim",
-      opts = {
-        formatters_by_ft = {
-          lua = { "stylua" },
-          cpp = { "clang-format" },
-        },
-      },
-      keys = {
-        {
-          "<leader>fm",
-          function()
-            require("conform").format { lsp_fallback = true }
-          end,
-          desc = "format",
-        },
-      },
-    },
-  }
 end
+
+local rtp = vim.opt.rtp
+rtp:prepend(lazypath)
+
+require("lazy").setup {
+  {
+    "ellisonleao/gruvbox.nvim",
+    config = function()
+      vim.cmd [[colorscheme gruvbox]]
+    end,
+  },
+  {
+    "ggandor/leap.nvim",
+    enabled = true,
+    config = function(_, opts)
+      local leap = require "leap"
+      leap.add_default_mappings(true)
+      vim.keymap.del({ "x", "o" }, "x")
+      vim.keymap.del({ "x", "o" }, "X")
+    end,
+  },
+  {
+    "nvim-tree/nvim-tree.lua",
+    cmd = { "NvimTreeToggle", "NvimTreeFocus" },
+    keys = {
+      { "<A-e>", "<cmd>NvimTreeToggle<cr>", desc = "NvimTreeToggle" },
+    },
+    config = function(_, opts)
+      require("nvim-tree").setup(opts)
+    end,
+  },
+  {
+    "saghen/blink.cmp",
+    version = "1.*",
+    event = "InsertEnter",
+    dependencies = { "rafamadriz/friendly-snippets" },
+    opts = {
+      keymap = { preset = "super-tab" },
+      sources = {
+        default = { "lsp", "path", "snippets", "buffer" },
+      },
+    },
+    opts_extend = { "sources.default" },
+  },
+  {
+    "nvim-treesitter/nvim-treesitter",
+    event = { "BufReadPost", "BufNewFile" },
+    cmd = { "TSInstall", "TSBufEnable", "TSBufDisable", "TSModuleInfo" },
+    build = ":TSUpdate",
+    opts = {
+      ensure_installed = {
+        "bash",
+        "c",
+        "cpp",
+        "html",
+        "javascript",
+        "typescript",
+        "lua",
+        "markdown",
+        "markdown_inline",
+        "python",
+        "json",
+        "toml",
+        "xml",
+        "yaml",
+      },
+      highlight = {
+        enable = true,
+        use_languagetree = true,
+      },
+      indent = { enable = true },
+    },
+    config = function(_, opts)
+      require("nvim-treesitter.configs").setup(opts)
+    end,
+  },
+  {
+    "windwp/nvim-autopairs",
+    config = function(_, opts)
+      require("nvim-autopairs").setup(opts)
+    end,
+  },
+  {
+    "ibhagwan/fzf-lua",
+    keys = {
+      { "<leader>p", "<cmd>FzfLua<cr>", desc = "fzf" },
+      { "<leader>o", "<cmd>FzfLua files<cr>", desc = "fzf files" },
+      { "<leader>f", "<cmd>FzfLua live_grep<cr>", desc = "fzf live_grep" },
+      { "<leader>b", "<cmd>FzfLua buffers sort_mru=true sort_lastused=true<cr>", desc = "Buffers" },
+      { "<leader>r", "<cmd>FzfLua oldfiles<cr>", desc = "Recent" },
+      { "<leader>/", "<cmd>FzfLua grep_curbuf<cr>", desc = "Buffer" },
+      { "<leader>m", "<cmd>FzfLua marks<cr>", desc = "marks" },
+      { "<leader>j", "<cmd>FzfLua jumps<cr>", desc = "jumps" },
+      { "<leader>t", "<cmd>FzfLua tags<cr>", desc = "tags" },
+      {
+        "gd",
+        function()
+          if #vim.fn.tagfiles() > 0 then
+            require("fzf-lua").tags_grep_cword()
+          else
+            require("fzf-lua").grep_cword()
+          end
+        end,
+        desc = "FZF Smart Definition (Tags or Grep)",
+      },
+      { "gw", "<cmd>FzfLua grep_cword<cr>", desc = "FZF word (under cursor)" },
+    },
+    opts = function(_, opts)
+      return {
+        winopts = {
+          width = 1.0,
+          height = 1.0,
+          row = 0.5,
+          col = 0.5,
+        },
+        keymap = {
+          fzf = {
+            ["ctrl-q"] = "select-all+accept",
+          },
+        },
+      }
+    end,
+  },
+  {
+    "ludovicchabant/vim-gutentags",
+    lazy = false,
+    config = function()
+      vim.g.gutentags_project_root = { ".git", ".svn", ".hg", ".project", ".root" }
+      vim.g.gutentags_ctags_tagfile = ".tags"
+    end,
+  },
+  {
+    "nvim-lualine/lualine.nvim",
+    event = "VeryLazy",
+    dependencies = { "nvim-tree/nvim-web-devicons" },
+    config = function(_, opts)
+      require("lualine").setup(opts)
+    end,
+  },
+  {
+    -- formatting!
+    "stevearc/conform.nvim",
+    opts = {
+      formatters_by_ft = {
+        lua = { "stylua" },
+        cpp = { "clang-format" },
+      },
+    },
+    keys = {
+      {
+        "<leader>fm",
+        function()
+          require("conform").format { lsp_fallback = true }
+        end,
+        desc = "format",
+      },
+    },
+  },
+}
 --------------------------------------------
 --- Plugin end
 --------------------------------------------
