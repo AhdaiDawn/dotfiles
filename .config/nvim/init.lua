@@ -195,100 +195,6 @@ vim.on_key(function(char)
   end
 end, vim.api.nvim_create_namespace "auto_hlsearch")
 
-------------------------------
---- quickfix
-function cmd_run(args)
-  local cur_cmd = args[1]
-  -- 1. 准备一个列表来收集所有输出（stdout 和 stderr）
-  local output = {}
-  local original_efm = vim.o.errorformat
-
-  -- 2. 设置 errorformat
-  vim.o.errorformat = table.concat({
-    -- xmake
-    "%*[^:]:%*\\s%f:%l:%c:%*\\s%*[^:]:%\\s%m", -- 格式 1: error: file:line:col: error: msg
-    "%f:%l:%c:%*\\s%*[^:]:%\\s%m", -- 格式 2: file:line:col: error: msg
-
-    -- C/C++ Clang/GCC Style (most common)
-    "%f:%l:%c: %t%*[^:]: %m", -- file:line:col: type: message
-    "%f:%l:%c:%*\\s%t%*[^:]: %m", -- file:line:col: type: message (with optional space)
-    "%f:%l: %t%*[^:]: %m", -- file:line: type: message (no column)
-    "%f:%l:%*\\s%t%*[^:]: %m", -- file:line: type: message (no column, with optional space)
-
-    -- For multi-line messages ('note: included from here')
-    "%D%*\\s>>> %f",
-    "%C%*\\s... %#%m",
-    "%Z%p^",
-    "%W%f:%l:%c:%*\\s%t%*[^:]: %m",
-    "%I%f:%l:%c:%*\\s%t%*[^:]: %m",
-
-    -- General catch-all for anything that looks like a file path
-    -- "%f:%l:%m",
-    -- "%f:%l%m",
-
-    "%m",
-  }, ",")
-
-  print("🚀 Starting : " .. table.concat(args, " "))
-
-  -- 4. 使用 jobstart 异步执行
-  vim.fn.jobstart(args, {
-    stdout_buffered = true,
-    stderr_buffered = true,
-
-    -- 当 stdout 有数据时触发
-    on_stdout = function(_, data, _)
-      -- 过滤掉空行
-      if data and not vim.tbl_isempty(data) then
-        vim.list_extend(output, data)
-      end
-    end,
-
-    -- 当 stderr 有数据时触发
-    on_stderr = function(_, data, _)
-      if data and not vim.tbl_isempty(data) then
-        vim.list_extend(output, data)
-      end
-    end,
-
-    -- 当任务退出时触发
-    on_exit = function(_, code, _)
-      if code == 0 then
-        print("✅ " .. cur_cmd .. " finished successfully.")
-      else
-        print("❌ " .. cur_cmd .. " finished with errors (code: " .. code .. ").")
-      end
-
-      -- 使用 setqflist 和 'lines' 选项，它会自动使用 errorformat 解析
-      -- 'r' 表示替换 (replace) quickfix 列表
-      vim.fn.setqflist({}, "r", {
-        title = cur_cmd .. " output",
-        lines = output,
-      })
-      vim.o.errorformat = original_efm
-
-      -- 检查解析后 quickfix 列表中是否有有效条目
-      local qf_size = vim.fn.getqflist({ size = true }).size
-      if qf_size > 0 then
-        -- 自动打开 quickfix 窗口
-        vim.cmd "copen"
-      else
-        -- 如果没有错误，可以选择关闭 quickfix 窗口（如果它已经打开）
-        print("No issues found in " .. cur_cmd .. " output.")
-        vim.cmd "cclose"
-      end
-    end,
-  })
-end
-
-vim.api.nvim_create_user_command("R", function(opts)
-  cmd_run(opts.fargs)
-end, {
-  nargs = "*",
-  complete = "shellcmd",
-  desc = "Run command asynchronously and populate quickfix list",
-})
-
 --------------------------------------------
 --- Plugin
 --------------------------------------------
@@ -335,7 +241,7 @@ require("lazy").setup {
     "saghen/blink.cmp",
     version = "1.*",
     event = "InsertEnter",
-    dependencies = { "rafamadriz/friendly-snippets" },
+    dependencies = { "rafamadriz/friendly-snippets", "folke/lazydev.nvim" },
     opts = {
       keymap = { preset = "super-tab" },
       sources = {
@@ -393,18 +299,6 @@ require("lazy").setup {
       { "<leader>/", "<cmd>FzfLua grep_curbuf<cr>", desc = "Buffer" },
       { "<leader>m", "<cmd>FzfLua marks<cr>", desc = "marks" },
       { "<leader>j", "<cmd>FzfLua jumps<cr>", desc = "jumps" },
-      { "<leader>t", "<cmd>FzfLua tags<cr>", desc = "tags" },
-      {
-        "gd",
-        function()
-          if #vim.fn.tagfiles() > 0 then
-            require("fzf-lua").tags_grep_cword()
-          else
-            require("fzf-lua").grep_cword()
-          end
-        end,
-        desc = "FZF Smart Definition (Tags or Grep)",
-      },
       { "gw", "<cmd>FzfLua grep_cword<cr>", desc = "FZF word (under cursor)" },
     },
     opts = function(_, opts)
@@ -421,14 +315,6 @@ require("lazy").setup {
           },
         },
       }
-    end,
-  },
-  {
-    "ludovicchabant/vim-gutentags",
-    lazy = false,
-    config = function()
-      vim.g.gutentags_project_root = { ".git", ".svn", ".hg", ".project", ".root" }
-      vim.g.gutentags_ctags_tagfile = ".tags"
     end,
   },
   {
@@ -457,6 +343,149 @@ require("lazy").setup {
         desc = "format",
       },
     },
+  },
+  -- LSP Plugins
+  {
+    "folke/lazydev.nvim",
+    ft = "lua",
+    opts = {
+      library = {
+        { path = "${3rd}/luv/library", words = { "vim%.uv" } },
+      },
+    },
+  },
+  {
+    "neovim/nvim-lspconfig",
+    dependencies = {
+      { "mason-org/mason.nvim", opts = {} },
+      "mason-org/mason-lspconfig.nvim",
+      "WhoIsSethDaniel/mason-tool-installer.nvim",
+
+      { "j-hui/fidget.nvim", opts = {} },
+
+      "saghen/blink.cmp",
+    },
+    keys = {
+      {
+        "gd",
+        "<cmd>FzfLua lsp_definitions jump1=true ignore_current_line=true<cr>",
+        desc = "Goto Definition",
+      },
+      {
+        "gr",
+        "<cmd>FzfLua lsp_references jump1=true ignore_current_line=true<cr>",
+        desc = "References",
+      },
+      { "gI", "<cmd>FzfLua lsp_implementations jump1=true ignore_current_line=true<cr>", desc = "Goto Implementation" },
+      {
+        "gy",
+        "<cmd>FzfLua lsp_typedefs jump1=true ignore_current_line=true<cr>",
+        desc = "Goto T[y]pe Definition",
+      },
+    },
+    config = function()
+      vim.api.nvim_create_autocmd("LspAttach", {
+        group = vim.api.nvim_create_augroup("kickstart-lsp-attach", { clear = true }),
+
+        callback = function(event)
+          local function client_supports_method(client, method, bufnr)
+            if vim.fn.has "nvim-0.11" == 1 then
+              return client:supports_method(method, bufnr)
+            else
+              return client.supports_method(method, { bufnr = bufnr })
+            end
+          end
+
+          local client = vim.lsp.get_client_by_id(event.data.client_id)
+          if
+            client
+            and client_supports_method(client, vim.lsp.protocol.Methods.textDocument_documentHighlight, event.buf)
+          then
+            local highlight_augroup = vim.api.nvim_create_augroup("kickstart-lsp-highlight", { clear = false })
+            vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
+              buffer = event.buf,
+              group = highlight_augroup,
+              callback = vim.lsp.buf.document_highlight,
+            })
+
+            vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
+              buffer = event.buf,
+              group = highlight_augroup,
+              callback = vim.lsp.buf.clear_references,
+            })
+
+            vim.api.nvim_create_autocmd("LspDetach", {
+              group = vim.api.nvim_create_augroup("kickstart-lsp-detach", { clear = true }),
+              callback = function(event2)
+                vim.lsp.buf.clear_references()
+                vim.api.nvim_clear_autocmds { group = "kickstart-lsp-highlight", buffer = event2.buf }
+              end,
+            })
+          end
+        end,
+      })
+
+      vim.diagnostic.config {
+        severity_sort = true,
+        float = { border = "rounded", source = "if_many" },
+        underline = { severity = vim.diagnostic.severity.ERROR },
+        signs = vim.g.have_nerd_font and {
+          text = {
+            [vim.diagnostic.severity.ERROR] = "󰅚 ",
+            [vim.diagnostic.severity.WARN] = "󰀪 ",
+            [vim.diagnostic.severity.INFO] = "󰋽 ",
+            [vim.diagnostic.severity.HINT] = "󰌶 ",
+          },
+        } or {},
+        virtual_text = {
+          source = "if_many",
+          spacing = 2,
+          format = function(diagnostic)
+            local diagnostic_message = {
+              [vim.diagnostic.severity.ERROR] = diagnostic.message,
+              [vim.diagnostic.severity.WARN] = diagnostic.message,
+              [vim.diagnostic.severity.INFO] = diagnostic.message,
+              [vim.diagnostic.severity.HINT] = diagnostic.message,
+            }
+            return diagnostic_message[diagnostic.severity]
+          end,
+        },
+      }
+
+      local capabilities = require("blink.cmp").get_lsp_capabilities()
+
+      local servers = {
+        clangd = {},
+
+        lua_ls = {
+          settings = {
+            Lua = {
+              completion = {
+                callSnippet = "Replace",
+              },
+            },
+          },
+        },
+      }
+
+      local ensure_installed = vim.tbl_keys(servers or {})
+      vim.list_extend(ensure_installed, {
+        "stylua", -- Used to format Lua code
+      })
+      require("mason-tool-installer").setup { ensure_installed = ensure_installed }
+
+      require("mason-lspconfig").setup {
+        ensure_installed = {}, -- explicitly set to an empty table (Kickstart populates installs via mason-tool-installer)
+        automatic_installation = false,
+        handlers = {
+          function(server_name)
+            local server = servers[server_name] or {}
+            server.capabilities = vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {})
+            require("lspconfig")[server_name].setup(server)
+          end,
+        },
+      }
+    end,
   },
 }
 --------------------------------------------
