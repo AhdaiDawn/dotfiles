@@ -1,0 +1,7 @@
+ansifilter
+downgrade
+http-parser
+libcroco
+neofetch
+yay-bin
+yay-bin-debug

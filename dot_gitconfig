@@ -1,0 +1,16 @@
+[user]
+	email = ahdai19970918@gmail.com
+	name = ahdai
+
+[url "ssh://git@github.com/"]
+        insteadOf = https://github.com/
+[core]
+	editor = nvim
+[diff]
+	tool = nvimdiff
+[difftool]
+	prompt = false
+[pull]
+	rebase = true
+[credential]
+	helper = store
