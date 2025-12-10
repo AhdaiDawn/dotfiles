@@ -84,24 +84,6 @@ map("n", "k", "gk") -- move vert by visual line
 
 map("i", "<C-f>", "<Right>")
 
--- Tabs
-map("n", "<leader>to", ":tabnew<CR>") -- open new Tab
-map("n", "<leader>tx", ":tabclose<CR>") -- close current tab
-map("n", "<leader>1", "1gt")
-map("n", "<leader>2", "2gt")
-map("n", "<leader>3", "3gt")
-map("n", "<leader>4", "4gt")
-map("n", "<leader>5", "5gt")
-
-for i = 1, 9 do
-	map(
-		"n",
-		"<leader>" .. i,
-		':lua require("bufferline").go_to_buffer(' .. i .. ", true)<CR>",
-		{ noremap = true, silent = true }
-	)
-end
-
 -- Splits  & Windows
 map("n", "<leader>\\", "<C-w>v", { desc = "split window as |" })
 map("n", "<leader>-", "<C-w>s", { desc = "split window as -" })
@@ -122,6 +104,14 @@ map("n", "<C-k>", "<C-w>k") -- control+k switches to top split
 map("n", "H", "<cmd>bprevious<cr>", { desc = "Prev Buffer" })
 map("n", "L", "<cmd>bnext<cr>", { desc = "Next Buffer" })
 map("n", "<leader>x", "<Cmd>:bd<CR>", { desc = "Delete Buffer and Window" })
+for i = 1, 9 do
+	map(
+		"n",
+		"<leader>" .. i,
+		':lua require("bufferline").go_to_buffer(' .. i .. ", true)<CR>",
+		{ noremap = true, silent = true }
+	)
+end
 
 map("n", "<leader>qf", "<Cmd>:copen<CR>", { desc = "Open Quickfix" })
 map("n", "[q", vim.cmd.cprev, { desc = "Previous Quickfix" })
