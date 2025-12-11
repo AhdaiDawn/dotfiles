@@ -1,0 +1,68 @@
+# --- 核心设置 ---
+ignore-empty-password
+show-failed-attempts
+daemonize
+
+# --- 特效设置 (swaylock-effects 独有) ---
+# 截图当前屏幕作为背景
+screenshots
+
+# 模糊效果 (半径x强度)，7x5 是比较平衡的数值
+effect-blur=7x5
+
+# 晕影效果 (让四周变暗，突出中间)
+effect-vignette=0.5:0.5
+
+# 像素化 (可选，如果不喜欢模糊可以改用这个)
+# effect-pixelate=5
+
+# 淡入效果 (秒)
+fade-in=0.2
+
+# --- 界面布局 ---
+# 显示时钟和日期
+clock
+timestr=%H:%M
+datestr=%Y-%m-%d
+
+# 指示器(圆环)设置
+indicator
+indicator-radius=100
+indicator-thickness=7
+
+# --- 字体设置 ---
+font=JetBrainsMono Nerd Font
+font-size=30
+
+# --- Gruvbox 颜色配置 ---
+
+# 圆环内部颜色 (输入密码时)
+inside-color=282828ff
+inside-clear-color=fabd2fff
+inside-ver-color=83a598ff
+inside-wrong-color=cc241dff
+
+# 圆环外部/边框颜色
+ring-color=d65d0eff
+ring-clear-color=fabd2fff
+ring-ver-color=83a598ff
+ring-wrong-color=cc241dff
+
+# 线条颜色
+line-color=282828ff
+line-clear-color=282828ff
+line-ver-color=282828ff
+line-wrong-color=282828ff
+
+# 按键反馈颜色
+key-hl-color=b8bb26ff
+bs-hl-color=fb4934ff
+
+# 字体颜色
+text-color=ebdbb2ff
+text-clear-color=282828ff
+text-ver-color=282828ff
+text-wrong-color=282828ff
+
+# 分隔符颜色
+separator-color=28282800

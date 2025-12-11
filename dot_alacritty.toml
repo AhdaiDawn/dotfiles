@@ -1,0 +1,6 @@
+[terminal]
+shell = "/bin/zsh"
+[font]
+normal = {family="FiraCodeNerdFontMono", style ="Regular"}
+size = 16
+
