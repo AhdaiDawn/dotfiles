@@ -3,4 +3,7 @@ shell = "/bin/zsh"
 [font]
 normal = {family="FiraCodeNerdFontMono", style ="Regular"}
 size = 16
-
+[[keyboard.bindings]]
+key = "Insert"
+mods = "Shift"
+action = "Paste"
