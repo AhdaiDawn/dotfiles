@@ -42,6 +42,7 @@ return {
 			local servers = {
 				lua_ls = { settings = { Lua = { completion = { callSnippet = "Replace" } } } },
 				clangd = {},
+        zls = {},
 				-- pyright = {},
 				-- tsserver = {},
 			}
