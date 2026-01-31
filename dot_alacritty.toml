@@ -1,9 +1,0 @@
-[terminal]
-shell = "/bin/zsh"
-[font]
-normal = {family="FiraCodeNerdFontMono", style ="Regular"}
-size = 14
-[[keyboard.bindings]]
-key = "Insert"
-mods = "Shift"
-action = "Paste"
