@@ -36,7 +36,7 @@ function Set-Proxy {
   $env:ALL_PROXY = "socks5://127.0.0.1:10808"
   # $env:HTTPS_PROXY="https://127.0.0.1:10808"
   # $env:HTTP_PROXY="http://127.0.0.1:10808"
-  scoop config proxy 127.0.0.1:10808
+  scoop config proxy 127.0.0.1:10809
 }
 
 # need: Install-Module VSSetup -Scope CurrentUser
