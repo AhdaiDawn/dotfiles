@@ -15,7 +15,7 @@ function ToAbsolutePath {
 }
 
 # powershell profile
-New-Item -Force -ItemType SymbolicLink -Path $PROFILE -Target (ToAbsolutePath "windows\Microsoft.PowerShell_profile.ps1")
+New-Item -Force -ItemType SymbolicLink -Path $PROFILE -Target (ToAbsolutePath "Microsoft.PowerShell_profile.ps1")
 
 # vsvimrc
-New-Item -Force -ItemType SymbolicLink -Path "~\_vsvimrc" -Target (ToAbsolutePath "windows\_vsvimrc")
+New-Item -Force -ItemType SymbolicLink -Path "~\_vsvimrc" -Target (ToAbsolutePath "_vsvimrc")
