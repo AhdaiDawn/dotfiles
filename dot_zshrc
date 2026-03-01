@@ -40,12 +40,6 @@ alias ll='eza -al'
 
 alias cls='clear'
 
-alias vim='nvim'
-
-alias ra='ranger'
-
-alias j='just'
-
 alias lg='lazygit'
 alias dotfiles="chezmoi"
 
@@ -54,14 +48,12 @@ alias tm='tmux attach || tmux new'
 # --------------------------------------------------------------------------
 # wsl 配置代理 注意打开代理软件可被外部访问选项
 set-proxy () {
-  # IP=$(ip --json route show default | jq -re '.[].gateway')
-  IP="127.0.0.1"
-  echo "ip=${IP}"
-  PROXY_SOCKS5="socks5://${IP}:10808"
-  export http_proxy=${PROXY_SOCKS5}
-  export https_proxy=${PROXY_SOCKS5}
+  PROXY_SOCKS5="socks5://127.0.0.1:10808"
+  export HTTP_PROXY="http://127.0.0.1:10809"
+  export HTTPS_PROXY="https://127.0.0.1:10809"
   git config --global http.https://github.com.proxy ${PROXY_SOCKS5}
 }
+
 reset-proxy () {
   unset http_proxy
   unset https_proxy
