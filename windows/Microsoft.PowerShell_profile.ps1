@@ -30,7 +30,6 @@ function ~ { Set-Location $env:USERPROFILE }
 
 # 设置代理
 function Set-Proxy {
-  #   [System.Net.HttpWebRequest]::DefaultWebProxy = New-Object System.Net.WebProxy('http://127.0.0.1:41091', $true) # for powershell5
   [System.Net.Http.HttpClient]::DefaultProxy = New-Object System.Net.WebProxy('http://127.0.0.1:41091', $true) # for powershell7
   git config --global http.https://github.com.proxy "socks5://127.0.0.1:10808"
   $env:ALL_PROXY = "socks5://127.0.0.1:10808"
@@ -52,7 +51,6 @@ function Reset-Proxy {
   $env:ALL_PROXY = ""
   # $env:HTTPS_PROXY=""
   # $env:HTTP_PROXY=""
-  # [System.Net.HttpWebRequest]::DefaultWebProxy = New-Object System.Net.WebProxy($null) # for powershell5
   [System.Net.Http.HttpClient]::DefaultProxy = New-Object System.Net.WebProxy($null) # for powershell7
   scoop config rm proxy
 }
