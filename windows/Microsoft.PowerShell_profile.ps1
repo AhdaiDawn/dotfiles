@@ -31,7 +31,7 @@ function ~ { Set-Location $env:USERPROFILE }
 # 设置代理
 function Set-Proxy {
   [System.Net.Http.HttpClient]::DefaultProxy = New-Object System.Net.WebProxy('http://127.0.0.1:41091', $true) # for powershell7
-  git config --global http.https://github.com.proxy "socks5://127.0.0.1:10808"
+  git config --global http.https://github.com.proxy "http://127.0.0.1:10809"
   $env:ALL_PROXY = "socks5://127.0.0.1:10808"
   # $env:HTTPS_PROXY="https://127.0.0.1:10808"
   # $env:HTTP_PROXY="http://127.0.0.1:10808"
