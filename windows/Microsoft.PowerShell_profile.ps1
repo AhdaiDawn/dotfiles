@@ -33,8 +33,8 @@ function Set-Proxy {
   [System.Net.Http.HttpClient]::DefaultProxy = New-Object System.Net.WebProxy('http://127.0.0.1:41091', $true) # for powershell7
   git config --global http.https://github.com.proxy "http://127.0.0.1:10809"
   $env:ALL_PROXY = "socks5://127.0.0.1:10808"
-  # $env:HTTPS_PROXY="https://127.0.0.1:10808"
-  # $env:HTTP_PROXY="http://127.0.0.1:10808"
+  $env:HTTPS_PROXY="http://127.0.0.1:10809"
+  $env:HTTP_PROXY="http://127.0.0.1:10809"
   scoop config proxy 127.0.0.1:10809
 }
 
@@ -49,8 +49,8 @@ function Set-VsDev{
 function Reset-Proxy {
   git config --global --unset http.https://github.com.proxy
   $env:ALL_PROXY = ""
-  # $env:HTTPS_PROXY=""
-  # $env:HTTP_PROXY=""
+  $env:HTTPS_PROXY=""
+  $env:HTTP_PROXY=""
   [System.Net.Http.HttpClient]::DefaultProxy = New-Object System.Net.WebProxy($null) # for powershell7
   scoop config rm proxy
 }
