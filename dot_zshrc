@@ -55,8 +55,9 @@ set-proxy () {
 }
 
 reset-proxy () {
-  unset http_proxy
-  unset https_proxy
+  unset ALL_PROXY
+  unset HTTP_PROXY
+  unset HTTPS_PROXY
   git config --global --unset http.https://github.com.proxy
 }
 
