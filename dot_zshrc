@@ -45,6 +45,8 @@ alias dotfiles="chezmoi"
 
 alias tm='tmux attach || tmux new'
 
+alias claude-root="claude --dangerously-skip-permissions"
+
 # --------------------------------------------------------------------------
 # wsl 配置代理 注意打开代理软件可被外部访问选项
 set-proxy () {
