@@ -1,0 +1,5 @@
+patch:
+  schema_list:
+    - schema: rime_ice          # 雾凇全拼（保留）
+    - schema: double_pinyin_flypy  # 小鹤双拼（新增）
+
