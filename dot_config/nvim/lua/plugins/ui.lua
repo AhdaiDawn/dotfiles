@@ -28,6 +28,12 @@ return {
 						highlight = "Directory",
 						text_align = "center",
 					},
+					{
+						filetype = "oil",
+						text = "Oil",
+						highlight = "Directory",
+						text_align = "center",
+					},
 				},
 			},
 		},
@@ -59,7 +65,7 @@ return {
 		end,
 	},
 
-	-- File Explorer
+	-- File Explorer (Tree view)
 	{
 		"nvim-tree/nvim-tree.lua",
 		cmd = { "NvimTreeToggle", "NvimTreeFocus", "NvimTreeFindFileToggle" },
@@ -81,6 +87,36 @@ return {
 			},
 			filters = {
 				dotfiles = false,
+			},
+		},
+	},
+
+	-- File Explorer (Buffer-like)
+	{
+		"stevearc/oil.nvim",
+		dependencies = { "nvim-tree/nvim-web-devicons" },
+		keys = {
+			{ "-", "<cmd>Oil<cr>", desc = "Open parent directory" },
+			{ "<leader>_", "<cmd>Oil --float<cr>", desc = "Open parent directory (float)" },
+		},
+		opts = {
+			default_file_explorer = false,
+			columns = { "icon" },
+			delete_to_trash = true,
+			skip_confirm_for_simple_edits = false,
+			view_options = {
+				show_hidden = false,
+			},
+			float = {
+				padding = 2,
+				max_width = 90,
+				max_height = 30,
+				border = "rounded",
+			},
+			keymaps = {
+				["<C-v>"] = "actions.select_vsplit",
+				["<C-x>"] = "actions.select_split",
+				["<C-r>"] = "actions.refresh",
 			},
 		},
 	},

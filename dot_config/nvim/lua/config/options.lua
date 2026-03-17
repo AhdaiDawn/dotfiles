@@ -50,8 +50,9 @@ end)
 opt.updatetime = 250
 opt.timeoutlen = 400
 opt.backup = false
+opt.swapfile = false
 opt.confirm = true
-opt.undodir = vim.fn.stdpath("data") .. "/nvim/undo"
+opt.undodir = vim.fn.stdpath("data") .. "/undo"
 opt.undofile = true
 
 -- Disable built-in plugins

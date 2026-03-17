@@ -14,6 +14,10 @@ return {
 				"javascript",
 				"typescript",
 				"lua",
+				"luadoc",
+				"vim",
+				"vimdoc",
+				"query",
 				"markdown",
 				"markdown_inline",
 				"python",
@@ -26,6 +30,18 @@ return {
 				enable = true,
 				use_languagetree = true,
 			},
+			indent = {
+				enable = true,
+			},
+			incremental_selection = {
+				enable = true,
+				keymaps = {
+					init_selection = "<C-space>",
+					node_incremental = "<C-space>",
+					scope_incremental = false,
+					node_decremental = "<bs>",
+				},
+			},
 		},
 	},
 
@@ -33,6 +49,20 @@ return {
 	{
 		"windwp/nvim-autopairs",
 		event = "InsertEnter",
+		opts = {},
+	},
+
+	-- Comment
+	{
+		"numToStr/Comment.nvim",
+		keys = {
+			{ "gcc", mode = "n", desc = "Comment toggle current line" },
+			{ "gc", mode = { "n", "o" }, desc = "Comment toggle linewise" },
+			{ "gc", mode = "x", desc = "Comment toggle linewise (visual)" },
+			{ "gbc", mode = "n", desc = "Comment toggle current block" },
+			{ "gb", mode = { "n", "o" }, desc = "Comment toggle blockwise" },
+			{ "gb", mode = "x", desc = "Comment toggle blockwise (visual)" },
+		},
 		opts = {},
 	},
 

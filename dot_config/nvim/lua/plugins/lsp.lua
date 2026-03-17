@@ -1,4 +1,17 @@
 return {
+	-- Project-local LSP configuration
+	{
+		"folke/neoconf.nvim",
+		cmd = "Neoconf",
+		opts = {
+			import = {
+				vscode = true,
+				coc = true,
+				nlsp = true,
+			},
+		},
+	},
+
 	-- Lua development environment
 	{
 		"folke/lazydev.nvim",
@@ -14,12 +27,16 @@ return {
 	{
 		"neovim/nvim-lspconfig",
 		dependencies = {
+			"folke/neoconf.nvim",
 			{ "mason-org/mason.nvim", opts = {} },
 			"mason-org/mason-lspconfig.nvim",
 			"WhoIsSethDaniel/mason-tool-installer.nvim",
 			"saghen/blink.cmp",
 		},
 		config = function()
+			-- Setup neoconf first
+			require("neoconf").setup()
+
 			-- LSP keymaps
 			vim.api.nvim_create_autocmd("LspAttach", {
 				group = vim.api.nvim_create_augroup("lsp-attach", { clear = true }),
@@ -66,8 +83,9 @@ return {
 				handlers = {
 					function(server_name)
 						local server = servers[server_name] or {}
+						-- Merge with neoconf settings
 						server.capabilities = vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {})
-						require("lspconfig")[server_name].setup(server)
+						require("lspconfig")[server_name].setup(require("neoconf").get(server_name, server))
 					end,
 				},
 			})

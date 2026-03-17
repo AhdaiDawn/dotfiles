@@ -4,7 +4,8 @@ local map = vim.keymap.set
 map("n", "j", "gj")
 map("n", "k", "gk")
 
-map("i", "<C-f>", "<Right>")
+map("i", "<C-e>", "<End>")
+map("i", "<C-a>", "<Home>")
 
 -- Splits & Windows
 map("n", "<leader>\\", "<C-w>v", { desc = "split window as |" })
@@ -40,7 +41,8 @@ map("n", "[q", vim.cmd.cprev, { desc = "Previous Quickfix" })
 map("n", "]q", vim.cmd.cnext, { desc = "Next Quickfix" })
 
 -- Clipboard
-map("v", "<leader>p", [["_dP]], { desc = "Paste without yank" })
+map("v", "<leader>P", [["_dP]], { desc = "Paste without yank" })
+map("v", "<leader>y", [["+y]], { desc = "Yank to system clipboard" })
 map({ "n", "v" }, "<leader>d", [["_d]], { desc = "Delete without yank" })
 
 -- Move line

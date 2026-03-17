@@ -1,0 +1,37 @@
+{
+  "$schema": "https://raw.githubusercontent.com/folke/neoconf.nvim/main/schemas/neoconf.json",
+  "lspconfig": {
+    "lua_ls": {
+      "enabled": true,
+      "settings": {
+        "Lua": {
+          "workspace": {
+            "library": ["./lib"],
+            "checkThirdParty": false
+          },
+          "diagnostics": {
+            "globals": ["vim"]
+          }
+        }
+      }
+    },
+    "pyright": {
+      "enabled": true,
+      "settings": {
+        "python": {
+          "analysis": {
+            "typeCheckingMode": "basic",
+            "autoSearchPaths": true
+          }
+        }
+      }
+    },
+    "clangd": {
+      "enabled": true,
+      "cmd": ["clangd", "--background-index"]
+    },
+    "rust_analyzer": {
+      "enabled": false
+    }
+  }
+}
