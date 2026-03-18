@@ -97,7 +97,18 @@ return {
 		dependencies = { "nvim-tree/nvim-web-devicons" },
 		keys = {
 			{ "-", "<cmd>Oil<cr>", desc = "Open parent directory" },
-			{ "<leader>_", "<cmd>Oil --float<cr>", desc = "Open parent directory (float)" },
+			{
+				"<A-w>",
+				function()
+					if vim.o.columns > 80 then
+						require("oil").toggle_float()
+					else
+						require("oil").toggle()
+					end
+				end,
+				desc = "Toggle Oil float file explorer",
+				mode = { "n", "v" },
+			},
 		},
 		opts = {
 			default_file_explorer = false,
