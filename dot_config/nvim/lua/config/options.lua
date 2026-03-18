@@ -44,6 +44,7 @@ opt.splitright = true
 -- File & System
 opt.fileencoding = "utf-8"
 opt.mouse = "a"
+opt.mousemodel = "extend"
 vim.schedule(function()
 	opt.clipboard = "unnamedplus"
 end)
