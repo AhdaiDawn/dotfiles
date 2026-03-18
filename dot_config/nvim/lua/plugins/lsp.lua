@@ -53,6 +53,12 @@ return {
 					map("<leader>rn", vim.lsp.buf.rename, "Rename")
 					map("<leader>ca", fzf.lsp_code_actions, "Code Action")
 					map("K", vim.lsp.buf.hover, "Hover Documentation")
+
+					-- Diagnostic keymaps
+					map("[d", vim.diagnostic.goto_prev, "Previous Diagnostic")
+					map("]d", vim.diagnostic.goto_next, "Next Diagnostic")
+					map("<leader>e", vim.diagnostic.open_float, "Show Diagnostic")
+					map("<leader>dl", vim.diagnostic.setloclist, "Diagnostic List")
 				end,
 			})
 
@@ -109,6 +115,18 @@ return {
 		opts = {
 			formatters_by_ft = {
 				lua = { "stylua" },
+				c = { "clang-format" },
+				cpp = { "clang-format" },
+				python = { "black" },
+				javascript = { "prettier" },
+				typescript = { "prettier" },
+				json = { "prettier" },
+				yaml = { "prettier" },
+				markdown = { "prettier" },
+			},
+			format_on_save = {
+				timeout_ms = 500,
+				lsp_format = "fallback",
 			},
 		},
 	},

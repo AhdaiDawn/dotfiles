@@ -6,13 +6,6 @@ return {
 		build = ":TSUpdate",
 		opts = {
 			ensure_installed = {
-				"bash",
-				"c",
-				"cpp",
-				"java",
-				"html",
-				"javascript",
-				"typescript",
 				"lua",
 				"luadoc",
 				"vim",
@@ -20,12 +13,8 @@ return {
 				"query",
 				"markdown",
 				"markdown_inline",
-				"python",
-				"json",
-				"toml",
-				"xml",
-				"yaml",
 			},
+			auto_install = true,
 			highlight = {
 				enable = true,
 				use_languagetree = true,
