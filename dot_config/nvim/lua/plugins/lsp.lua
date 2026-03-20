@@ -11,21 +11,10 @@ return {
 			},
 		},
 	},
-
-	-- Lua development environment
-	{
-		"folke/lazydev.nvim",
-		ft = "lua",
-		opts = {
-			library = {
-				{ path = "${3rd}/luv/library", words = { "vim%.uv" } },
-			},
-		},
-	},
-
 	-- LSP Configuration
 	{
 		"neovim/nvim-lspconfig",
+		event = { "BufReadPost", "BufNewFile" },
 		dependencies = {
 			"folke/neoconf.nvim",
 			{ "mason-org/mason.nvim", opts = {} },
@@ -55,8 +44,6 @@ return {
 					map("K", vim.lsp.buf.hover, "Hover Documentation")
 
 					-- Diagnostic keymaps
-					map("[d", vim.diagnostic.goto_prev, "Previous Diagnostic")
-					map("]d", vim.diagnostic.goto_next, "Next Diagnostic")
 					map("<leader>e", vim.diagnostic.open_float, "Show Diagnostic")
 					map("<leader>dl", vim.diagnostic.setloclist, "Diagnostic List")
 				end,
@@ -131,23 +118,16 @@ return {
 		},
 	},
 
-	-- Completion
+	-- Completion (minimal)
 	{
 		"saghen/blink.cmp",
-		event = "VimEnter",
+		event = "InsertEnter",
 		version = "1.*",
-		dependencies = { "L3MON4D3/LuaSnip", version = "v2.*" },
 		opts = {
 			keymap = { preset = "super-tab" },
 			appearance = { nerd_font_variant = "mono" },
 			sources = {
-				default = { "lsp", "path", "snippets", "buffer", "lazydev" },
-				providers = {
-					lazydev = {
-						module = "lazydev.integrations.blink",
-						score_offset = 100,
-					},
-				},
+				default = { "lsp", "path", "buffer" },
 			},
 		},
 	},

@@ -41,20 +41,6 @@ return {
 		opts = {},
 	},
 
-	-- Comment
-	{
-		"numToStr/Comment.nvim",
-		keys = {
-			{ "gcc", mode = "n", desc = "Comment toggle current line" },
-			{ "gc", mode = { "n", "o" }, desc = "Comment toggle linewise" },
-			{ "gc", mode = "x", desc = "Comment toggle linewise (visual)" },
-			{ "gbc", mode = "n", desc = "Comment toggle current block" },
-			{ "gb", mode = { "n", "o" }, desc = "Comment toggle blockwise" },
-			{ "gb", mode = "x", desc = "Comment toggle blockwise (visual)" },
-		},
-		opts = {},
-	},
-
 	-- Git signs
 	{
 		"lewis6991/gitsigns.nvim",
@@ -116,7 +102,4 @@ return {
 			},
 		},
 	},
-
-	-- Auto clear search highlight
-	{ "romainl/vim-cool", event = "VeryLazy" },
 }
