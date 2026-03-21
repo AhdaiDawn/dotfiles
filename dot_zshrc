@@ -49,6 +49,7 @@ alias cls='clear'
 
 alias lg='lazygit'
 alias dotfiles="chezmoi"
+alias j="just"
 
 alias zz='zellij attach -c || zellij'
 
