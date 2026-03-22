@@ -3,3 +3,5 @@ background = "#282828"
 
 font-family = "Fira Code Nerd Font"
 font-size = 12
+
+window-show-tab-bar = never
