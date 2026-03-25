@@ -54,6 +54,7 @@ alias j="just"
 alias zz='zellij attach -c || zellij'
 
 alias claude-root="claude --dangerously-skip-permissions"
+alias claude-auto="claude --enable-auto-mode"
 
 # ===============================
 set-proxy () {
