@@ -95,3 +95,5 @@ export RUSTUP_UPDATE_ROOT=https://mirrors.tuna.tsinghua.edu.cn/rustup/rustup
 export RUSTUP_DIST_SERVER=https://mirrors.tuna.tsinghua.edu.cn/rustup
 
 export PATH="$HOME/.local/bin:$PATH"
+# opencode
+export PATH=/home/ahdai/.opencode/bin:$PATH
