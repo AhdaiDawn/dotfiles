@@ -33,29 +33,12 @@ return {
       -- find
       { "<leader>o", LazyVim.pick("files"), desc = "Find Files (Root Dir)" },
       { "<leader>r", LazyVim.pick("oldfiles"), desc = "Recent" },
-    },
-  },
-
-  -- File Explorer (Buffer-like)
-  {
-    "stevearc/oil.nvim",
-    lazy = false,
-    keys = {
       {
         "<A-e>",
         function()
-          require("oil").toggle_float()
+          Snacks.explorer({ cwd = LazyVim.root() })
         end,
-        desc = "Toggle Oil float file explorer",
-        mode = { "n", "v" },
-      },
-    },
-    opts = {
-      float = {
-        padding = 2,
-        max_width = 90,
-        max_height = 30,
-        border = "rounded",
+        desc = "Explorer Snacks (root dir)",
       },
     },
   },
