@@ -2,6 +2,9 @@
 	email = ahdai19970918@gmail.com
 	name = ahdai
 
+[credential]
+	helper = store
+
 [core]
     pager = delta
 
