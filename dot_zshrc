@@ -2,6 +2,7 @@ LANG=en_US.UTF-8
 LC_TIME=zh_CN.UTF-8
 LC_MONETARY=zh_CN.UTF-8
 LC_MESSAGES=en_US.UTF-8
+unset LANGUAGE
 
 # 补全大小写不敏感
 autoload -Uz compinit && compinit
