@@ -4,7 +4,7 @@ LC_MONETARY=zh_CN.UTF-8
 LC_MESSAGES=en_US.UTF-8
 unset LANGUAGE
 
-# 补全大小写不敏感
+fpath=(~/.zsh/completions $fpath)
 autoload -Uz compinit && compinit
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
 
@@ -92,9 +92,18 @@ kde-status() {
     systemctl status sddm --no-pager
 }
 
+function y() {
+	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
+	command yazi "$@" --cwd-file="$tmp"
+	IFS= read -r -d '' cwd < "$tmp"
+	[ "$cwd" != "$PWD" ] && [ -d "$cwd" ] && builtin cd -- "$cwd"
+	rm -f -- "$tmp"
+}
+
 export RUSTUP_UPDATE_ROOT=https://mirrors.tuna.tsinghua.edu.cn/rustup/rustup
 export RUSTUP_DIST_SERVER=https://mirrors.tuna.tsinghua.edu.cn/rustup
 
 export PATH="$HOME/.local/bin:$PATH"
+
 # opencode
 export PATH=/home/ahdai/.opencode/bin:$PATH
