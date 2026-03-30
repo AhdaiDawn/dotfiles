@@ -1,8 +1,7 @@
-LANG=en_US.UTF-8
-LC_TIME=zh_CN.UTF-8
-LC_MONETARY=zh_CN.UTF-8
-LC_MESSAGES=en_US.UTF-8
-unset LANGUAGE
+export LANG=en_US.UTF-8
+export LC_TIME=zh_CN.UTF-8
+export LC_MONETARY=zh_CN.UTF-8
+export LC_MESSAGES=en_US.UTF-8
 
 fpath=(~/.zsh/completions $fpath)
 autoload -Uz compinit && compinit
@@ -15,19 +14,25 @@ SAVEHIST=10000
 setopt appendhistory
 
 # plugin
-source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
-source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-source <(fzf --zsh)
-eval "$(zoxide init zsh)"
+if [ -r /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh ]; then
+  source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+fi
 
-# 启用彩色提示符
-autoload -U colors && colors
-# 每次刷新提示符
-setopt prompt_subst
-# 设置提示符
-PROMPT='%{$fg[yellow]%}%1~ ➤ '
+if [ -r /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]; then
+  source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+fi
 
-eval "$(starship init zsh)"
+if command -v fzf >/dev/null 2>&1; then
+  source <(fzf --zsh)
+fi
+
+if command -v zoxide >/dev/null 2>&1; then
+  eval "$(zoxide init zsh)"
+fi
+
+if command -v starship >/dev/null 2>&1; then
+  eval "$(starship init zsh)"
+fi
 
 # 默认编辑器
 export EDITOR=nvim
@@ -54,22 +59,27 @@ alias j="just"
 
 alias zz='zellij attach -c || zellij'
 
-alias claude-root="claude --dangerously-skip-permissions"
 alias claude-auto="claude --enable-auto-mode"
+
+function y() {
+	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
+	command yazi "$@" --cwd-file="$tmp"
+	IFS= read -r -d '' cwd < "$tmp"
+	[ "$cwd" != "$PWD" ] && [ -d "$cwd" ] && builtin cd -- "$cwd"
+	rm -f -- "$tmp"
+}
 
 # ===============================
 set-proxy () {
   export ALL_PROXY="socks5://127.0.0.1:10808"
   export HTTP_PROXY="http://127.0.0.1:10809"
   export HTTPS_PROXY="http://127.0.0.1:10809"
-  git config --global http.https://github.com.proxy http://127.0.0.1:10809
 }
 
 reset-proxy () {
   unset ALL_PROXY
   unset HTTP_PROXY
   unset HTTPS_PROXY
-  git config --global --unset http.https://github.com.proxy
 }
 
 # ===============================
@@ -92,18 +102,12 @@ kde-status() {
     systemctl status sddm --no-pager
 }
 
-function y() {
-	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
-	command yazi "$@" --cwd-file="$tmp"
-	IFS= read -r -d '' cwd < "$tmp"
-	[ "$cwd" != "$PWD" ] && [ -d "$cwd" ] && builtin cd -- "$cwd"
-	rm -f -- "$tmp"
-}
-
 export RUSTUP_UPDATE_ROOT=https://mirrors.tuna.tsinghua.edu.cn/rustup/rustup
 export RUSTUP_DIST_SERVER=https://mirrors.tuna.tsinghua.edu.cn/rustup
 
 export PATH="$HOME/.local/bin:$PATH"
 
 # opencode
-export PATH=/home/ahdai/.opencode/bin:$PATH
+if [ -d "$HOME/.opencode/bin" ]; then
+  export PATH="$HOME/.opencode/bin:$PATH"
+fi

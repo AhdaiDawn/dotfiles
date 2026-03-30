@@ -3,7 +3,8 @@ function ToAbsolutePath {
         [string]$RelativePath
     )
 
-    $configPath = Join-Path $PWD $RelativePath
+    $scriptRoot = if ($PSScriptRoot) { $PSScriptRoot } else { Split-Path -Parent $MyInvocation.MyCommand.Path }
+    $configPath = Join-Path $scriptRoot $RelativePath
     $resolvedPath = Resolve-Path $configPath -ErrorAction SilentlyContinue
 
     if ($resolvedPath) {
