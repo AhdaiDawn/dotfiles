@@ -1,13 +1,15 @@
+cc-switch-bin
 clash-verge-rev-bin
 feishu-bin
-httpdirfs
+localsend-bin
 microsoft-edge-stable-bin
+rustdesk-bin
 spotify
 ttf-lxgw-wenkai-mono-nerd
 ttf-wps-fonts
 ventoy-bin
 visual-studio-code-bin
-wechat-bin
+wechat-universal-bwrap
 wemeet-bin
 wps-office-cn
 wps-office-mui-zh-cn
