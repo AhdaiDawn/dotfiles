@@ -1,0 +1,2 @@
+# Login shell initialization.
+# Keep shared environment in ~/.zshenv and interactive setup in ~/.zshrc.
