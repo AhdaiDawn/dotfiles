@@ -130,7 +130,6 @@ ntfs-3g
 nvidia-open
 nvidia-settings
 nvidia-utils
-obs-studio
 obsidian
 opencl-nvidia
 openssh
@@ -170,6 +169,7 @@ rebuild-detector
 reflector
 resvg
 rime-ice-git
+rsibreak
 rsync
 rtkit
 s-nail
