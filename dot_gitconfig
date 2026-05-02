@@ -22,3 +22,8 @@
 [pull]
 	rebase = true
 
+[diff]
+	tool = nvimdiff
+
+[difftool]
+	prompt = false
