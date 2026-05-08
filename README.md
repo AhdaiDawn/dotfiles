@@ -2,12 +2,13 @@
 
 Personal dotfiles managed with `chezmoi`.
 
-## Arch Linux
+## macOS
 
-Install the required packages with `pacman`:
+Install Homebrew first, then install the tracked packages:
 
 ```zsh
-sudo pacman -S chezmoi git neovim eza fzf zoxide starship direnv delta lazygit yazi zellij just zsh-autosuggestions zsh-syntax-highlighting
+brew install $(sed '/^$/d' dot_pkglist/brew.txt)
+brew install --cask $(sed '/^$/d' dot_pkglist/brew-cask.txt)
 ```
 
 ## Setup
@@ -19,7 +20,7 @@ chezmoi apply
 
 ## Package lists
 
-Package snapshots are stored in [`dot_pkglist/`](/home/ahdai/.local/share/chezmoi/dot_pkglist).
+Package snapshots are stored in `dot_pkglist/`.
 
 Refresh them with:
 

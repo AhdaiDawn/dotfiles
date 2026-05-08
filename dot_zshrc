@@ -3,6 +3,25 @@ export LC_TIME=zh_CN.UTF-8
 export LC_MONETARY=zh_CN.UTF-8
 export LC_MESSAGES=en_US.UTF-8
 
+if [[ -z "${HOMEBREW_PREFIX:-}" ]]; then
+  if (( $+commands[brew] )); then
+    HOMEBREW_PREFIX="$(brew --prefix)"
+  elif [[ -d /opt/homebrew ]]; then
+    HOMEBREW_PREFIX=/opt/homebrew
+  elif [[ -d /usr/local ]]; then
+    HOMEBREW_PREFIX=/usr/local
+  fi
+fi
+
+source-if-exists () {
+  [[ -r "$1" ]] && source "$1"
+}
+
+typeset -U fpath
+if [[ -n "${HOMEBREW_PREFIX:-}" && -d "$HOMEBREW_PREFIX/share/zsh/site-functions" ]]; then
+  fpath=("$HOMEBREW_PREFIX/share/zsh/site-functions" $fpath)
+fi
+
 autoload -Uz compinit
 compinit
 
@@ -14,20 +33,26 @@ setopt histignorealldups
 setopt histsavenodups
 setopt histfindnodups
 
-source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+source-if-exists "${HOMEBREW_PREFIX:-}/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
 
 if [[ -t 0 && -t 1 ]]; then
-  source /usr/share/fzf/key-bindings.zsh
-  source /usr/share/fzf/completion.zsh
+  source-if-exists "${HOMEBREW_PREFIX:-}/opt/fzf/shell/key-bindings.zsh"
+  source-if-exists "${HOMEBREW_PREFIX:-}/opt/fzf/shell/completion.zsh"
 fi
 
-eval "$(zoxide init zsh)"
+if (( $+commands[zoxide] )); then
+  eval "$(zoxide init zsh)"
+fi
 
-eval "$(starship init zsh)"
+if (( $+commands[starship] )); then
+  eval "$(starship init zsh)"
+fi
 
-eval "$(direnv hook zsh)"
+if (( $+commands[direnv] )); then
+  eval "$(direnv hook zsh)"
+fi
 
-source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source-if-exists "${HOMEBREW_PREFIX:-}/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 
 alias ..='cd ..'
 alias ...='cd ../..'

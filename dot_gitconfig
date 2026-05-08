@@ -3,7 +3,7 @@
 	name = ahdai
 
 [credential]
-	helper = store
+	helper = osxkeychain
 
 [core]
     pager = delta

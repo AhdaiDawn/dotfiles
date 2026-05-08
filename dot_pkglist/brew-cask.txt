@@ -1,0 +1,6 @@
+claude-code
+font-fira-code-nerd-font
+ghostty
+localsend
+spotify
+visual-studio-code

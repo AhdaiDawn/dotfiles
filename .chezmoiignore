@@ -1,2 +1,6 @@
 # Neovim plugin lock file (auto-generated)
 .config/nvim/lazy-lock.json
+
+# Repository docs and package snapshots are source-only.
+README.md
+.pkglist/**

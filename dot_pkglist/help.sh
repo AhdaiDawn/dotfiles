@@ -1,4 +1,5 @@
 #!/bin/sh
-pacman -Qqe | grep -v "$(pacman -Qqm)" >pacman.txt
-# pacman -Qe >pacman-all.txt
-pacman -Qqm >aur_local.txt
+set -eu
+
+brew leaves | sort >brew.txt
+brew list --cask | sort >brew-cask.txt
