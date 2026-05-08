@@ -20,5 +20,7 @@ cursor-color = #d4be98
 selection-background = #32302f
 selection-foreground = #d4be98
 
+macos-option-as-alt = true
+
 font-family = "FiraCode Nerd Font"
-font-size = 12
+font-size = 16

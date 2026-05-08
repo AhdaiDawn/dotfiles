@@ -87,16 +87,24 @@ set-proxy () {
   export ALL_PROXY="socks5://127.0.0.1:10808"
   export HTTP_PROXY="http://127.0.0.1:10809"
   export HTTPS_PROXY="$HTTP_PROXY"
+  export WS_PROXY="$HTTP_PROXY"
+  export WSS_PROXY="$HTTPS_PROXY"
   export all_proxy="$ALL_PROXY"
   export http_proxy="$HTTP_PROXY"
   export https_proxy="$HTTPS_PROXY"
+  export ws_proxy="$HTTP_PROXY"
+  export wss_proxy="$HTTPS_PROXY"
 }
 
 reset-proxy () {
   unset ALL_PROXY
   unset HTTP_PROXY
   unset HTTPS_PROXY
+  unset WS_PROXY
+  unset WSS_PROXY
   unset all_proxy
   unset http_proxy
   unset https_proxy
+  unset ws_proxy
+  unset wss_proxy
 }
