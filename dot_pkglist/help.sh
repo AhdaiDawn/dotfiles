@@ -1,5 +1,7 @@
 #!/bin/sh
 set -eu
 
-brew leaves | sort >brew.txt
-brew list --cask | sort >brew-cask.txt
+script_dir=$(CDPATH= cd "$(dirname "$0")" && pwd)
+
+brew leaves | sort >"$script_dir/brew.txt"
+brew list --cask | sort >"$script_dir/brew-cask.txt"
