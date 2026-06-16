@@ -3,56 +3,36 @@ export LC_TIME=zh_CN.UTF-8
 export LC_MONETARY=zh_CN.UTF-8
 export LC_MESSAGES=en_US.UTF-8
 
-if [[ -z "${HOMEBREW_PREFIX:-}" ]]; then
-  if (( $+commands[brew] )); then
-    HOMEBREW_PREFIX="$(brew --prefix)"
-  elif [[ -d /opt/homebrew ]]; then
-    HOMEBREW_PREFIX=/opt/homebrew
-  elif [[ -d /usr/local ]]; then
-    HOMEBREW_PREFIX=/usr/local
-  fi
-fi
+HOMEBREW_PREFIX=${HOMEBREW_PREFIX:-/opt/homebrew}
 
-source-if-exists () {
-  [[ -r "$1" ]] && source "$1"
+source-if-exists() {
+  [[ -r $1 ]] && source "$1"
 }
 
-typeset -U fpath
-if [[ -n "${HOMEBREW_PREFIX:-}" && -d "$HOMEBREW_PREFIX/share/zsh/site-functions" ]]; then
-  fpath=("$HOMEBREW_PREFIX/share/zsh/site-functions" $fpath)
-fi
+typeset -U path fpath
+path=($HOMEBREW_PREFIX/opt/rustup/bin $path)
+fpath=($HOMEBREW_PREFIX/share/zsh/site-functions $fpath)
 
 autoload -Uz compinit
 compinit
 
 HISTFILE=~/.zsh_history
 HISTSIZE=10000
-SAVEHIST=10000
-setopt incappendhistory
-setopt histignorealldups
-setopt histsavenodups
-setopt histfindnodups
+SAVEHIST=$HISTSIZE
+setopt incappendhistory histignorealldups histsavenodups histfindnodups
 
-source-if-exists "${HOMEBREW_PREFIX:-}/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
-
+source-if-exists "$HOMEBREW_PREFIX/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
 if [[ -t 0 && -t 1 ]]; then
-  source-if-exists "${HOMEBREW_PREFIX:-}/opt/fzf/shell/key-bindings.zsh"
-  source-if-exists "${HOMEBREW_PREFIX:-}/opt/fzf/shell/completion.zsh"
+  source-if-exists "$HOMEBREW_PREFIX/opt/fzf/shell/key-bindings.zsh"
+  source-if-exists "$HOMEBREW_PREFIX/opt/fzf/shell/completion.zsh"
 fi
 
-if (( $+commands[zoxide] )); then
-  eval "$(zoxide init zsh)"
-fi
+eval "$(zoxide init zsh)"
+eval "$(starship init zsh)"
+eval "$(direnv hook zsh)"
+eval "$($HOMEBREW_PREFIX/bin/mise activate zsh)"
 
-if (( $+commands[starship] )); then
-  eval "$(starship init zsh)"
-fi
-
-if (( $+commands[direnv] )); then
-  eval "$(direnv hook zsh)"
-fi
-
-source-if-exists "${HOMEBREW_PREFIX:-}/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+source-if-exists "$HOMEBREW_PREFIX/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 
 alias ..='cd ..'
 alias ...='cd ../..'
@@ -83,28 +63,17 @@ function y() {
 	rm -f -- "$tmp"
 }
 
-set-proxy () {
+set-proxy() {
   export ALL_PROXY="socks5://127.0.0.1:10808"
   export HTTP_PROXY="http://127.0.0.1:10809"
-  export HTTPS_PROXY="$HTTP_PROXY"
-  export WS_PROXY="$HTTP_PROXY"
-  export WSS_PROXY="$HTTPS_PROXY"
-  export all_proxy="$ALL_PROXY"
-  export http_proxy="$HTTP_PROXY"
-  export https_proxy="$HTTPS_PROXY"
-  export ws_proxy="$HTTP_PROXY"
-  export wss_proxy="$HTTPS_PROXY"
+  export HTTPS_PROXY="$HTTP_PROXY" WS_PROXY="$HTTP_PROXY" WSS_PROXY="$HTTPS_PROXY"
+  export all_proxy="$ALL_PROXY" http_proxy="$HTTP_PROXY" https_proxy="$HTTPS_PROXY"
+  export ws_proxy="$WS_PROXY" wss_proxy="$WSS_PROXY"
 }
 
-reset-proxy () {
-  unset ALL_PROXY
-  unset HTTP_PROXY
-  unset HTTPS_PROXY
-  unset WS_PROXY
-  unset WSS_PROXY
-  unset all_proxy
-  unset http_proxy
-  unset https_proxy
-  unset ws_proxy
-  unset wss_proxy
+reset-proxy() {
+  unset ALL_PROXY HTTP_PROXY HTTPS_PROXY WS_PROXY WSS_PROXY
+  unset all_proxy http_proxy https_proxy ws_proxy wss_proxy
 }
+
+eval "$($HOMEBREW_PREFIX/Caskroom/miniconda/base/bin/conda shell.zsh hook)"

@@ -1,3 +1,2 @@
 theme "gruvbox-dark"
-copy_command "pbcopy"
 show_startup_tips false
