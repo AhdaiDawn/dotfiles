@@ -56,5 +56,18 @@ return {
   {
     "fei6409/log-highlight.nvim",
     opts = {},
+    config = function(_, opts)
+      require("log-highlight").setup(opts)
+
+      vim.api.nvim_create_user_command("LogHighlightToggle", function()
+        if vim.bo.syntax == "log" then
+          vim.bo.syntax = vim.b.log_highlight_previous_syntax or ""
+          vim.b.log_highlight_previous_syntax = nil
+        else
+          vim.b.log_highlight_previous_syntax = vim.bo.syntax
+          vim.bo.syntax = "log"
+        end
+      end, { desc = "Toggle log highlighting for the current buffer", force = true })
+    end,
   },
 }
