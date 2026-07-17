@@ -34,14 +34,24 @@ return {
       -- find
       { "<leader>o", LazyVim.pick("files"), desc = "Find Files (Root Dir)" },
       { "<leader>r", LazyVim.pick("oldfiles"), desc = "Recent" },
+      { "<leader>e", false },
+    },
+  },
+  {
+    "mikavilpas/yazi.nvim",
+    version = "*",
+    event = "VeryLazy",
+    dependencies = {
+      { "nvim-lua/plenary.nvim", lazy = true },
+    },
+    keys = {
       {
-        "<A-e>",
-        function()
-          Snacks.explorer({ cwd = LazyVim.root() })
-        end,
-        desc = "Explorer Snacks (root dir)",
+        "<leader>e",
+        "<cmd>Yazi<cr>",
+        desc = "Yazi (Current File)",
       },
     },
+    opts = {},
   },
   {
     "fei6409/log-highlight.nvim",
