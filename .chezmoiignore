@@ -1,2 +1,11 @@
 # Neovim plugin lock file (auto-generated)
 .config/nvim/lazy-lock.json
+
+# Repository documentation and package lists
+README.md
+.pkglist
+
+# Windows-only files
+{{ if ne .chezmoi.os "windows" }}
+.windows
+{{ end }}
