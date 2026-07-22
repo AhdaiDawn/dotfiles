@@ -19,6 +19,17 @@ return {
     "folke/snacks.nvim",
     opts = {
       dashboard = { enabled = false },
+      lazygit = {
+        config = {
+          os = {
+            -- Snacks' nvim-remote preset uses --remote-tab. Keep the remote
+            -- integration, but open the selected file in the current window.
+            edit = [=[[ -z "$NVIM" ] && (nvim -- {{filename}}) || (nvim --server "$NVIM" --remote-send "q" && nvim --server "$NVIM" --remote {{filename}})]=],
+            editAtLine = [=[[ -z "$NVIM" ] && (nvim +{{line}} -- {{filename}}) || (nvim --server "$NVIM" --remote-send "q" && nvim --server "$NVIM" --remote {{filename}} && nvim --server "$NVIM" --remote-send ":{{line}}<CR>")]=],
+            openDirInEditor = [=[[ -z "$NVIM" ] && (nvim -- {{dir}}) || (nvim --server "$NVIM" --remote-send "q" && nvim --server "$NVIM" --remote {{dir}})]=],
+          },
+        },
+      },
       picker = {
         hidden = true,
         -- ignored = true,
