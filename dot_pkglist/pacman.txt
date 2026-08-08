@@ -227,4 +227,4 @@ zram-generator
 zsh
 zsh-autosuggestions
 zsh-completions
-zsh-syntax-highlighting
+zsh-history-substring-search

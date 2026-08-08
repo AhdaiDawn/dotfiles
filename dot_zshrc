@@ -4,30 +4,78 @@ export LANGUAGE=en_US:en
 export LC_MESSAGES=en_US.UTF-8
 
 autoload -Uz compinit
-compinit
+_init_completion() {
+  local cache_dir="${XDG_CACHE_HOME:-$HOME/.cache}/zsh"
+  local compdump="$cache_dir/zcompdump-$ZSH_VERSION"
+  local -a stale_compdump
 
-HISTFILE=~/.zsh_history
-HISTSIZE=10000
-SAVEHIST=10000
-setopt incappendhistory
-setopt histignorealldups
-setopt histsavenodups
-setopt histfindnodups
+  mkdir -p "$cache_dir"
+  stale_compdump=("$compdump"(N.mh+24))
 
+  if [[ ! -f "$compdump" ]] || (( ${#stale_compdump} )); then
+    compinit -d "$compdump" && touch -- "$compdump"
+  else
+    compinit -C -d "$compdump"
+  fi
+}
+_init_completion
+unfunction _init_completion
+
+zstyle ':completion:*' menu select
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
+
+HISTFILE="${XDG_STATE_HOME:-$HOME/.local/state}/zsh/history"
+HISTSIZE=120000
+SAVEHIST=100000
+
+mkdir -p "${HISTFILE:h}"
+
+setopt APPEND_HISTORY
+setopt SHARE_HISTORY
+setopt HIST_IGNORE_ALL_DUPS
+setopt HIST_IGNORE_SPACE
+setopt HIST_EXPIRE_DUPS_FIRST
+setopt HIST_SAVE_NO_DUPS
+setopt HIST_FIND_NO_DUPS
+
+source /usr/share/zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh
+
+zmodload zsh/terminfo
+
+_bind_history_substring_search() {
+  local keymap="$1"
+
+  bindkey -M "$keymap" '^[[A' history-substring-search-up
+  bindkey -M "$keymap" '^[[B' history-substring-search-down
+  [[ -n "${terminfo[kcuu1]}" ]] && bindkey -M "$keymap" "${terminfo[kcuu1]}" history-substring-search-up
+  [[ -n "${terminfo[kcud1]}" ]] && bindkey -M "$keymap" "${terminfo[kcud1]}" history-substring-search-down
+}
+
+zvm_after_init() {
+  if [[ -t 0 && -t 1 ]]; then
+    source /usr/share/fzf/key-bindings.zsh
+    source /usr/share/fzf/completion.zsh
+  fi
+
+  _bind_history_substring_search viins
+}
+
+zvm_after_lazy_keybindings() {
+  _bind_history_substring_search vicmd
+  bindkey -M vicmd 'k' history-substring-search-up
+  bindkey -M vicmd 'j' history-substring-search-down
+}
+
+ZVM_INIT_MODE=sourcing
+source /usr/share/zsh/plugins/zsh-vi-mode/zsh-vi-mode.plugin.zsh
+ZSH_AUTOSUGGEST_MANUAL_REBIND=1
 source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
-
-if [[ -t 0 && -t 1 ]]; then
-  source /usr/share/fzf/key-bindings.zsh
-  source /usr/share/fzf/completion.zsh
-fi
 
 eval "$(zoxide init zsh)"
 
 eval "$(starship init zsh)"
 
 eval "$(direnv hook zsh)"
-
-source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 alias ..='cd ..'
 alias ...='cd ../..'
@@ -83,3 +131,5 @@ reset-proxy () {
   unset ws_proxy
   unset wss_proxy
 }
+
+source /usr/share/zsh/plugins/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh

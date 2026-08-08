@@ -4,10 +4,11 @@ Personal dotfiles managed with `chezmoi`.
 
 ## Arch Linux
 
-Install the required packages with `pacman`:
+Install the required packages:
 
 ```zsh
-sudo pacman -S chezmoi git neovim eza fzf zoxide starship direnv delta lazygit yazi zellij just zsh-autosuggestions zsh-syntax-highlighting
+sudo pacman -S chezmoi git neovim eza fzf zoxide starship direnv delta lazygit yazi zellij just zsh-autosuggestions zsh-history-substring-search
+yay -S zsh-fast-syntax-highlighting zsh-vi-mode
 ```
 
 ## Setup
