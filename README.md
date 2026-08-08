@@ -8,7 +8,7 @@ Install the required packages:
 
 ```zsh
 sudo pacman -S chezmoi git neovim eza fzf zoxide starship direnv delta lazygit yazi zellij just zsh-autosuggestions zsh-history-substring-search
-yay -S zsh-fast-syntax-highlighting zsh-vi-mode
+yay -S zsh-fast-syntax-highlighting
 ```
 
 ## Setup

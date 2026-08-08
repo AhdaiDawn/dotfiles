@@ -40,34 +40,27 @@ setopt HIST_FIND_NO_DUPS
 
 source /usr/share/zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh
 
+bindkey -v
+KEYTIMEOUT=1
+
+if [[ -t 0 && -t 1 ]]; then
+  source /usr/share/fzf/key-bindings.zsh
+  source /usr/share/fzf/completion.zsh
+fi
+
 zmodload zsh/terminfo
 
-_bind_history_substring_search() {
-  local keymap="$1"
-
+for keymap in viins vicmd; do
   bindkey -M "$keymap" '^[[A' history-substring-search-up
   bindkey -M "$keymap" '^[[B' history-substring-search-down
   [[ -n "${terminfo[kcuu1]}" ]] && bindkey -M "$keymap" "${terminfo[kcuu1]}" history-substring-search-up
   [[ -n "${terminfo[kcud1]}" ]] && bindkey -M "$keymap" "${terminfo[kcud1]}" history-substring-search-down
-}
+done
+unset keymap
 
-zvm_after_init() {
-  if [[ -t 0 && -t 1 ]]; then
-    source /usr/share/fzf/key-bindings.zsh
-    source /usr/share/fzf/completion.zsh
-  fi
+bindkey -M vicmd 'k' history-substring-search-up
+bindkey -M vicmd 'j' history-substring-search-down
 
-  _bind_history_substring_search viins
-}
-
-zvm_after_lazy_keybindings() {
-  _bind_history_substring_search vicmd
-  bindkey -M vicmd 'k' history-substring-search-up
-  bindkey -M vicmd 'j' history-substring-search-down
-}
-
-ZVM_INIT_MODE=sourcing
-source /usr/share/zsh/plugins/zsh-vi-mode/zsh-vi-mode.plugin.zsh
 ZSH_AUTOSUGGEST_MANUAL_REBIND=1
 source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 

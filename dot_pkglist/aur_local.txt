@@ -14,4 +14,3 @@ wemeet-bin
 wps-office-cn
 wps-office-mui-zh-cn
 zsh-fast-syntax-highlighting
-zsh-vi-mode
