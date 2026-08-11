@@ -60,6 +60,7 @@ fcitx5-gtk
 fcitx5-qt
 fcitx5-rime
 ffmpegthumbs
+fish
 fwupd
 ghostty
 git

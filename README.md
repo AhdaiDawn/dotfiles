@@ -6,16 +6,22 @@ Personal dotfiles managed with `chezmoi`.
 
 Install the required packages:
 
-```zsh
-sudo pacman -S chezmoi git neovim eza fzf zoxide starship direnv delta lazygit yazi zellij just zsh-autosuggestions zsh-history-substring-search
-yay -S zsh-fast-syntax-highlighting
+```sh
+sudo pacman -S chezmoi git fish neovim eza fzf zoxide starship direnv delta lazygit yazi zellij just
 ```
 
 ## Setup
 
-```zsh
+```sh
 chezmoi init --apply git@github.com:AhdaiDawn/dotfiles.git
 chezmoi apply
+```
+
+Test fish interactively before making it the login shell:
+
+```sh
+fish
+chsh -s /usr/bin/fish
 ```
 
 ## Package lists
@@ -24,6 +30,6 @@ Package snapshots are stored in [`dot_pkglist/`](/home/ahdai/.local/share/chezmo
 
 Refresh them with:
 
-```zsh
+```sh
 ./dot_pkglist/help.sh
 ```
