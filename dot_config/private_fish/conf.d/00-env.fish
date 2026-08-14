@@ -1,9 +1,4 @@
 # Shared environment for interactive and non-interactive fish shells.
-set -e LC_ALL
-set -gx LANG en_US.UTF-8
-set -gx LANGUAGE en_US:en
-set -gx LC_MESSAGES en_US.UTF-8
-
 set -gx EDITOR nvim
 
 set -gx RUSTUP_UPDATE_ROOT https://mirrors.tuna.tsinghua.edu.cn/rustup/rustup
