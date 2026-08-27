@@ -1,0 +1,82 @@
+// Core niri configuration. Window rules and key bindings are split into includes.
+
+input {
+    keyboard {
+        xkb {}
+        numlock
+    }
+
+    touchpad {
+        tap
+        natural-scroll
+    }
+
+    mouse {}
+    trackpoint {}
+}
+
+// Docked profile: keep the external display active and the laptop panel off.
+output "HDMI-A-1" {
+    mode "3840x2160@160.001"
+    scale 1.7
+    position x=0 y=0
+    focus-at-startup
+}
+
+// Mod+Shift+D temporarily enables this panel; Mod+Ctrl+Shift+D disables it again.
+// Use 60 Hz for lower power consumption when the laptop is used away from the dock.
+output "eDP-1" {
+    off
+    mode "2560x1600@60.008"
+    scale 2
+    transform "normal"
+
+    layout {
+        default-column-width { proportion 1.0; }
+
+        preset-column-widths {
+            proportion 0.5
+            proportion 0.66667
+            proportion 1.0
+        }
+    }
+}
+
+layout {
+    gaps 16
+    center-focused-column "on-overflow"
+
+    preset-column-widths {
+        proportion 0.33333
+        proportion 0.5
+        proportion 0.66667
+    }
+
+    default-column-width { proportion 0.5; }
+
+    focus-ring {
+        width 4
+        active-color "#7fc8ff"
+        inactive-color "#505050"
+    }
+
+    border {
+        off
+    }
+}
+
+spawn-at-startup "noctalia"
+spawn-at-startup "fcitx5" "-d"
+
+screenshot-path "~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png"
+
+// Allow common tray applications to activate their window after an explicit click.
+debug {
+    honor-xdg-activation-with-invalid-serial
+}
+
+include "rules.kdl"
+include "binds.kdl"
+
+// Noctalia regenerates this palette fragment when the color scheme changes.
+include "noctalia.kdl"

@@ -1,0 +1,17 @@
+id = "ahdai/sleep-inhibit"
+name = "Sleep Inhibit"
+version = "1.0.0"
+plugin_api = 24
+author = "ahdai"
+license = "MIT"
+icon = "coffee"
+description = "Prevent system sleep while allowing idle lock and screen-off"
+dependencies = [ "systemd" ]
+
+[[service]]
+id = "state"
+entry = "service.luau"
+
+[[shortcut]]
+id = "toggle"
+entry = "shortcut.luau"

@@ -1,0 +1,42 @@
+// Firefox picture-in-picture is a compact transient window.
+window-rule {
+    match app-id=r#"firefox$"# title="^Picture-in-Picture$"
+    open-floating true
+}
+
+// Compact, single-purpose tools should not create tiled columns.
+window-rule {
+    match app-id=r#"^org\.gnome\.(Calculator|Characters|Clocks|FontViewer)$"#
+    match app-id=r#"^org\.pulseaudio\.pavucontrol$"#
+    match app-id=r#"^(org\.fcitx\.fcitx5-config-qt|fcitx5-config-qt)$"#
+    match app-id=r#"^system-config-printer$"#
+
+    open-floating true
+}
+
+// Some selectors and authentication prompts do not advertise a parent window.
+// Correctly parented dialogs and fixed-size temporary windows float automatically.
+window-rule {
+    match app-id=r#"^xdg-desktop-portal-(gtk|gnome)$"#
+    match app-id=r#"^org\.freedesktop\.impl\.portal\.desktop\.(gtk|gnome)$"#
+    match app-id=r#"^(org\.gnupg\.)?pinentry([.-].*)?$"#
+    match app-id=r#"^(gcr-prompter|org\.gnome\.keyring\.SystemPrompter)$"#
+    match app-id=r#"^(polkit-gnome-authentication-agent-1|lxqt-policykit-agent)$"#
+
+    open-floating true
+    open-focused true
+}
+
+// Give all regular windows consistent compositor-side corners.
+window-rule {
+    geometry-corner-radius 20
+    clip-to-geometry true
+}
+
+// Noctalia settings and auxiliary XDG windows should stay centered and floating.
+window-rule {
+    match app-id="dev.noctalia.Noctalia"
+    open-floating true
+    default-column-width { fixed 1080; }
+    default-window-height { fixed 920; }
+}

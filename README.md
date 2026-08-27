@@ -26,7 +26,7 @@ chsh -s /usr/bin/fish
 
 ## Package lists
 
-Package snapshots are stored in [`dot_pkglist/`](/home/ahdai/.local/share/chezmoi/dot_pkglist).
+Package snapshots are stored in [`dot_pkglist/`](dot_pkglist/).
 
 Refresh them with:
 

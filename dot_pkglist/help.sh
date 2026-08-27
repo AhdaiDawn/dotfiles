@@ -1,4 +1,7 @@
 #!/bin/sh
-pacman -Qqe | grep -v "$(pacman -Qqm)" >pacman.txt
-# pacman -Qe >pacman-all.txt
-pacman -Qqm >aur_local.txt
+set -eu
+
+script_dir=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
+
+pacman -Qqen >"$script_dir/pacman.txt"
+pacman -Qqm >"$script_dir/aur_local.txt"

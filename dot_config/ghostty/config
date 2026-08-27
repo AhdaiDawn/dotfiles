@@ -23,3 +23,4 @@ selection-foreground = #d4be98
 font-family = "Fira Code Nerd Font"
 font-size = 12
 
+theme = noctalia

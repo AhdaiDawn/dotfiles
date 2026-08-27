@@ -3,6 +3,7 @@
 
 # Repository documentation and package lists
 README.md
+docs
 .pkglist
 
 # Windows-only files
