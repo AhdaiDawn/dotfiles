@@ -74,7 +74,7 @@ timeout = 360
 
 [idle.behavior.suspend]
 action = "lock_and_suspend"
-enabled = true
+enabled = {{ if eq .chezmoi.hostname .devices.companyHostname }}false{{ else }}true{{ end }}
 timeout = 1800
 
 [location]
