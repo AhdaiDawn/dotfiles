@@ -63,6 +63,7 @@ debug {
 
 include "rules.kdl"
 include "binds.kdl"
+include "switcher.kdl"
 
 // Noctalia regenerates this palette fragment when the color scheme changes.
 include "noctalia.kdl"

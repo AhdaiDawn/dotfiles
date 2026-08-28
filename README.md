@@ -15,7 +15,8 @@
 - `dot_config/niri/outputs.kdl.tmpl`：输出、刷新率、缩放和位置；
 - `dot_config/niri/binds.kdl.tmpl`：只在笔记本生成内屏恢复快捷键；
 - `dot_config/noctalia/private_config.toml.tmpl`：UI 缩放、电池和 DDC 显示器；
-- `dot_config/noctalia/templates/niri.kdl`：niri 动态配色和多显示器窗口切换策略。
+- `dot_config/niri/switcher.kdl`：多显示器窗口切换策略；动态配色由 Noctalia
+  内置 niri 模板单独生成。
 
 家用笔记本的历史迁移过程保存在
 [`docs/niri-noctalia-migration.md`](docs/niri-noctalia-migration.md)。

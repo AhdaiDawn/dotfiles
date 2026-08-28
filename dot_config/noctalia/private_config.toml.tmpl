@@ -121,17 +121,14 @@ save_to_file = true
 
 [theme]
 builtin = "Gruvbox"
+community_palette = "Gruvbox Material"
 mode = "dark"
 source = "builtin"
+wallpaper_scheme = "m3-content"
 
 [theme.templates]
-builtin_ids = [ "ghostty", "gtk3", "gtk4", "starship" ]
-
-# Keep the niri switcher policy alongside Noctalia's generated palette. The
-# built-in niri template cannot carry local recent-windows bindings.
-[theme.templates.user.niri_scoped_switcher]
-input_path = "$XDG_CONFIG_HOME/noctalia/templates/niri.kdl"
-output_path = "$XDG_CONFIG_HOME/niri/noctalia.kdl"
+builtin_ids = [ "ghostty", "gtk3", "gtk4", "niri", "qt", "scroll", "starship" ]
+community_ids = [ "fcitx5", "yazi" ]
 
 [wallpaper.default]
 path = "/usr/share/noctalia/assets/noctalia-wallpaper.png"

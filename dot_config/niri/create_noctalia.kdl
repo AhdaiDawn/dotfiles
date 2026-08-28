@@ -32,15 +32,4 @@ recent-windows {
         active-color "#b8bb26"
         urgent-color "#fb4934"
     }
-
-    // Keep routine switching on the focused monitor. Hold Ctrl as well when
-    // intentionally switching across monitors; W/O/A can change scope while open.
-    binds {
-        Alt+Tab               { next-window     scope="output"; }
-        Alt+Shift+Tab         { previous-window scope="output"; }
-        Alt+grave             { next-window     scope="output" filter="app-id"; }
-        Alt+Shift+grave       { previous-window scope="output" filter="app-id"; }
-        Ctrl+Alt+Tab          { next-window     scope="all"; }
-        Ctrl+Alt+Shift+Tab    { previous-window scope="all"; }
-    }
 }
