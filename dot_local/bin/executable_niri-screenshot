@@ -1,0 +1,111 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+mode=${1:-region}
+
+pictures_dir=$(xdg-user-dir PICTURES 2>/dev/null || true)
+if [[ -z $pictures_dir || $pictures_dir != /* ]]; then
+    pictures_dir=$HOME/Pictures
+fi
+
+screenshot_dir=$pictures_dir/Screenshots
+mkdir -p "$screenshot_dir"
+
+next_screenshot_path() {
+    local timestamp base path suffix
+
+    timestamp=$(date '+%Y-%m-%d %H-%M-%S')
+    base=$screenshot_dir/Screenshot\ from\ $timestamp
+    path=$base.png
+    suffix=2
+
+    while [[ -e $path ]]; do
+        path="$base ($suffix).png"
+        ((suffix++))
+    done
+
+    printf '%s\n' "$path"
+}
+
+wait_for_file() {
+    local path=$1
+
+    # Interactive screenshots return control before the selection is finished.
+    for ((attempt = 0; attempt < 3000; attempt++)); do
+        if [[ -s $path ]]; then
+            sleep 0.05
+            [[ -s $path ]] && return 0
+        fi
+        sleep 0.1
+    done
+
+    return 1
+}
+
+open_screenshot() {
+    local path=$1 window_json window_id
+
+    loupe "$path" >/dev/null 2>&1 &
+
+    # The window rule makes Loupe float. Center the focused Loupe window once
+    # the compositor has registered it, including when Loupe reuses a process.
+    for ((attempt = 0; attempt < 100; attempt++)); do
+        window_json=$(niri msg --json focused-window 2>/dev/null || true)
+        if [[ -n $window_json ]] &&
+            [[ $(jq -r '.app_id // empty' <<<"$window_json") == org.gnome.Loupe ]]; then
+            window_id=$(jq -r '.id // empty' <<<"$window_json")
+            if [[ -n $window_id ]]; then
+                niri msg action move-window-to-floating --id "$window_id" >/dev/null
+                niri msg action center-window --id "$window_id" >/dev/null
+                return 0
+            fi
+        fi
+        sleep 0.05
+    done
+}
+
+case $mode in
+    region | screen | window)
+        screenshot_path=$(next_screenshot_path)
+        niri_action=screenshot
+
+        case $mode in
+            screen) niri_action=screenshot-screen ;;
+            window) niri_action=screenshot-window ;;
+        esac
+
+        niri msg action "$niri_action" --path "$screenshot_path" >/dev/null
+        if wait_for_file "$screenshot_path"; then
+            open_screenshot "$screenshot_path"
+        fi
+        ;;
+    all)
+        # niri has no direct all-output action. Keep Noctalia for this mode and
+        # identify the file it creates after this invocation.
+        marker=$(mktemp --tmpdir niri-screenshot.XXXXXX)
+        trap 'rm -f "$marker"' EXIT
+
+        noctalia msg screenshot-fullscreen all >/dev/null
+
+        screenshot_path=
+        for ((attempt = 0; attempt < 3000; attempt++)); do
+            screenshot_path=$(
+                find "$screenshot_dir" -maxdepth 1 -type f -name '*.png' \
+                    -newer "$marker" -printf '%T@ %p\n' 2>/dev/null |
+                    sort -nr |
+                    sed -n '1s/^[^ ]* //p'
+            )
+            if [[ -n $screenshot_path && -s $screenshot_path ]]; then
+                sleep 0.05
+                open_screenshot "$screenshot_path"
+                break
+            fi
+            sleep 0.1
+        done
+        ;;
+    *)
+        printf 'Usage: %s {region|screen|all|window}\n' "${0##*/}" >&2
+        exit 2
+        ;;
+esac

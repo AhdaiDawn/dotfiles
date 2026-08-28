@@ -14,6 +14,15 @@ window-rule {
     open-floating true
 }
 
+// Screenshots open in Loupe as a focused floating window. The screenshot
+// helper centers the window after Loupe has chosen its image-dependent size.
+window-rule {
+    match app-id=r#"^org\.gnome\.Loupe$"#
+
+    open-floating true
+    open-focused true
+}
+
 // Some selectors and authentication prompts do not advertise a parent window.
 // Correctly parented dialogs and fixed-size temporary windows float automatically.
 window-rule {

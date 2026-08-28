@@ -126,11 +126,11 @@ binds {
     Mod+Shift+V { switch-focus-between-floating-and-tiling; }
     Mod+Shift+W { toggle-column-tabbed-display; }
 
-    // Screenshots: Noctalia handles regions and displays; niri handles windows.
-    Print repeat=false hotkey-overlay-title="Take Region Screenshot (Noctalia)" { spawn "noctalia" "msg" "screenshot-region"; }
-    Ctrl+Print repeat=false hotkey-overlay-title="Take Display Screenshot (Noctalia)" { spawn "noctalia" "msg" "screenshot-fullscreen"; }
-    Shift+Print repeat=false hotkey-overlay-title="Take All Displays Screenshot (Noctalia)" { spawn "noctalia" "msg" "screenshot-fullscreen" "all"; }
-    Alt+Print repeat=false hotkey-overlay-title="Take Window Screenshot (niri)" { screenshot-window; }
+    // Save each screenshot, then open it in a centered, floating Loupe window.
+    Print repeat=false hotkey-overlay-title="Take Region Screenshot" { spawn "niri-screenshot" "region"; }
+    Ctrl+Print repeat=false hotkey-overlay-title="Take Display Screenshot" { spawn "niri-screenshot" "screen"; }
+    Shift+Print repeat=false hotkey-overlay-title="Take All Displays Screenshot" { spawn "niri-screenshot" "all"; }
+    Alt+Print repeat=false hotkey-overlay-title="Take Window Screenshot" { spawn "niri-screenshot" "window"; }
 
 {{- if ne .chezmoi.hostname .devices.companyHostname }}
 
