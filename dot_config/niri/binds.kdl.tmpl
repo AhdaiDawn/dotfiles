@@ -8,7 +8,7 @@ binds {
     Alt+Space hotkey-overlay-title="Open Noctalia Launcher" { spawn "noctalia" "msg" "panel-toggle" "launcher"; }
     Mod+S hotkey-overlay-title="Open Noctalia Control Center" { spawn "noctalia" "msg" "panel-toggle" "control-center"; }
     Mod+Comma hotkey-overlay-title="Open Noctalia Settings" { spawn "noctalia" "msg" "settings-toggle"; }
-    Alt+Tab hotkey-overlay-title="Open Noctalia Window Switcher" { spawn "noctalia" "msg" "window-switcher"; }
+    // Alt+Tab is handled by niri's recent-windows block in noctalia.kdl.
     Super+Alt+L hotkey-overlay-title="Lock the Screen" { spawn "noctalia" "msg" "session" "lock"; }
 
     // Audio, media and brightness are handled by Noctalia.

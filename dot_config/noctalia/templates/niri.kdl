@@ -1,36 +1,36 @@
 layout {
 
     focus-ring {
-        active-color   "#b8bb26"
-        inactive-color "#282828"
-        urgent-color   "#fb4934"
+        active-color   "{{colors.primary.default.hex}}"
+        inactive-color "{{colors.surface.default.hex}}"
+        urgent-color   "{{colors.error.default.hex}}"
     }
 
     border {
-        active-color   "#b8bb26"
-        inactive-color "#282828"
-        urgent-color   "#fb4934"
+        active-color   "{{colors.primary.default.hex}}"
+        inactive-color "{{colors.surface.default.hex}}"
+        urgent-color   "{{colors.error.default.hex}}"
     }
 
     shadow {
-        color "#28282870"
+        color "{{colors.shadow.default.hex}}70"
     }
 
     tab-indicator {
-        active-color   "#b8bb26"
-        inactive-color "#40420b"
-        urgent-color   "#fb4934"
+        active-color   "{{colors.primary.default.hex}}"
+        inactive-color "{{colors.primary_container.default.hex}}"
+        urgent-color   "{{colors.error.default.hex}}"
     }
 
     insert-hint {
-        color "#b8bb2680"
+        color "{{colors.primary.default.hex}}80"
     }
 }
 
 recent-windows {
     highlight {
-        active-color "#b8bb26"
-        urgent-color "#fb4934"
+        active-color "{{colors.primary.default.hex}}"
+        urgent-color "{{colors.error.default.hex}}"
     }
 
     // Keep routine switching on the focused monitor. Hold Ctrl as well when

@@ -116,7 +116,13 @@ mode = "dark"
 source = "builtin"
 
 [theme.templates]
-builtin_ids = [ "ghostty", "gtk3", "gtk4", "niri", "starship" ]
+builtin_ids = [ "ghostty", "gtk3", "gtk4", "starship" ]
+
+# Keep the niri switcher policy alongside Noctalia's generated palette. The
+# built-in niri template cannot carry local recent-windows bindings.
+[theme.templates.user.niri_scoped_switcher]
+input_path = "$XDG_CONFIG_HOME/noctalia/templates/niri.kdl"
+output_path = "$XDG_CONFIG_HOME/niri/noctalia.kdl"
 
 [wallpaper.default]
 path = "/usr/share/noctalia/assets/noctalia-wallpaper.png"

@@ -140,7 +140,7 @@ Mod+S { spawn "noctalia" "msg" "panel-toggle" "control-center"; }
 // 替换默认的 Mod+Comma consume-window-into-column
 Mod+Comma { spawn "noctalia" "msg" "settings-toggle"; }
 
-Alt+Tab { spawn "noctalia" "msg" "window-switcher"; }
+// niri 25.11+ 已提供原生 recent-windows；不要在 binds 中覆盖 Alt+Tab。
 
 Super+Alt+L {
     spawn "noctalia" "msg" "session" "lock";
