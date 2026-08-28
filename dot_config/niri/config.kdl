@@ -52,7 +52,9 @@ blur {
 }
 
 spawn-at-startup "noctalia"
-spawn-at-startup "fcitx5" "-d"
+// Fcitx renders XWayland candidate windows from Xft.dpi. Load a value derived
+// from niri's active output scale before Fcitx opens its X11 connection.
+spawn-at-startup "sh" "-c" "$HOME/.local/bin/refresh-xwayland-dpi; exec fcitx5 -d"
 
 screenshot-path "~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png"
 
