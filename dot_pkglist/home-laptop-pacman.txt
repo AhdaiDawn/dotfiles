@@ -76,6 +76,7 @@ gst-libav
 gst-plugin-pipewire
 gst-plugins-bad
 gst-plugins-ugly
+gpu-screen-recorder
 gvfs-mtp
 gvfs-smb
 hdparm

@@ -13,6 +13,7 @@ end = [
     "clipboard",
     "network",
     "bluetooth",
+    "recorder",
     "volume",
     "brightness",
 {{- if ne .chezmoi.hostname .devices.companyHostname }}
@@ -91,13 +92,13 @@ enabled = false
 
 [plugins]
 auto_update = "none"
-enabled = [ "ahdai/sleep-inhibit" ]
+enabled = [ "ahdai/sleep-inhibit", "noctalia/screen_recorder" ]
 
 [[plugins.source]]
 name = "official"
 kind = "git"
 location = "https://github.com/noctalia-dev/official-plugins"
-enabled = false
+enabled = true
 
 [[plugins.source]]
 name = "community"
@@ -132,3 +133,6 @@ community_ids = [ "fcitx5", "yazi" ]
 
 [wallpaper.default]
 path = "/usr/share/noctalia/assets/noctalia-wallpaper.png"
+
+[widget.recorder]
+type = "noctalia/screen_recorder:recorder"

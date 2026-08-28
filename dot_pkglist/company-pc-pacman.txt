@@ -64,6 +64,7 @@ gnome-text-editor
 grex
 grub
 gst-plugin-pipewire
+gpu-screen-recorder
 gvfs-mtp
 gvfs-smb
 haveged
