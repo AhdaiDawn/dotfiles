@@ -33,13 +33,7 @@
 	required = true
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f
-[commit]
-	gpgSign = false
 [gui]
 	pruneduringfetch = true
-[smartgit "submodule"]
-	fetchalways = false
-	update = true
-	initializenew = true
 [push]
 	recurseSubmodules = check

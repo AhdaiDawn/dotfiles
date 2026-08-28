@@ -132,9 +132,12 @@ binds {
     Shift+Print repeat=false hotkey-overlay-title="Take All Displays Screenshot (Noctalia)" { spawn "noctalia" "msg" "screenshot-fullscreen" "all"; }
     Alt+Print repeat=false hotkey-overlay-title="Take Window Screenshot (niri)" { screenshot-window; }
 
-    // Laptop panel recovery. Refuse to turn it off unless the external display exists.
+{{- if ne .chezmoi.hostname .devices.companyHostname }}
+
+    // Home-laptop panel recovery. Refuse to turn it off unless the dock display exists.
     Mod+Shift+D hotkey-overlay-title="Enable Laptop Display" { spawn "niri" "msg" "output" "eDP-1" "on"; }
     Mod+Ctrl+Shift+D hotkey-overlay-title="Disable Laptop Display" { spawn-sh "niri msg outputs | grep -q 'HDMI-A-1' && niri msg output eDP-1 off"; }
+{{- end }}
 
     Mod+Escape allow-inhibiting=false { toggle-keyboard-shortcuts-inhibit; }
     Mod+Shift+E { quit; }

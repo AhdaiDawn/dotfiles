@@ -1,0 +1,58 @@
+{{- $media := "io.github.celluloid_player.Celluloid.desktop" -}}
+{{- if eq .chezmoi.hostname .devices.companyHostname -}}
+{{- $media = "mpv.desktop" -}}
+{{- end -}}
+[Default Applications]
+# Web and documents.
+x-scheme-handler/http=microsoft-edge.desktop;
+x-scheme-handler/https=microsoft-edge.desktop;
+x-scheme-handler/mailto=microsoft-edge.desktop;
+text/html=microsoft-edge.desktop;
+application/pdf=org.gnome.Papers.desktop;
+
+# Office documents.
+application/msword=wps-office-wps.desktop;
+application/vnd.openxmlformats-officedocument.wordprocessingml.document=wps-office-wps.desktop;
+application/vnd.ms-excel=wps-office-et.desktop;
+application/vnd.openxmlformats-officedocument.spreadsheetml.sheet=wps-office-et.desktop;
+application/vnd.ms-powerpoint=wps-office-wpp.desktop;
+application/vnd.openxmlformats-officedocument.presentationml.presentation=wps-office-wpp.desktop;
+
+# Text and source files.
+text/plain=org.gnome.TextEditor.desktop;
+text/markdown=org.gnome.TextEditor.desktop;
+application/json=org.gnome.TextEditor.desktop;
+application/x-yaml=org.gnome.TextEditor.desktop;
+text/x-cmake=org.gnome.TextEditor.desktop;
+
+# Files, archives and images.
+inode/directory=org.gnome.Nautilus.desktop;
+application/zip=org.gnome.FileRoller.desktop;
+application/vnd.rar=org.gnome.FileRoller.desktop;
+application/x-7z-compressed=org.gnome.FileRoller.desktop;
+application/x-tar=org.gnome.FileRoller.desktop;
+application/gzip=org.gnome.FileRoller.desktop;
+image/jpeg=org.gnome.Loupe.desktop;
+image/png=org.gnome.Loupe.desktop;
+image/gif=org.gnome.Loupe.desktop;
+image/webp=org.gnome.Loupe.desktop;
+image/avif=org.gnome.Loupe.desktop;
+image/svg+xml=org.gnome.Loupe.desktop;
+
+# Media player differs by device: Celluloid on the laptop, mpv on the company PC.
+audio/mpeg={{ $media }};
+audio/flac={{ $media }};
+audio/ogg={{ $media }};
+audio/mp4={{ $media }};
+audio/x-wav={{ $media }};
+video/mp4={{ $media }};
+video/webm={{ $media }};
+video/x-matroska={{ $media }};
+video/x-msvideo={{ $media }};
+video/quicktime={{ $media }};
+
+# Application-specific URL handlers.
+x-scheme-handler/ccswitch=cc-switch-handler.desktop;
+x-scheme-handler/clash=clash-verge.desktop;
+x-scheme-handler/clash-verge=clash-verge.desktop;
+x-scheme-handler/claude-cli=claude-code-url-handler.desktop;

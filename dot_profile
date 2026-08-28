@@ -1,0 +1,5 @@
+# SDDM sources this file before starting the Wayland session. Keep graphical
+# applications in Chinese; terminal programs override this in Ghostty/Fish.
+unset LC_ALL
+export LANG=zh_CN.UTF-8
+export LANGUAGE=zh_CN:zh:en_US:en

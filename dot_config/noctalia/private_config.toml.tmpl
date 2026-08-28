@@ -1,5 +1,5 @@
 [accessibility]
-ui_scale = 1.2500000111758709
+ui_scale = {{ if eq .chezmoi.hostname .devices.companyHostname }}1.0{{ else }}1.25{{ end }}
 
 [backdrop]
 tint_intensity = 0.29999999329447746
@@ -15,7 +15,9 @@ end = [
     "bluetooth",
     "volume",
     "brightness",
+{{- if ne .chezmoi.hostname .devices.companyHostname }}
     "battery",
+{{- end }}
     "control-center",
     "session",
 ]
@@ -26,6 +28,12 @@ enable_ddcutil = true
 
 [brightness.monitor.HDMI-A-1]
 backend = "ddcutil"
+
+{{- if eq .chezmoi.hostname .devices.companyHostname }}
+
+[brightness.monitor.DP-2]
+backend = "ddcutil"
+{{- end }}
 
 [control_center]
 

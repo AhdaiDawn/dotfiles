@@ -3,10 +3,9 @@ if not status is-interactive
 end
 
 # Keep command-line programs in English without changing the desktop session.
-set -e LC_ALL
+set -gx LC_ALL en_US.UTF-8
 set -gx LANG en_US.UTF-8
 set -gx LANGUAGE en_US:en
-set -gx LC_MESSAGES en_US.UTF-8
 
 set -g fish_greeting
 set -g fish_escape_delay_ms 10

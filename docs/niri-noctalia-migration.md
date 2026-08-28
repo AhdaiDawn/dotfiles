@@ -1,7 +1,10 @@
 # 从 KDE Plasma 迁移到 niri + Noctalia
 
-本文适用于当前这台 EndeavourOS（Arch Linux 系）机器，内容于 2026-08-27
-根据本机软件包和上游文档核对。
+> 归档说明：这是家用笔记本迁移成功时的过程记录，不是当前公司 PC 的实时配置。
+> 两台设备现在的有效配置和差异以仓库根目录的 `README.md` 和 chezmoi 模板为准。
+
+本文适用于当时迁移的家用 EndeavourOS（Arch Linux 系）笔记本，内容于
+2026-08-27 根据该机软件包和上游文档核对。
 
 当前环境的主要条件：
 
@@ -40,15 +43,14 @@ cd ~/.local/share/chezmoi
 
 git status --short
 ./dot_pkglist/help.sh
-git diff -- dot_pkglist/pacman.txt dot_pkglist/aur_local.txt
+git diff -- dot_pkglist/home-laptop-pacman.txt dot_pkglist/home-laptop-aur.txt
 
 cp -a ~/.config/gtk-3.0 ~/.config/gtk-3.0.before-niri
 cp -a ~/.config/gtk-4.0 ~/.config/gtk-4.0.before-niri
 ```
 
-`dot_pkglist/help.sh` 会按脚本自身所在目录更新 `dot_pkglist/pacman.txt` 和
-`dot_pkglist/aur_local.txt`，与执行命令时的当前目录无关。检查差异，确认快照内容
-正确后再提交。
+`dot_pkglist/help.sh` 会根据设备配置更新 `home-laptop-*` 或 `company-pc-*` 两份
+清单，与执行命令时的当前目录无关。检查差异，确认快照内容正确后再提交。
 
 如果新会话黑屏，可以按 `Ctrl+Alt+F3` 进入 TTY，然后恢复 SDDM：
 
