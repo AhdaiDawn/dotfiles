@@ -41,6 +41,16 @@ layout {
     }
 }
 
+// Noctalia v5 requests exact rounded blur regions through
+// ext-background-effect-v1. These compositor-side settings control the real
+// content blur rendered inside those regions.
+blur {
+    passes 4
+    offset 3.0
+    noise 0.02
+    saturation 1.2
+}
+
 spawn-at-startup "noctalia"
 spawn-at-startup "fcitx5" "-d"
 

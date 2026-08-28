@@ -1,0 +1,18 @@
+# Settings that make Noctalia the desktop shell for the niri session.
+
+[shell]
+# KDE's Polkit agent only starts in KDE, so let Noctalia provide the
+# authentication prompt in niri.
+polkit_agent = true
+
+[backdrop]
+# niri 26.04+ now blurs the actual content behind Noctalia through
+# ext-background-effect-v1. Disable Noctalia's older pre-blurred wallpaper
+# backdrop so it cannot masquerade as compositor blur.
+enabled = false
+
+[bar.default]
+concave_edge_corners = false
+
+[control_center.calendar]
+show_events_card = false

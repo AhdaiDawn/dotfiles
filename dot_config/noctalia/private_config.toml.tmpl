@@ -5,7 +5,7 @@ ui_scale = {{ if eq .chezmoi.hostname .devices.companyHostname }}1.0{{ else }}1.
 tint_intensity = 0.29999999329447746
 
 [bar.default]
-background_opacity = 0.79999998211860657
+background_opacity = 0.72
 center = [ "clock", "notifications" ]
 end = [
     "media",
@@ -80,6 +80,12 @@ timeout = 1800
 [location]
 auto_locate = true
 
+[notification]
+background_opacity = 0.84
+
+[osd]
+background_opacity = 0.84
+
 [lockscreen_widgets]
 enabled = false
 
@@ -102,6 +108,9 @@ enabled = false
 [shell]
 polkit_agent = true
 setup_wizard_enabled = false
+
+[shell.panel]
+transparency_mode = "glass"
 
 [shell.screenshot]
 copy_to_clipboard = true

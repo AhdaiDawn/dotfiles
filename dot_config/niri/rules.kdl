@@ -33,6 +33,17 @@ window-rule {
     clip-to-geometry true
 }
 
+// Sample the real windows behind Noctalia's translucent surfaces. Noctalia
+// supplies the exact rounded blur regions, so transparent click shields and
+// wallpaper layers are deliberately excluded from this rule.
+layer-rule {
+    match namespace=r#"^noctalia-(bar-.+|panel|attached-panel|dock|notification|osd|desktop-widget-.+)$"#
+
+    background-effect {
+        xray false
+    }
+}
+
 // Noctalia settings and auxiliary XDG windows should stay centered and floating.
 window-rule {
     match app-id="dev.noctalia.Noctalia"

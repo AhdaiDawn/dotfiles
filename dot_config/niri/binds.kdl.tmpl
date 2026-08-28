@@ -24,7 +24,7 @@ binds {
     XF86MonBrightnessDown allow-when-locked=true { spawn "noctalia" "msg" "brightness-down"; }
 
     // Window focus and movement.
-    Mod+O repeat=false { toggle-overview; }
+    Mod+W repeat=false hotkey-overlay-title="Toggle Overview" { toggle-overview; }
     Mod+Q repeat=false { close-window; }
 
     Mod+Left  { focus-column-left; }
@@ -124,7 +124,7 @@ binds {
     Mod+Ctrl+C { center-visible-columns; }
     Mod+V { toggle-window-floating; }
     Mod+Shift+V { switch-focus-between-floating-and-tiling; }
-    Mod+W { toggle-column-tabbed-display; }
+    Mod+Shift+W { toggle-column-tabbed-display; }
 
     // Screenshots: Noctalia handles regions and displays; niri handles windows.
     Print repeat=false hotkey-overlay-title="Take Region Screenshot (Noctalia)" { spawn "noctalia" "msg" "screenshot-region"; }
