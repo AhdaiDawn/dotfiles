@@ -122,7 +122,7 @@ binds {
     Mod+Ctrl+F { expand-column-to-available-width; }
     Mod+C { center-column; }
     Mod+Ctrl+C { center-visible-columns; }
-    Mod+V { toggle-window-floating; }
+    Mod+V repeat=false hotkey-overlay-title="Open Noctalia Clipboard" { spawn "noctalia" "msg" "panel-toggle" "clipboard"; }
     Mod+Shift+V { switch-focus-between-floating-and-tiling; }
     Mod+Shift+W { toggle-column-tabbed-display; }
 
