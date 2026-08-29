@@ -5,8 +5,3 @@
 README.md
 docs
 .pkglist
-
-# Windows-only files
-{{ if ne .chezmoi.os "windows" }}
-.windows
-{{ end }}
