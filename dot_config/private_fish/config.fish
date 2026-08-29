@@ -45,6 +45,10 @@ alias ll='eza -al'
 
 alias cls='clear'
 
+function o --description 'Open the current directory in the file manager'
+    command gio open "$PWD" &>/dev/null
+end
+
 alias lg='lazygit'
 alias dotfiles='chezmoi'
 alias j='just'
