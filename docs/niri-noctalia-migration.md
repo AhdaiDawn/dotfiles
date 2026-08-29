@@ -833,55 +833,39 @@ sudo pacman -S \
 不要为了“纯 GTK”手工删除所有 Qt 库。让 pacman 根据仍在使用的应用和依赖关系
 处理它们。
 
-## 11. 可选：将 SDDM 换成 GTK4 登录器
+## 11. Noctalia Greeter
 
-等 niri 稳定后，如果希望登录界面也使用 GTK，可以换成 greetd + ReGreet：
-
-```bash
-sudo pacman -S greetd greetd-regreet cage
-```
-
-编辑 `/etc/greetd/config.toml`：
+迁移完成后使用 greetd 启动 Noctalia Greeter。它自带 wlroots 登录界面合成器，
+不需要 Cage。`/etc/greetd/config.toml` 的有效配置是：
 
 ```toml
 [terminal]
 vt = 1
 
 [default_session]
-command = "dbus-run-session cage -s -mlast -d -- regreet"
+command = "/usr/bin/noctalia-greeter-session"
 user = "greeter"
 ```
 
-检查 `/etc/pam.d/greetd`。为了让 GNOME Keyring 随密码登录自动解锁，在
-`auth` 段末尾和 `session` 段末尾分别加入：
+`/etc/pam.d/greetd` 保留 GNOME Keyring 的认证、改密和会话自动启动项；登录
+密码与 `Login` keyring 密码相同时会自动解锁。管理员配置只固定默认会话和
+5 分钟无操作关屏：
 
-```pam
-auth optional pam_gnome_keyring.so
-session optional pam_gnome_keyring.so auto_start
+```toml
+[session]
+default = "Niri"
+
+[idle]
+timeout = 300
 ```
 
-登录密码需要与 `Login` keyring 的密码相同。修改 PAM 文件前应保持另一个 TTY
-可用；PAM 配置错误可能导致无法登录。
+在 Noctalia 的“设置 → 安全 → Noctalia Greeter”中执行同步，可把壁纸、配色、
+字体和多显示器布局写入 `/var/lib/noctalia-greeter/sync.toml`，不会被上述配置
+覆盖。
 
-在 TTY 中切换服务。不要在正在使用的图形会话里执行 `--now`：
-
-```bash
-sudo systemctl disable sddm.service
-sudo systemctl enable greetd.service
-sudo reboot
-```
-
-ReGreet 会读取 `/usr/share/wayland-sessions/niri.desktop`。
-
-如果 greetd 无法启动，在 TTY 中恢复 SDDM：
-
-```bash
-sudo systemctl disable greetd.service
-sudo systemctl enable sddm.service
-sudo reboot
-```
-
-参考：[ArchWiki：greetd 和 ReGreet](https://wiki.archlinux.org/title/Greetd)
+参考：[Noctalia Greeter 安装说明](https://docs.noctalia.dev/greeter/)、
+[Noctalia Greeter 上游仓库](https://github.com/noctalia-dev/noctalia-greeter)、
+[ArchWiki：greetd](https://wiki.archlinux.org/title/Greetd)
 
 ## 12. 纳入 chezmoi
 

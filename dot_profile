@@ -1,4 +1,4 @@
-# SDDM sources this file before starting the Wayland session. Keep graphical
+# Fallback for login session launchers that source ~/.profile. Keep graphical
 # applications in Chinese; terminal programs override this in Ghostty/Fish.
 unset LC_ALL
 export LANG=zh_CN.UTF-8

@@ -44,8 +44,6 @@ egl-wayland
 endeavouros-branding
 endeavouros-keyring
 endeavouros-mirrorlist
-eos-hooks
-eos-hwtool
 eos-rankmirrors
 erdtree
 ethtool
@@ -72,11 +70,11 @@ gnome-disk-utility
 gnome-keyring
 gnome-system-monitor
 gnome-text-editor
+gpu-screen-recorder
 gst-libav
 gst-plugin-pipewire
 gst-plugins-bad
 gst-plugins-ugly
-gpu-screen-recorder
 gvfs-mtp
 gvfs-smb
 hdparm
@@ -120,6 +118,7 @@ networkmanager
 ninja
 niri
 noctalia
+noctalia-greeter-git
 nodejs
 noto-fonts
 noto-fonts-cjk
@@ -166,7 +165,6 @@ rsync
 rtkit
 s-nail
 scons
-sddm
 smartmontools
 sof-firmware
 starship

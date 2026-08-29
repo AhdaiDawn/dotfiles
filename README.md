@@ -42,6 +42,13 @@ chezmoi apply
 chsh -s /usr/bin/fish
 ```
 
+## 登录管理器
+
+家用笔记本使用 `greetd + noctalia-greeter` 启动 Niri；系统配置位于
+`/etc/greetd/config.toml` 和 `/var/lib/noctalia-greeter/`。登录界面的配色、
+壁纸和显示器布局由 Noctalia 的“设置 → 安全 → Noctalia Greeter”同步到
+`/var/lib/noctalia-greeter/sync.toml`。
+
 ## 包清单
 
 `dot_pkglist/` 只保存每台设备的当前快照，不保留迁移阶段的前后副本：
