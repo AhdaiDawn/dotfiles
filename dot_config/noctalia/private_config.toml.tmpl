@@ -42,7 +42,7 @@ backend = "ddcutil"
 type = "wifi"
 
 [[control_center.shortcuts]]
-type = "bluetooth"
+type = "noctalia/screen_recorder:toggle"
 
 [[control_center.shortcuts]]
 type = "ahdai/sleep-inhibit:toggle"
@@ -51,7 +51,7 @@ type = "ahdai/sleep-inhibit:toggle"
 type = "nightlight"
 
 [[control_center.shortcuts]]
-type = "notification"
+type = "fel/ocr:grab"
 
 [[control_center.shortcuts]]
 type = "power_profile"
@@ -93,7 +93,7 @@ enabled = false
 
 [plugins]
 auto_update = "none"
-enabled = [ "ahdai/sleep-inhibit", "noctalia/screen_recorder" ]
+enabled = [ "ahdai/sleep-inhibit", "noctalia/screen_recorder", "fel/ocr" ]
 
 [[plugins.source]]
 name = "official"
@@ -105,9 +105,16 @@ enabled = true
 name = "community"
 kind = "git"
 location = "https://github.com/noctalia-dev/community-plugins"
-enabled = false
+enabled = true
+
+[plugin_settings."fel/ocr"]
+languages = "chi_sim+eng"
+psm = "6"
+copy_to_clipboard = true
+show_notification = true
 
 [shell]
+clipboard_image_action_command = "~/.local/bin/ocr-image {path}"
 polkit_agent = true
 setup_wizard_enabled = false
 

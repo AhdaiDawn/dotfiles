@@ -1,0 +1,76 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+languages=${OCR_LANGUAGES:-chi_sim+eng}
+psm=${OCR_PSM:-6}
+
+notify() {
+    local summary=$1 body=$2
+
+    if command -v noctalia >/dev/null 2>&1 &&
+        noctalia msg notification-show "$summary" "$body" >/dev/null 2>&1; then
+        return
+    fi
+
+    if command -v notify-send >/dev/null 2>&1; then
+        notify-send "$summary" "$body" >/dev/null 2>&1 || true
+    fi
+}
+
+usage() {
+    printf 'Usage: %s [IMAGE]\n' "${0##*/}"
+    printf 'With no IMAGE, image data is read from standard input.\n'
+}
+
+case $# in
+    0)
+        input=stdin
+        ;;
+    1)
+        case $1 in
+            -h | --help)
+                usage
+                exit 0
+                ;;
+        esac
+
+        input=$1
+        if [[ ! -f $input || ! -r $input ]]; then
+            printf 'ocr-image: cannot read image: %s\n' "$input" >&2
+            notify "OCR failed" "Cannot read the selected image"
+            exit 2
+        fi
+        ;;
+    *)
+        usage >&2
+        exit 2
+        ;;
+esac
+
+if ! text=$(tesseract "$input" stdout -l "$languages" --psm "$psm" 2>/dev/null); then
+    printf 'ocr-image: tesseract failed\n' >&2
+    notify "OCR failed" "Tesseract could not recognize this image"
+    exit 1
+fi
+
+if [[ -z ${text//[[:space:]]/} ]]; then
+    notify "OCR" "No text was recognized"
+    exit 0
+fi
+
+if ! printf '%s' "$text" | wl-copy --type 'text/plain;charset=utf-8'; then
+    printf 'ocr-image: could not copy text to the clipboard\n' >&2
+    notify "OCR failed" "Could not copy the recognized text"
+    exit 1
+fi
+
+preview=${text//$'\r'/}
+preview=${preview//$'\n'/ }
+preview=${preview//$'\t'/ }
+while [[ $preview == *"  "* ]]; do
+    preview=${preview//  / }
+done
+preview=${preview:0:160}
+
+notify "OCR — copied" "$preview"

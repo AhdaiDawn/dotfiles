@@ -71,6 +71,7 @@ gnome-keyring
 gnome-system-monitor
 gnome-text-editor
 gpu-screen-recorder
+grim
 gst-libav
 gst-plugin-pipewire
 gst-plugins-bad
@@ -166,6 +167,7 @@ rtkit
 s-nail
 satty
 scons
+slurp
 smartmontools
 sof-firmware
 starship
@@ -177,6 +179,9 @@ system-config-printer
 systemd-sysvcompat
 tailscale
 tcpdump
+tesseract
+tesseract-data-chi_sim
+tesseract-data-eng
 texinfo
 tldr
 tmux
