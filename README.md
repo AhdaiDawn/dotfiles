@@ -51,15 +51,13 @@ chsh -s /usr/bin/fish
 
 ## 包清单
 
-`dot_pkglist/` 只保存每台设备的当前快照，不保留迁移阶段的前后副本：
+`dot_pkglist/` 只保存家用笔记本的当前快照，不保留迁移阶段的前后副本：
 
-- `home-laptop-pacman.txt`、`home-laptop-aur.txt`；
-- `company-pc-pacman.txt`、`company-pc-aur.txt`。
+- `home-laptop-pacman.txt`；
+- `home-laptop-aur.txt`。
 
-脚本默认根据当前主机选择设备，也可以显式指定：
+运行脚本更新这两份清单：
 
 ```sh
 ./dot_pkglist/help.sh
-./dot_pkglist/help.sh home-laptop
-./dot_pkglist/help.sh company-pc
 ```

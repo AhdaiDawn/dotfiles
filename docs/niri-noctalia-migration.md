@@ -49,8 +49,8 @@ cp -a ~/.config/gtk-3.0 ~/.config/gtk-3.0.before-niri
 cp -a ~/.config/gtk-4.0 ~/.config/gtk-4.0.before-niri
 ```
 
-`dot_pkglist/help.sh` 会根据设备配置更新 `home-laptop-*` 或 `company-pc-*` 两份
-清单，与执行命令时的当前目录无关。检查差异，确认快照内容正确后再提交。
+`dot_pkglist/help.sh` 会更新 `home-laptop-*` 两份清单，与执行命令时的当前目录
+无关。检查差异，确认快照内容正确后再提交。
 
 如果新会话黑屏，可以按 `Ctrl+Alt+F3` 进入 TTY，然后恢复 SDDM：
 
