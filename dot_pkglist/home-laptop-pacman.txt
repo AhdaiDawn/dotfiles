@@ -41,10 +41,6 @@ e2fsprogs
 efibootmgr
 efitools
 egl-wayland
-endeavouros-branding
-endeavouros-keyring
-endeavouros-mirrorlist
-eos-rankmirrors
 erdtree
 ethtool
 exfatprogs
@@ -88,7 +84,6 @@ inxi
 iptables
 jq
 just
-kernel-install-for-dracut
 keyd
 lazygit
 less
@@ -98,9 +93,11 @@ libgsf
 libopenraw
 libva-nvidia-driver
 libxnvctrl
-linux
 linux-firmware
-linux-headers
+linux-lts
+linux-lts-headers
+linux-zen
+linux-zen-headers
 logrotate
 loupe
 lsb-release
@@ -129,7 +126,7 @@ npm
 nss-mdns
 ntfs-3g
 nvidia-container-toolkit
-nvidia-open
+nvidia-open-dkms
 nvidia-settings
 nvidia-utils
 obsidian
