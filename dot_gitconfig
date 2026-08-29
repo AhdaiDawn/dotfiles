@@ -24,9 +24,27 @@
 
 [diff]
 	tool = nvimdiff
+	algorithm = histogram
+	colorMoved = plain
+	mnemonicPrefix = true
 
 [difftool]
 	prompt = false
+
+[commit]
+	verbose = true
+
+[column]
+	ui = auto
+
+[branch]
+	sort = -committerdate
+
+[tag]
+	sort = -version:refname
+
+[rerere]
+	enabled = true
 
 [filter "lfs"]
 	process = git-lfs filter-process
@@ -37,3 +55,4 @@
 	pruneduringfetch = true
 [push]
 	recurseSubmodules = check
+	autoSetupRemote = true
