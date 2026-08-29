@@ -164,6 +164,7 @@ rime-ice-git
 rsync
 rtkit
 s-nail
+satty
 scons
 smartmontools
 sof-firmware

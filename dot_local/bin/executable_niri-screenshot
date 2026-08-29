@@ -46,14 +46,22 @@ wait_for_file() {
 open_screenshot() {
     local path=$1 window_json window_id
 
-    loupe "$path" >/dev/null 2>&1 &
+    # Enter saves the annotated image back to the screenshot, copies the same
+    # rendered image to the Wayland clipboard, and closes Satty.
+    satty \
+        --filename "$path" \
+        --output-filename "$path" \
+        --copy-command wl-copy \
+        --actions-on-enter=save-to-file,save-to-clipboard,exit \
+        --app-id com.gabm.satty \
+        >/dev/null 2>&1 &
 
-    # The window rule makes Loupe float. Center the focused Loupe window once
-    # the compositor has registered it, including when Loupe reuses a process.
+    # The window rule makes Satty float. Center the focused Satty window once
+    # the compositor has registered it.
     for ((attempt = 0; attempt < 100; attempt++)); do
         window_json=$(niri msg --json focused-window 2>/dev/null || true)
         if [[ -n $window_json ]] &&
-            [[ $(jq -r '.app_id // empty' <<<"$window_json") == org.gnome.Loupe ]]; then
+            [[ $(jq -r '.app_id // empty' <<<"$window_json") == com.gabm.satty ]]; then
             window_id=$(jq -r '.id // empty' <<<"$window_json")
             if [[ -n $window_id ]]; then
                 niri msg action move-window-to-floating --id "$window_id" >/dev/null

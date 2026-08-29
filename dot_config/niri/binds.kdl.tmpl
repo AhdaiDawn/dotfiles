@@ -126,7 +126,8 @@ binds {
     Mod+Shift+V { switch-focus-between-floating-and-tiling; }
     Mod+Shift+W { toggle-column-tabbed-display; }
 
-    // Save each screenshot, then open it in a centered, floating Loupe window.
+    // Open saved screenshots in Satty. Enter saves annotations, copies the
+    // result to the clipboard, and closes Satty.
     Print repeat=false hotkey-overlay-title="Take Region Screenshot" { spawn "niri-screenshot" "region"; }
     Ctrl+Print repeat=false hotkey-overlay-title="Take Display Screenshot" { spawn "niri-screenshot" "screen"; }
     Shift+Print repeat=false hotkey-overlay-title="Take All Displays Screenshot" { spawn "niri-screenshot" "all"; }

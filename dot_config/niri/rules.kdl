@@ -14,10 +14,10 @@ window-rule {
     open-floating true
 }
 
-// Screenshots open in Loupe as a focused floating window. The screenshot
-// helper centers the window after Loupe has chosen its image-dependent size.
+// Screenshots open in Satty as a focused floating window. The screenshot
+// helper centers the window after Satty has chosen its image-dependent size.
 window-rule {
-    match app-id=r#"^org\.gnome\.Loupe$"#
+    match app-id=r#"^com\.gabm\.satty$"#
 
     open-floating true
     open-focused true
