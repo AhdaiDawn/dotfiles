@@ -1,11 +1,5 @@
-cc-switch-bin
-clash-verge-rev-bin
-fcitx5-vinput-bin
 feishu-bin
-localsend-bin
 microsoft-edge-stable-bin
-rustdesk-bin
-spotify
 ttf-wps-fonts
 visual-studio-code-bin
 wechat-universal-bwrap
