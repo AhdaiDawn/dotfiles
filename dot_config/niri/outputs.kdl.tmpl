@@ -1,4 +1,5 @@
-{{ if eq .chezmoi.hostname .devices.companyHostname -}}
+{{- $device := includeTemplate ".chezmoitemplates/device-profile" . | trim -}}
+{{ if eq $device "company-pc" -}}
 // Company PC: Lenovo on the left, Huawei on the right.
 // Pin the non-preferred 75 Hz Lenovo mode instead of falling back to 60 Hz.
 output "HDMI-A-1" {

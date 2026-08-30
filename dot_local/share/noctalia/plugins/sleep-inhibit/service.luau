@@ -22,7 +22,9 @@ local function refresh()
     end
 end
 
-noctalia.setUpdateInterval(2000)
+-- Shortcut actions update the shared state immediately. This slower check only
+-- reconciles changes made through systemctl or another external process.
+noctalia.setUpdateInterval(30000)
 
 function update()
     refresh()

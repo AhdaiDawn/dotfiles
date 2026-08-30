@@ -1,3 +1,4 @@
+{{- $device := includeTemplate ".chezmoitemplates/device-profile" . | trim -}}
 binds {
     Mod+Shift+Slash { show-hotkey-overlay; }
 
@@ -133,7 +134,7 @@ binds {
     Shift+Print repeat=false hotkey-overlay-title="Take All Displays Screenshot" { spawn "niri-screenshot" "all"; }
     Alt+Print repeat=false hotkey-overlay-title="Take Window Screenshot" { spawn "niri-screenshot" "window"; }
 
-{{- if ne .chezmoi.hostname .devices.companyHostname }}
+{{- if eq $device "home-laptop" }}
 
     // Home-laptop panel recovery. Refuse to turn it off unless the dock display is active.
     Mod+Shift+D hotkey-overlay-title="Enable Laptop Display" { spawn "niri" "msg" "output" "eDP-1" "on"; }

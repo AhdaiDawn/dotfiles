@@ -3,6 +3,49 @@
 set -euo pipefail
 
 mode=${1:-region}
+screenshot_timeout_seconds=${NIRI_SCREENSHOT_TIMEOUT_SECONDS:-30}
+
+notify_failure() {
+    local message=$1
+
+    printf 'niri-screenshot: %s\n' "$message" >&2
+
+    if command -v noctalia >/dev/null 2>&1 &&
+        noctalia msg notification-show "Screenshot failed" "$message" >/dev/null 2>&1; then
+        return
+    fi
+
+    if command -v notify-send >/dev/null 2>&1; then
+        notify-send "Screenshot failed" "$message" >/dev/null 2>&1 || true
+    fi
+}
+
+case $screenshot_timeout_seconds in
+    '' | *[!0-9]* | 0)
+        printf 'niri-screenshot: NIRI_SCREENSHOT_TIMEOUT_SECONDS must be a positive integer\n' >&2
+        exit 2
+        ;;
+esac
+
+case $mode in
+    region | screen | window | all) ;;
+    *)
+        printf 'Usage: %s {region|screen|all|window}\n' "${0##*/}" >&2
+        exit 2
+        ;;
+esac
+
+for dependency in niri satty jq wl-copy; do
+    if ! command -v "$dependency" >/dev/null 2>&1; then
+        notify_failure "Missing command: $dependency"
+        exit 127
+    fi
+done
+
+if [[ $mode == all ]] && ! command -v noctalia >/dev/null 2>&1; then
+    notify_failure "Missing command: noctalia"
+    exit 127
+fi
 
 pictures_dir=$(xdg-user-dir PICTURES 2>/dev/null || true)
 if [[ -z $pictures_dir || $pictures_dir != /* ]]; then
@@ -29,10 +72,11 @@ next_screenshot_path() {
 }
 
 wait_for_file() {
-    local path=$1
+    local path=$1 deadline
 
     # Interactive screenshots return control before the selection is finished.
-    for ((attempt = 0; attempt < 3000; attempt++)); do
+    deadline=$((SECONDS + screenshot_timeout_seconds))
+    while ((SECONDS < deadline)); do
         if [[ -s $path ]]; then
             sleep 0.05
             [[ -s $path ]] && return 0
@@ -83,10 +127,17 @@ case $mode in
             window) niri_action=screenshot-window ;;
         esac
 
-        niri msg action "$niri_action" --path "$screenshot_path" >/dev/null
-        if wait_for_file "$screenshot_path"; then
-            open_screenshot "$screenshot_path"
+        if ! niri msg action "$niri_action" --path "$screenshot_path" >/dev/null; then
+            notify_failure "Could not start the screenshot action"
+            exit 1
         fi
+
+        if ! wait_for_file "$screenshot_path"; then
+            notify_failure "Timed out after ${screenshot_timeout_seconds}s waiting for the screenshot"
+            exit 1
+        fi
+
+        open_screenshot "$screenshot_path"
         ;;
     all)
         # niri has no direct all-output action. Keep Noctalia for this mode and
@@ -94,10 +145,14 @@ case $mode in
         marker=$(mktemp --tmpdir niri-screenshot.XXXXXX)
         trap 'rm -f "$marker"' EXIT
 
-        noctalia msg screenshot-fullscreen all >/dev/null
+        if ! noctalia msg screenshot-fullscreen all >/dev/null; then
+            notify_failure "Could not start the all-display screenshot"
+            exit 1
+        fi
 
         screenshot_path=
-        for ((attempt = 0; attempt < 3000; attempt++)); do
+        deadline=$((SECONDS + screenshot_timeout_seconds))
+        while ((SECONDS < deadline)); do
             screenshot_path=$(
                 find "$screenshot_dir" -maxdepth 1 -type f -name '*.png' \
                     -newer "$marker" -printf '%T@ %p\n' 2>/dev/null |
@@ -111,9 +166,10 @@ case $mode in
             fi
             sleep 0.1
         done
-        ;;
-    *)
-        printf 'Usage: %s {region|screen|all|window}\n' "${0##*/}" >&2
-        exit 2
+
+        if [[ -z $screenshot_path || ! -s $screenshot_path ]]; then
+            notify_failure "Timed out after ${screenshot_timeout_seconds}s waiting for the all-display screenshot"
+            exit 1
+        fi
         ;;
 esac

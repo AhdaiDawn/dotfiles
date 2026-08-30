@@ -1,0 +1,8 @@
+{{- $profile := get .devices.hosts .chezmoi.hostname -}}
+{{- if not $profile -}}
+{{- fail (printf "unsupported hostname %q: add it to devices.hosts in .chezmoidata.toml" .chezmoi.hostname) -}}
+{{- end -}}
+{{- if not (has $profile (list "home-laptop" "company-pc")) -}}
+{{- fail (printf "unsupported device profile %q for hostname %q" $profile .chezmoi.hostname) -}}
+{{- end -}}
+{{- $profile -}}

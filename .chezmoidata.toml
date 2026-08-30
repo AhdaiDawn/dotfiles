@@ -1,4 +1,7 @@
 [devices]
-# The original niri configuration belongs to the home laptop. Any host other
-# than this explicitly listed company PC keeps using the laptop profile.
-companyHostname = "gxy"
+# Every supported host must be listed explicitly. Templates fail on unknown
+# hosts instead of applying display settings for the wrong machine.
+
+[devices.hosts]
+ahdai-pc = "home-laptop"
+gxy = "company-pc"

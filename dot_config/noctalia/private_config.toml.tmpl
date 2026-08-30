@@ -1,5 +1,6 @@
+{{- $device := includeTemplate ".chezmoitemplates/device-profile" . | trim -}}
 [accessibility]
-ui_scale = {{ if eq .chezmoi.hostname .devices.companyHostname }}1.0{{ else }}1.25{{ end }}
+ui_scale = {{ if eq $device "company-pc" }}1.0{{ else }}1.25{{ end }}
 
 [backdrop]
 tint_intensity = 0.29999999329447746
@@ -16,7 +17,7 @@ end = [
     "recorder",
     "volume",
     "brightness",
-{{- if ne .chezmoi.hostname .devices.companyHostname }}
+{{- if eq $device "home-laptop" }}
     "battery",
 {{- end }}
     "control-center",
@@ -30,7 +31,7 @@ enable_ddcutil = true
 [brightness.monitor.HDMI-A-1]
 backend = "ddcutil"
 
-{{- if eq .chezmoi.hostname .devices.companyHostname }}
+{{- if eq $device "company-pc" }}
 
 [brightness.monitor.DP-2]
 backend = "ddcutil"
@@ -69,7 +70,7 @@ timeout = 360
 
 [idle.behavior.suspend]
 action = "lock_and_suspend"
-enabled = {{ if eq .chezmoi.hostname .devices.companyHostname }}false{{ else }}true{{ end }}
+enabled = {{ if eq $device "company-pc" }}false{{ else }}true{{ end }}
 timeout = 1800
 
 [location]
@@ -108,7 +109,7 @@ copy_to_clipboard = true
 show_notification = true
 
 [shell]
-clipboard_image_action_command = "~/.local/bin/ocr-image {path}"
+clipboard_image_action_command = "~/.local/bin/ocr-image"
 polkit_agent = true
 setup_wizard_enabled = false
 

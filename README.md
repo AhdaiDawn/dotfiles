@@ -7,8 +7,11 @@
 
 设备映射集中在 [`.chezmoidata.toml`](.chezmoidata.toml)：
 
+- `ahdai-pc`：家用笔记本，保留 eDP-1 和笔记本专用快捷键；
 - `gxy`：公司 PC，双外接显示器；
-- 其他主机：家用笔记本配置，保留 eDP-1 和笔记本专用快捷键。
+
+模板只接受上面显式登记的主机名。新设备必须先在 `.chezmoidata.toml` 中指定
+设备类型，避免误用笔记本显示器配置。
 
 主要设备模板：
 
@@ -26,7 +29,19 @@
 先安装基础工具：
 
 ```sh
-sudo pacman -S chezmoi git fish neovim eza fzf zoxide starship direnv delta lazygit yazi zellij just
+sudo pacman -S --needed \
+  chezmoi git git-lfs fish neovim eza fzf zoxide starship direnv \
+  git-delta lazygit yazi zellij just
+```
+
+niri、Noctalia 以及仓库中的桌面快捷键和脚本还直接依赖：
+
+```sh
+sudo pacman -S --needed \
+  niri noctalia xwayland-satellite ghostty fcitx5 nautilus \
+  jq xorg-xrdb xdg-user-dirs wl-clipboard satty grim slurp \
+  tesseract tesseract-data-chi_sim tesseract-data-eng gpu-screen-recorder \
+  xdg-desktop-portal-gnome xdg-desktop-portal-gtk gnome-keyring ddcutil
 ```
 
 然后应用配置：

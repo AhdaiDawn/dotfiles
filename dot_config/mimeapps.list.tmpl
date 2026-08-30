@@ -1,5 +1,6 @@
+{{- $device := includeTemplate ".chezmoitemplates/device-profile" . | trim -}}
 {{- $media := "io.github.celluloid_player.Celluloid.desktop" -}}
-{{- if eq .chezmoi.hostname .devices.companyHostname -}}
+{{- if eq $device "company-pc" -}}
 {{- $media = "mpv.desktop" -}}
 {{- end -}}
 [Default Applications]
