@@ -23,9 +23,6 @@
 - `dot_config/niri/switcher.kdl`：多显示器窗口切换策略；动态配色由 Noctalia
   内置 niri 模板单独生成。
 
-家用笔记本的历史迁移过程保存在
-[`docs/niri-noctalia-migration.md`](docs/niri-noctalia-migration.md)。
-
 ## 初始化
 
 先安装基础工具：
