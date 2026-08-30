@@ -67,14 +67,14 @@ binds {
     Mod+Shift+Equal { set-window-height "+10%"; }
 
     Mod+F { maximize-column; }
+    Mod+G hotkey-overlay-title="Toggle Window Floating" { toggle-window-floating; }
     Mod+Shift+F { fullscreen-window; }
     Mod+M { maximize-window-to-edges; }
     Mod+Ctrl+F { expand-column-to-available-width; }
     Mod+C { center-column; }
     Mod+Ctrl+C { center-visible-columns; }
     Mod+V repeat=false hotkey-overlay-title="Open Noctalia Clipboard" { spawn "noctalia" "msg" "panel-toggle" "clipboard"; }
-    Mod+Shift+V { switch-focus-between-floating-and-tiling; }
-    Mod+Shift+W { toggle-column-tabbed-display; }
+    Mod+B hotkey-overlay-title="Toggle Column Tabbed Display" { toggle-column-tabbed-display; }
 
     // Open saved screenshots in Satty. Enter saves annotations, copies the
     // result to the clipboard, and closes Satty.
