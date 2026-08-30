@@ -136,9 +136,8 @@ binds {
 
 {{- if eq $device "home-laptop" }}
 
-    // Home-laptop panel recovery. Refuse to turn it off unless the dock display is active.
-    Mod+Shift+D hotkey-overlay-title="Enable Laptop Display" { spawn "niri" "msg" "output" "eDP-1" "on"; }
-    Mod+Ctrl+Shift+D hotkey-overlay-title="Disable Laptop Display" { spawn-sh "niri msg --json outputs | jq -e --arg output HDMI-A-1 '.[$output].current_mode != null' >/dev/null && niri msg output eDP-1 off"; }
+    // Toggle the laptop panel, but never turn off the last active display.
+    Mod+Shift+D hotkey-overlay-title="Toggle Laptop Display" { spawn "niri-output-autoswitch" "--toggle"; }
 {{- end }}
 
     Mod+Escape allow-inhibiting=false { toggle-keyboard-shortcuts-inhibit; }

@@ -15,8 +15,8 @@ output "DP-2" {
     focus-at-startup
 }
 {{ else -}}
-// Home laptop: keep the panel enabled as a safe fallback. Once niri confirms
-// that the dock display is active, the startup command below turns it off.
+// Home laptop: the output autoswitch service keeps the panel on unless the
+// external display is physically connected and active in niri.
 output "HDMI-A-1" {
     mode "3840x2160@160.001"
     scale 1.7
@@ -27,7 +27,7 @@ output "HDMI-A-1" {
 // Use 60 Hz for lower power consumption when away from the dock.
 output "eDP-1" {
     mode "2560x1600@60.008"
-    scale 2
+    scale 1.5
     transform "normal"
 
     layout {
@@ -41,7 +41,4 @@ output "eDP-1" {
     }
 }
 
-// If output discovery or jq fails, leave the panel on rather than risking a
-// session with no active display.
-spawn-at-startup "sh" "-c" "niri msg --json outputs | jq -e --arg output HDMI-A-1 '.[$output].current_mode != null' >/dev/null && niri msg output eDP-1 off"
 {{ end -}}
