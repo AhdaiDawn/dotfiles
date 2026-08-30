@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Name=Screen Recording
+Name[zh_CN]=屏幕录制
+Comment=Start or stop screen recording
+Comment[zh_CN]=开始或停止屏幕录制
+Exec=noctalia msg plugin noctalia/screen_recorder:service all toggle
+Icon=media-record
+Terminal=false
+StartupNotify=false
+Categories=AudioVideo;Recorder;
+Keywords=Record;Screen;Video;录屏;录制屏幕;
