@@ -15,7 +15,7 @@ bind
 blender
 bluez
 bluez-utils
-bottom
+btop
 bun
 cantarell-fonts
 celluloid
@@ -129,6 +129,7 @@ nvidia-container-toolkit
 nvidia-open-dkms
 nvidia-settings
 nvidia-utils
+nvtop
 obsidian
 opencl-nvidia
 openssh
@@ -194,6 +195,7 @@ unzip
 upower
 usbutils
 uv
+vulkan-tools
 wget
 which
 whois
@@ -218,4 +220,3 @@ yazi
 zellij
 zoxide
 zram-generator
-zsh

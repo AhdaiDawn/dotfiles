@@ -36,29 +36,29 @@ function __fish_merge_shared_history --on-event fish_prompt
     builtin history merge
 end
 
-alias ..='cd ..'
-alias ...='cd ../..'
+abbr --add .. 'cd ..'
+abbr --add ... 'cd ../..'
 
-alias l='eza'
-alias la='eza -a'
-alias ll='eza -al'
+abbr --add l eza
+abbr --add la 'eza -a'
+abbr --add ll 'eza -al'
 
-alias cls='clear'
+abbr --add cls clear
 
 function o --description 'Open the current directory in the file manager'
     command gio open "$PWD" &>/dev/null
 end
 
-alias lg='lazygit'
-alias dotfiles='chezmoi'
-alias j='just'
-alias claude-auto='claude --enable-auto-mode'
+abbr --add lg lazygit
+abbr --add dotfiles chezmoi
+abbr --add j just
+abbr --add claude-auto 'claude --enable-auto-mode'
 
-alias zz='zellij'
-alias za='zellij attach'
-alias zl='zellij list-sessions'
-alias zk='zellij kill-all-sessions'
-alias zw='zellij attach -c work'
+abbr --add zz zellij
+abbr --add za 'zellij attach'
+abbr --add zl 'zellij list-sessions'
+abbr --add zk 'zellij kill-all-sessions'
+abbr --add zw 'zellij attach -c work'
 
 function zn --description 'Attach to a zellij session named after the current directory'
     zellij attach -c (basename "$PWD") $argv

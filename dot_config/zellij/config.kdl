@@ -1,4 +1,4 @@
-on_force_close "quit"
+on_force_close "detach"
 theme "gruvbox-dark"
 show_startup_tips false
  
