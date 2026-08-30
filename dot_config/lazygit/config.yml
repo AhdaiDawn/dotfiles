@@ -1,5 +1,12 @@
 promptToReturnFromSubprocess: false
 
+git:
+  diffRenderers:
+    - name: delta
+      command: delta --dark --paging=never --line-numbers
+    - name: delta side-by-side
+      command: delta --dark --paging=never --line-numbers --side-by-side
+
 gui:
   theme:
     activeBorderColor:

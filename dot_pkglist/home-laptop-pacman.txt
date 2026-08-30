@@ -8,7 +8,6 @@ aspell
 ast-grep
 base
 base-devel
-bash-completion
 bat
 bind
 blender
@@ -44,7 +43,6 @@ ethtool
 exfatprogs
 eza
 fastfetch
-fcitx5-chinese-addons
 fcitx5-gtk
 fcitx5-qt
 fcitx5-rime
