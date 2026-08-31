@@ -1,7 +1,7 @@
 {{- $device := includeTemplate ".chezmoitemplates/device-profile" . | trim -}}
 {{ if eq $device "company-pc" -}}
-// Company PC: Lenovo on the left, Huawei on the right.
-// Pin the non-preferred 75 Hz Lenovo mode instead of falling back to 60 Hz.
+// Company PC: Lenovo on the left, Philips on the right.
+// Pin the non-preferred 75 Hz modes instead of falling back to 60 Hz.
 output "HDMI-A-1" {
     mode "1920x1080@74.986"
     scale 1.2
@@ -9,8 +9,9 @@ output "HDMI-A-1" {
 }
 
 output "DP-2" {
-    mode "1920x1080@74.973"
-    scale 1.2
+    mode "2560x1440@74.968"
+    // Match the UI's physical size to the 24-inch 1080p display.
+    scale 1.4
     position x=1600 y=0
     focus-at-startup
 }
