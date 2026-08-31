@@ -58,10 +58,18 @@ chsh -s /usr/bin/fish
 
 ## 登录管理器
 
-家用笔记本使用 `greetd + noctalia-greeter` 启动 Niri；系统配置位于
+两台 Linux 主机都使用 `greetd + noctalia-greeter` 启动 Niri。所需软件为
+`greetd`、`accountsservice` 和 `noctalia-greeter-git`；系统配置位于
 `/etc/greetd/config.toml` 和 `/var/lib/noctalia-greeter/`。登录界面的配色、
 壁纸和显示器布局由 Noctalia 的“设置 → 安全 → Noctalia Greeter”同步到
 `/var/lib/noctalia-greeter/sync.toml`。
+
+切回保留安装的 SDDM：
+
+```sh
+sudo systemctl disable greetd.service
+sudo systemctl enable sddm.service
+```
 
 ## 包清单
 
