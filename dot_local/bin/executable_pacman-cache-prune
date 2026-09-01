@@ -1,0 +1,116 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+keep=${PACCACHE_KEEP:-2}
+mode=dry-run
+
+usage() {
+    cat <<EOF
+Usage: ${0##*/} [--dry-run|--prune|--enable-timer|--status] [--keep N]
+
+  --dry-run       List cache entries that would be removed (default).
+  --prune         Remove old cache entries now; requires sudo.
+  --enable-timer  Install pacman-contrib, keep N versions, and enable its timer.
+  --status        Show the installed timer and retention override.
+  --keep N        Keep N package versions (default: $keep).
+
+PACCACHE_KEEP may also set the default retention count.
+EOF
+}
+
+while (($#)); do
+    case $1 in
+        --dry-run | --prune | --enable-timer | --status)
+            mode=${1#--}
+            shift
+            ;;
+        --keep)
+            if (($# < 2)); then
+                printf '%s: --keep needs a value\n' "${0##*/}" >&2
+                exit 2
+            fi
+            keep=$2
+            shift 2
+            ;;
+        -h | --help)
+            usage
+            exit 0
+            ;;
+        *)
+            usage >&2
+            exit 2
+            ;;
+    esac
+done
+
+if [[ ! $keep =~ ^[1-9][0-9]*$ ]]; then
+    printf '%s: retention count must be a positive integer\n' "${0##*/}" >&2
+    exit 2
+fi
+
+require_paccache() {
+    if ! command -v paccache >/dev/null 2>&1; then
+        printf '%s: paccache is missing; run `%s --enable-timer` first\n' \
+            "${0##*/}" "${0##*/}" >&2
+        exit 127
+    fi
+}
+
+cache_size() {
+    du -sh /var/cache/pacman/pkg 2>/dev/null | awk '{print $1}'
+}
+
+enable_timer() {
+    local override
+
+    if ! command -v pacman >/dev/null 2>&1 || ! command -v systemctl >/dev/null 2>&1; then
+        printf '%s: this setup requires Arch Linux with pacman and systemd\n' \
+            "${0##*/}" >&2
+        exit 127
+    fi
+
+    if ! command -v paccache >/dev/null 2>&1; then
+        sudo pacman -S --needed pacman-contrib
+    fi
+
+    override=$(mktemp)
+    trap 'rm -f -- "$override"' RETURN
+    # Preserve the packaged service's priority and sandboxing. Its ExecStart
+    # reads PACCACHE_ARGS, so a drop-in only needs to override that variable.
+    printf '[Service]\nEnvironment="PACCACHE_ARGS=--keep %s"\n' \
+        "$keep" >"$override"
+
+    sudo install -Dm0644 "$override" \
+        /etc/systemd/system/paccache.service.d/retention.conf
+    sudo systemctl daemon-reload
+    sudo systemctl enable --now paccache.timer
+
+    printf 'Enabled paccache.timer; it will keep %s package versions.\n' "$keep"
+    systemctl list-timers paccache.timer --no-pager
+}
+
+case $mode in
+    dry-run)
+        require_paccache
+        printf 'Pacman cache size: %s\n' "$(cache_size)"
+        exec paccache --dryrun --verbose --keep "$keep"
+        ;;
+    prune)
+        require_paccache
+        printf 'Pacman cache size before pruning: %s\n' "$(cache_size)"
+        sudo paccache --remove --verbose --keep "$keep"
+        printf 'Pacman cache size after pruning: %s\n' "$(cache_size)"
+        ;;
+    enable-timer)
+        enable_timer
+        ;;
+    status)
+        systemctl is-enabled paccache.timer 2>/dev/null || true
+        systemctl list-timers paccache.timer --no-pager 2>/dev/null || true
+        if [[ -r /etc/systemd/system/paccache.service.d/retention.conf ]]; then
+            printf '\nRetention override:\n'
+            sed -n '1,80p' /etc/systemd/system/paccache.service.d/retention.conf
+        fi
+        ;;
+esac

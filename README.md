@@ -30,7 +30,7 @@
 ```sh
 sudo pacman -S --needed \
   chezmoi git git-lfs fish neovim eza fzf zoxide starship direnv \
-  git-delta lazygit yazi zellij just
+  git-delta lazygit yazi zellij just pacman-contrib
 ```
 
 niri、Noctalia 以及仓库中的桌面快捷键和脚本还直接依赖：
@@ -83,3 +83,20 @@ sudo systemctl enable sddm.service
 ```sh
 ./dot_pkglist/help.sh
 ```
+
+## 系统维护
+
+Pacman 缓存默认保留两个版本。首次在一台机器上启用每周清理：
+
+```sh
+pacman-cache-prune --enable-timer
+```
+
+立即查看清理候选或执行清理：
+
+```sh
+pacman-cache-prune --dry-run
+pacman-cache-prune --prune
+```
+
+后两项不会更改定时器配置；实际删除和首次启用需要 `sudo`。

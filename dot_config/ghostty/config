@@ -26,3 +26,6 @@ keybind = shift+enter=csi:13;2u
 env = LANG=en_US.UTF-8
 env = LANGUAGE=en_US:en
 env = LC_ALL=en_US.UTF-8
+
+# Slowdown mouse scrolling
+mouse-scroll-multiplier = 0.95

@@ -2,13 +2,21 @@
 
 set -euo pipefail
 
-internal_output=${NIRI_INTERNAL_OUTPUT:-eDP-1}
-external_output=${NIRI_EXTERNAL_OUTPUT:-HDMI-A-1}
+internal_output_override=${NIRI_INTERNAL_OUTPUT:-}
+external_output_override=${NIRI_EXTERNAL_OUTPUT:-}
 drm_class_dir=${NIRI_DRM_CLASS_DIR:-/sys/class/drm}
 settle_delay=${NIRI_OUTPUT_SETTLE_DELAY:-0.5}
+activation_attempts=${NIRI_OUTPUT_ACTIVATION_ATTEMPTS:-20}
+activation_delay=${NIRI_OUTPUT_ACTIVATION_DELAY:-0.25}
+state_lock=${NIRI_OUTPUT_LOCK:-${XDG_RUNTIME_DIR:-/tmp}/niri-output-autoswitch.lock}
 
 usage() {
-    printf 'Usage: %s [--once|--toggle]\n' "${0##*/}"
+    cat <<EOF
+Usage: ${0##*/} [--once|--toggle]
+
+The internal panel and connected external outputs are discovered automatically.
+Set NIRI_INTERNAL_OUTPUT or NIRI_EXTERNAL_OUTPUT to override discovery.
+EOF
 }
 
 case $# in
@@ -33,43 +41,127 @@ case $# in
         ;;
 esac
 
-for dependency in jq niri udevadm; do
+for dependency in flock jq niri udevadm; do
     if ! command -v "$dependency" >/dev/null 2>&1; then
         printf 'niri-output-autoswitch: missing command: %s\n' "$dependency" >&2
         exit 127
     fi
 done
 
-external_connector_is_connected() {
-    local status status_path
+valid_output_name() {
+    [[ $1 =~ ^[[:alnum:]_.-]+$ ]]
+}
+
+is_internal_output_name() {
+    [[ $1 =~ ^(eDP|LVDS|DSI)-[[:alnum:]_.-]+$ ]]
+}
+
+validate_override() {
+    local variable=$1 value=$2
+
+    if [[ -n $value ]] && ! valid_output_name "$value"; then
+        printf 'niri-output-autoswitch: %s contains an unsafe output name: %s\n' \
+            "$variable" "$value" >&2
+        exit 2
+    fi
+}
+
+validate_override NIRI_INTERNAL_OUTPUT "$internal_output_override"
+validate_override NIRI_EXTERNAL_OUTPUT "$external_output_override"
+
+connector_name_from_status_path() {
+    local connector=${1%/status}
+
+    connector=${connector##*/}
+    connector=${connector#card*-}
+    printf '%s\n' "$connector"
+}
+
+connected_drm_outputs() {
+    local connector status status_path
     local -a status_paths
 
     shopt -s nullglob
-    status_paths=("$drm_class_dir"/card*-"$external_output"/status)
+    status_paths=("$drm_class_dir"/card*-*/status)
     shopt -u nullglob
 
     for status_path in "${status_paths[@]}"; do
         if IFS= read -r status <"$status_path" && [[ $status == connected ]]; then
-            return 0
+            connector=$(connector_name_from_status_path "$status_path")
+            valid_output_name "$connector" && printf '%s\n' "$connector"
         fi
     done
-
-    return 1
 }
 
-external_output_is_active() {
-    local attempt outputs
+discover_internal_output() {
+    local connector outputs
+
+    if [[ -n $internal_output_override ]]; then
+        printf '%s\n' "$internal_output_override"
+        return
+    fi
+
+    # Prefer Niri's connector names. This also sees a configured panel whose
+    # current mode is null because an earlier reconciliation disabled it.
+    if outputs=$(niri msg --json outputs 2>/dev/null); then
+        connector=$(jq -r \
+            'keys[] | select(test("^(eDP|LVDS|DSI)-[A-Za-z0-9_.-]+$"))' \
+            <<<"$outputs" | head -n 1)
+        if [[ -n $connector ]]; then
+            printf '%s\n' "$connector"
+            return
+        fi
+    fi
+
+    while IFS= read -r connector; do
+        if is_internal_output_name "$connector"; then
+            printf '%s\n' "$connector"
+            return
+        fi
+    done < <(connected_drm_outputs)
+}
+
+connected_external_outputs() {
+    local connector
+
+    if [[ -n $external_output_override ]]; then
+        while IFS= read -r connector; do
+            [[ $connector == "$external_output_override" ]] && printf '%s\n' "$connector"
+        done < <(connected_drm_outputs)
+        return
+    fi
+
+    while IFS= read -r connector; do
+        is_internal_output_name "$connector" || printf '%s\n' "$connector"
+    done < <(connected_drm_outputs)
+}
+
+active_external_outputs() {
+    local connector outputs
+
+    outputs=$(niri msg --json outputs 2>/dev/null) || return 1
+
+    while IFS= read -r connector; do
+        if jq -e --arg output "$connector" \
+            '.[$output].current_mode != null' <<<"$outputs" >/dev/null; then
+            printf '%s\n' "$connector"
+        fi
+    done < <(connected_external_outputs)
+}
+
+wait_for_active_external_outputs() {
+    local attempt discovered
 
     # Connector discovery and mode activation can arrive as separate events.
-    # Wait briefly, but never turn off the internal panel unless niri confirms
-    # that the external output has an active mode.
-    for ((attempt = 0; attempt < 20; attempt++)); do
-        if outputs=$(niri msg --json outputs 2>/dev/null) &&
-            jq -e --arg output "$external_output" \
-                '.[$output].current_mode != null' <<<"$outputs" >/dev/null; then
+    # Wait briefly, but never turn off the panel unless Niri confirms that a
+    # physically connected external output has an active mode.
+    for ((attempt = 0; attempt < activation_attempts; attempt++)); do
+        discovered=$(active_external_outputs || true)
+        if [[ -n $discovered ]]; then
+            printf '%s\n' "$discovered"
             return 0
         fi
-        sleep 0.25
+        sleep "$activation_delay"
     done
 
     return 1
@@ -84,59 +176,88 @@ internal_output_is_active() {
 }
 
 set_internal_output() {
-    local action=$1 attempt result
+    local desired_state=$1 attempt result
 
+    if [[ $desired_state == on ]] && internal_output_is_active; then
+        return 0
+    fi
+    if [[ $desired_state == off ]] && ! internal_output_is_active; then
+        return 0
+    fi
+
+    result=
     for ((attempt = 0; attempt < 10; attempt++)); do
-        if result=$(niri msg output "$internal_output" "$action" 2>&1); then
-            printf 'niri-output-autoswitch: external=%s internal=%s\n' \
-                "$external_output" "$action"
+        if result=$(niri msg output "$internal_output" "$desired_state" 2>&1); then
+            printf 'niri-output-autoswitch: internal=%s state=%s\n' \
+                "$internal_output" "$desired_state"
             return 0
         fi
         sleep 0.25
     done
 
     printf 'niri-output-autoswitch: could not turn %s %s: %s\n' \
-        "$internal_output" "$action" "$result" >&2
+        "$internal_output" "$desired_state" "$result" >&2
     return 1
 }
 
 reconcile_outputs() {
-    if external_connector_is_connected && external_output_is_active; then
+    local external_outputs
+
+    if external_outputs=$(wait_for_active_external_outputs); then
+        printf 'niri-output-autoswitch: active external outputs: %s\n' \
+            "$(paste -sd, <<<"$external_outputs")"
         set_internal_output off
     else
-        # Missing, disconnected, or inactive external output: keep a usable
-        # display available even if connector discovery is still settling.
+        # Missing, disconnected, or inactive external outputs: keep a usable
+        # display available even while connector discovery is still settling.
         set_internal_output on
     fi
 }
 
 toggle_internal_output() {
+    local external_outputs
+
     if internal_output_is_active; then
-        if external_connector_is_connected && external_output_is_active; then
+        if external_outputs=$(wait_for_active_external_outputs); then
             set_internal_output off
         else
-            printf 'niri-output-autoswitch: keeping %s on; %s is not active\n' \
-                "$internal_output" "$external_output"
+            printf 'niri-output-autoswitch: keeping %s on; no external output is active\n' \
+                "$internal_output"
         fi
     else
         set_internal_output on
     fi
 }
 
+with_state_lock() (
+    exec 9>"$state_lock"
+    if ! flock -w 5 9; then
+        printf 'niri-output-autoswitch: timed out waiting for state lock\n' >&2
+        return 1
+    fi
+    "$@"
+)
+
+internal_output=$(discover_internal_output)
+if [[ -z $internal_output ]]; then
+    printf 'niri-output-autoswitch: no internal panel was detected; nothing to do\n' >&2
+    exit 0
+fi
+
 case $action in
     once)
-        reconcile_outputs
+        with_state_lock reconcile_outputs
         exit 0
         ;;
     toggle)
-        toggle_internal_output
+        with_state_lock toggle_internal_output
         exit 0
         ;;
-    monitor) reconcile_outputs ;;
+    monitor) with_state_lock reconcile_outputs ;;
 esac
 
 # udev separates events with an empty line. Reconcile once per DRM event after
-# a short delay so niri has time to refresh its connector and mode state.
+# a short delay so Niri has time to refresh its connector and mode state.
 pending=false
 udevadm monitor --udev --property --subsystem-match=drm |
     while IFS= read -r line; do
@@ -145,7 +266,7 @@ udevadm monitor --udev --property --subsystem-match=drm |
             '')
                 if [[ $pending == true ]]; then
                     sleep "$settle_delay"
-                    reconcile_outputs
+                    with_state_lock reconcile_outputs
                     pending=false
                 fi
                 ;;

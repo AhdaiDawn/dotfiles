@@ -1,0 +1,10 @@
+# Keep chezmoi's edit hardlinks on the same filesystem as the source directory.
+sourceDir = {{ .chezmoi.sourceDir | quote }}
+tempDir = {{ joinPath .chezmoi.homeDir ".cache/chezmoi" | quote }}
+
+[edit]
+command = "nvim"
+
+[merge]
+command = "nvim"
+args = [ "-d" ]
