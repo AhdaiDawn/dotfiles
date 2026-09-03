@@ -200,6 +200,14 @@ set_internal_output() {
     return 1
 }
 
+update_xwayland_dpi() {
+    if command -v refresh-xwayland-dpi >/dev/null 2>&1; then
+        refresh-xwayland-dpi >/dev/null 2>&1 || true
+    elif [[ -x $HOME/.local/bin/refresh-xwayland-dpi ]]; then
+        "$HOME/.local/bin/refresh-xwayland-dpi" >/dev/null 2>&1 || true
+    fi
+}
+
 reconcile_outputs() {
     local external_outputs
 
@@ -212,6 +220,7 @@ reconcile_outputs() {
         # display available even while connector discovery is still settling.
         set_internal_output on
     fi
+    update_xwayland_dpi
 }
 
 toggle_internal_output() {
@@ -227,6 +236,7 @@ toggle_internal_output() {
     else
         set_internal_output on
     fi
+    update_xwayland_dpi
 }
 
 with_state_lock() (
@@ -238,9 +248,27 @@ with_state_lock() (
     "$@"
 )
 
-internal_output=$(discover_internal_output)
-if [[ -z $internal_output ]]; then
-    printf 'niri-output-autoswitch: no internal panel was detected; nothing to do\n' >&2
+discover_internal_output_with_retry() {
+    local connector attempt max_attempts=10
+
+    for ((attempt = 0; attempt < max_attempts; attempt++)); do
+        connector=$(discover_internal_output)
+        if [[ -n $connector ]]; then
+            printf '%s\n' "$connector"
+            return 0
+        fi
+        # If running interactively, do not delay
+        [[ $action != monitor ]] && break
+        sleep 0.5
+    done
+    return 1
+}
+
+if ! internal_output=$(discover_internal_output_with_retry) || [[ -z $internal_output ]]; then
+    printf 'niri-output-autoswitch: no internal panel was detected\n' >&2
+    if [[ $action == monitor ]]; then
+        exit 1
+    fi
     exit 0
 fi
 

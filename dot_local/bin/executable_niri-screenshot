@@ -3,7 +3,14 @@
 set -euo pipefail
 
 mode=${1:-region}
-screenshot_timeout_seconds=${NIRI_SCREENSHOT_TIMEOUT_SECONDS:-30}
+
+if [[ -n ${NIRI_SCREENSHOT_TIMEOUT_SECONDS:-} ]]; then
+    screenshot_timeout_seconds=$NIRI_SCREENSHOT_TIMEOUT_SECONDS
+elif [[ $mode == region ]]; then
+    screenshot_timeout_seconds=15
+else
+    screenshot_timeout_seconds=3
+fi
 
 notify_failure() {
     local message=$1
@@ -133,6 +140,11 @@ case $mode in
         fi
 
         if ! wait_for_file "$screenshot_path"; then
+            if [[ $mode == region ]]; then
+                # User cancelled selection (e.g. Esc) or timed out without selecting.
+                # Treat user cancellation as a normal exit without error notifications.
+                exit 0
+            fi
             notify_failure "Timed out after ${screenshot_timeout_seconds}s waiting for the screenshot"
             exit 1
         fi
