@@ -211,7 +211,10 @@ update_xwayland_dpi() {
 reconcile_outputs() {
     local external_outputs
 
-    if external_outputs=$(wait_for_active_external_outputs); then
+    external_outputs=$(connected_external_outputs)
+    if [[ -z $external_outputs ]]; then
+        set_internal_output on
+    elif external_outputs=$(wait_for_active_external_outputs); then
         printf 'niri-output-autoswitch: active external outputs: %s\n' \
             "$(paste -sd, <<<"$external_outputs")"
         set_internal_output off
@@ -227,7 +230,11 @@ toggle_internal_output() {
     local external_outputs
 
     if internal_output_is_active; then
-        if external_outputs=$(wait_for_active_external_outputs); then
+        external_outputs=$(connected_external_outputs)
+        if [[ -z $external_outputs ]]; then
+            printf 'niri-output-autoswitch: keeping %s on; no external output is connected\n' \
+                "$internal_output"
+        elif external_outputs=$(wait_for_active_external_outputs); then
             set_internal_output off
         else
             printf 'niri-output-autoswitch: keeping %s on; no external output is active\n' \

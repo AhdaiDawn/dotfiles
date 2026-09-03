@@ -2,6 +2,4 @@
 Description=Prevent system sleep while allowing idle screen-off
 
 [Service]
-Type=simple
 ExecStart=/usr/bin/systemd-inhibit --what=sleep --who=Noctalia --why="Keep awake while allowing screen-off" --mode=block /usr/bin/sleep infinity
-Restart=no

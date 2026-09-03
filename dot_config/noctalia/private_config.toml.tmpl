@@ -96,25 +96,13 @@ enabled = false
 
 [plugins]
 auto_update = "none"
-enabled = [ "ahdai/sleep-inhibit", "noctalia/screen_recorder", "fel/ocr" ]
+enabled = [ "ahdai/sleep-inhibit", "noctalia/screen_recorder" ]
 
 [[plugins.source]]
 name = "official"
 kind = "git"
 location = "https://github.com/noctalia-dev/official-plugins"
 enabled = true
-
-[[plugins.source]]
-name = "community"
-kind = "git"
-location = "https://github.com/noctalia-dev/community-plugins"
-enabled = true
-
-[plugin_settings."fel/ocr"]
-languages = "chi_sim+eng"
-psm = "6"
-copy_to_clipboard = true
-show_notification = true
 
 [shell]
 clipboard_image_action_command = "~/.local/bin/ocr-image"

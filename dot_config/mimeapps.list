@@ -35,7 +35,7 @@ image/webp=org.gnome.Loupe.desktop;
 image/avif=org.gnome.Loupe.desktop;
 image/svg+xml=org.gnome.Loupe.desktop;
 
-# Use Celluloid for media on every device.
+# Media.
 audio/mpeg=io.github.celluloid_player.Celluloid.desktop;
 audio/flac=io.github.celluloid_player.Celluloid.desktop;
 audio/ogg=io.github.celluloid_player.Celluloid.desktop;

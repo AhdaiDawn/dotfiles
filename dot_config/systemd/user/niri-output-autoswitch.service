@@ -4,10 +4,6 @@ BindsTo=niri.service
 After=niri.service
 
 [Service]
-Type=simple
 ExecStart=%h/.local/bin/niri-output-autoswitch
 Restart=on-failure
 RestartSec=2
-
-[Install]
-WantedBy=graphical-session.target

@@ -49,8 +49,8 @@ for dependency in niri satty jq wl-copy; do
     fi
 done
 
-if [[ $mode == all ]] && ! command -v noctalia >/dev/null 2>&1; then
-    notify_failure "Missing command: noctalia"
+if [[ $mode == all ]] && ! command -v grim >/dev/null 2>&1; then
+    notify_failure "Missing command: grim"
     exit 127
 fi
 
@@ -115,7 +115,6 @@ open_screenshot() {
             [[ $(jq -r '.app_id // empty' <<<"$window_json") == com.gabm.satty ]]; then
             window_id=$(jq -r '.id // empty' <<<"$window_json")
             if [[ -n $window_id ]]; then
-                niri msg action move-window-to-floating --id "$window_id" >/dev/null
                 niri msg action center-window --id "$window_id" >/dev/null
                 return 0
             fi
@@ -152,36 +151,11 @@ case $mode in
         open_screenshot "$screenshot_path"
         ;;
     all)
-        # niri has no direct all-output action. Keep Noctalia for this mode and
-        # identify the file it creates after this invocation.
-        marker=$(mktemp --tmpdir niri-screenshot.XXXXXX)
-        trap 'rm -f "$marker"' EXIT
-
-        if ! noctalia msg screenshot-fullscreen all >/dev/null; then
-            notify_failure "Could not start the all-display screenshot"
+        screenshot_path=$(next_screenshot_path)
+        if ! grim "$screenshot_path"; then
+            notify_failure "Could not capture all displays"
             exit 1
         fi
-
-        screenshot_path=
-        deadline=$((SECONDS + screenshot_timeout_seconds))
-        while ((SECONDS < deadline)); do
-            screenshot_path=$(
-                find "$screenshot_dir" -maxdepth 1 -type f -name '*.png' \
-                    -newer "$marker" -printf '%T@ %p\n' 2>/dev/null |
-                    sort -nr |
-                    sed -n '1s/^[^ ]* //p'
-            )
-            if [[ -n $screenshot_path && -s $screenshot_path ]]; then
-                sleep 0.05
-                open_screenshot "$screenshot_path"
-                break
-            fi
-            sleep 0.1
-        done
-
-        if [[ -z $screenshot_path || ! -s $screenshot_path ]]; then
-            notify_failure "Timed out after ${screenshot_timeout_seconds}s waiting for the all-display screenshot"
-            exit 1
-        fi
+        open_screenshot "$screenshot_path"
         ;;
 esac
