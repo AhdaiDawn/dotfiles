@@ -3,10 +3,15 @@
 ui_scale = {{ if eq $device "company-pc" }}1.0{{ else }}1.25{{ end }}
 
 [backdrop]
+# niri 26.04+ blurs the actual content behind Noctalia through
+# ext-background-effect-v1. Disable Noctalia's older pre-blurred wallpaper
+# backdrop so it cannot masquerade as compositor blur.
+enabled = false
 tint_intensity = 0.29999999329447746
 
 [bar.default]
 background_opacity = 0.72
+concave_edge_corners = false
 center = [ "clock", "notifications" ]
 end = [
     "media",
@@ -38,6 +43,9 @@ backend = "ddcutil"
 {{- end }}
 
 [control_center]
+
+[control_center.calendar]
+show_events_card = false
 
 [[control_center.shortcuts]]
 type = "wifi"
