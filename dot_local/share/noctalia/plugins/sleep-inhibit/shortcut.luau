@@ -32,20 +32,41 @@ local function toggle()
     busy = true
     render()
 
-    local action = active and "stop" or "start"
+    local targetActive = not active
+    local action = targetActive and "start" or "stop"
     local accepted = noctalia.runAsync(
         { "systemctl", "--user", action, "noctalia-sleep-inhibit.service" },
         function(result)
-            busy = false
-
             if result.exitCode == 0 then
-                active = not active
+                active = targetActive
                 noctalia.state.set("active", active)
-                notifyResult()
+                local checking = noctalia.runAsync(
+                    { "systemctl", "--user", "is-active", "--quiet", "noctalia-sleep-inhibit.service" },
+                    function(status)
+                        busy = false
+                        if status.exitCode == 0 or status.exitCode == 3 then
+                            active = status.exitCode == 0
+                            noctalia.state.set("active", active)
+                            if active == targetActive then
+                                notifyResult()
+                            else
+                                noctalia.notifyError("保持唤醒状态已变化", "服务状态与请求不一致，请重试")
+                            end
+                        else
+                            noctalia.notifyError("无法确认保持唤醒状态", status.stderr)
+                        end
+                        render()
+                    end
+                )
+                if checking then
+                    return
+                end
+                noctalia.notifyError("无法确认保持唤醒状态", "无法运行 systemctl")
             else
                 noctalia.notifyError("无法切换保持唤醒", result.stderr)
             end
 
+            busy = false
             render()
         end
     )

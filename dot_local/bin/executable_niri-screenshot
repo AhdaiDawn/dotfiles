@@ -6,8 +6,6 @@ mode=${1:-region}
 
 if [[ -n ${NIRI_SCREENSHOT_TIMEOUT_SECONDS:-} ]]; then
     screenshot_timeout_seconds=$NIRI_SCREENSHOT_TIMEOUT_SECONDS
-elif [[ $mode == region ]]; then
-    screenshot_timeout_seconds=15
 else
     screenshot_timeout_seconds=3
 fi
@@ -49,8 +47,13 @@ for dependency in niri satty jq wl-copy; do
     fi
 done
 
-if [[ $mode == all ]] && ! command -v grim >/dev/null 2>&1; then
+if [[ $mode == all || $mode == region ]] && ! command -v grim >/dev/null 2>&1; then
     notify_failure "Missing command: grim"
+    exit 127
+fi
+
+if [[ $mode == region ]] && ! command -v slurp >/dev/null 2>&1; then
+    notify_failure "Missing command: slurp"
     exit 127
 fi
 
@@ -81,7 +84,7 @@ next_screenshot_path() {
 wait_for_file() {
     local path=$1 deadline
 
-    # Interactive screenshots return control before the selection is finished.
+    # Non-interactive niri captures return before the file has been written.
     deadline=$((SECONDS + screenshot_timeout_seconds))
     while ((SECONDS < deadline)); do
         if [[ -s $path ]]; then
@@ -124,9 +127,33 @@ open_screenshot() {
 }
 
 case $mode in
-    region | screen | window)
+    region)
+        # slurp waits for a selection without a timeout and exits on cancellation.
+        # Capture only after selection completes, so Esc leaves no screenshot.
+        selection_error=$(mktemp)
+        trap 'rm -f -- "$selection_error"' EXIT
+        if geometry=$(LC_ALL=C slurp 2>"$selection_error"); then
+            screenshot_path=$(next_screenshot_path)
+        else
+            selection_status=$?
+            # slurp also uses exit status 1 for display/connection errors.
+            if ((selection_status == 1)) &&
+                [[ $(<"$selection_error") == *"selection cancelled" ]]; then
+                exit 0
+            fi
+            cat -- "$selection_error" >&2
+            notify_failure "Could not select a screenshot region"
+            exit "$selection_status"
+        fi
+
+        if ! grim -g "$geometry" "$screenshot_path"; then
+            notify_failure "Could not capture the selected region"
+            exit 1
+        fi
+        open_screenshot "$screenshot_path"
+        ;;
+    screen | window)
         screenshot_path=$(next_screenshot_path)
-        niri_action=screenshot
 
         case $mode in
             screen) niri_action=screenshot-screen ;;
@@ -139,11 +166,6 @@ case $mode in
         fi
 
         if ! wait_for_file "$screenshot_path"; then
-            if [[ $mode == region ]]; then
-                # User cancelled selection (e.g. Esc) or timed out without selecting.
-                # Treat user cancellation as a normal exit without error notifications.
-                exit 0
-            fi
             notify_failure "Timed out after ${screenshot_timeout_seconds}s waiting for the screenshot"
             exit 1
         fi
