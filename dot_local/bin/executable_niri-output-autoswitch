@@ -126,9 +126,11 @@ connected_external_outputs() {
 
     if [[ -n $external_output_override ]]; then
         while IFS= read -r connector; do
-            [[ $connector == "$external_output_override" ]] && printf '%s\n' "$connector"
+            if [[ $connector == "$external_output_override" ]]; then
+                printf '%s\n' "$connector"
+            fi
         done < <(connected_drm_outputs)
-        return
+        return 0
     fi
 
     while IFS= read -r connector; do

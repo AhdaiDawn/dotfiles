@@ -3,12 +3,7 @@
 set -euo pipefail
 
 mode=${1:-region}
-
-if [[ -n ${NIRI_SCREENSHOT_TIMEOUT_SECONDS:-} ]]; then
-    screenshot_timeout_seconds=$NIRI_SCREENSHOT_TIMEOUT_SECONDS
-else
-    screenshot_timeout_seconds=3
-fi
+screenshot_timeout_seconds=${NIRI_SCREENSHOT_TIMEOUT_SECONDS:-3}
 
 notify_failure() {
     local message=$1
@@ -60,6 +55,8 @@ fi
 # Keep the directory aligned with niri and Noctalia at chezmoi apply time.
 screenshot_dir='{{ includeTemplate ".chezmoitemplates/screenshot-directory" . | replace "'" "'\\''" }}'
 mkdir -p "$screenshot_dir"
+work_dir=$(mktemp -d "${XDG_RUNTIME_DIR:-/tmp}/niri-screenshot-XXXXXX")
+trap 'rm -rf -- "$work_dir"' EXIT
 
 next_screenshot_path() {
     local timestamp base path suffix
@@ -94,7 +91,7 @@ wait_for_file() {
 }
 
 open_screenshot() {
-    local path=$1 window_json window_id
+    local path=$1 window_json window_id satty_pid satty_status attempt
 
     # Enter saves the annotated image back to the screenshot, copies the same
     # rendered image to the Wayland clipboard, and closes Satty.
@@ -104,30 +101,42 @@ open_screenshot() {
         --copy-command wl-copy \
         --actions-on-enter=save-to-file,save-to-clipboard,exit \
         --app-id com.gabm.satty \
-        >/dev/null 2>&1 &
+        >/dev/null 2>"$work_dir/satty-error" &
+    satty_pid=$!
 
     # The window rule makes Satty float. Center the focused Satty window once
     # the compositor has registered it.
     for ((attempt = 0; attempt < 100; attempt++)); do
+        kill -0 "$satty_pid" 2>/dev/null || break
         window_json=$(niri msg --json focused-window 2>/dev/null || true)
         if [[ -n $window_json ]] &&
             [[ $(jq -r '.app_id // empty' <<<"$window_json") == com.gabm.satty ]]; then
             window_id=$(jq -r '.id // empty' <<<"$window_json")
             if [[ -n $window_id ]]; then
-                niri msg action center-window --id "$window_id" >/dev/null
-                return 0
+                niri msg action center-window --id "$window_id" >/dev/null || true
+                break
             fi
         fi
         sleep 0.05
     done
+
+    # Keep monitoring after the window opens so startup errors and later
+    # crashes both reach the caller. Leave the captured image available.
+    if wait "$satty_pid"; then
+        return 0
+    else
+        satty_status=$?
+        cat -- "$work_dir/satty-error" >&2
+        notify_failure "Satty exited with status $satty_status; screenshot kept at $path"
+        return "$satty_status"
+    fi
 }
 
 case $mode in
     region)
         # slurp waits for a selection without a timeout and exits on cancellation.
         # Capture only after selection completes, so Esc leaves no screenshot.
-        selection_error=$(mktemp)
-        trap 'rm -f -- "$selection_error"' EXIT
+        selection_error=$work_dir/selection-error
         if geometry=$(LC_ALL=C slurp 2>"$selection_error"); then
             screenshot_path=$(next_screenshot_path)
         else

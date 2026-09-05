@@ -43,7 +43,6 @@ abbr --add ll 'eza -al'
 abbr --add cls clear
 
 abbr --add lg lazygit
-abbr --add dotfiles chezmoi
 abbr --add j just
 abbr --add claude-auto 'claude --enable-auto-mode'
 

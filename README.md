@@ -30,25 +30,33 @@
 ```sh
 sudo pacman -S --needed \
   chezmoi git git-lfs fish neovim eza fzf zoxide starship direnv \
-  git-delta lazygit yazi zellij just pacman-contrib
+  git-delta lazygit yazi zellij just ripgrep fd ttf-firacode-nerd
 ```
 
 niri、Noctalia 以及仓库中的桌面快捷键和脚本还直接依赖：
 
 ```sh
 sudo pacman -S --needed \
-  niri noctalia xwayland-satellite ghostty fcitx5 nautilus \
+  niri noctalia xwayland-satellite ghostty nautilus \
+  fcitx5 fcitx5-rime fcitx5-gtk fcitx5-qt \
   jq xorg-xrdb xdg-user-dirs wl-clipboard satty grim slurp \
   tesseract tesseract-data-chi_sim tesseract-data-eng gpu-screen-recorder \
   xdg-desktop-portal-gnome xdg-desktop-portal-gtk gnome-keyring ddcutil
+```
+
+Rime 配置使用雾凇拼音及其小鹤双拼方案。已启用 `archlinuxcn` 仓库时安装：
+
+```sh
+sudo pacman -S --needed rime-ice-git
 ```
 
 然后应用配置：
 
 ```sh
 chezmoi init --apply git@github.com:AhdaiDawn/dotfiles.git
-chezmoi apply
 ```
+
+应用后，在 Fcitx5 中添加 Rime，并重新部署输入法配置。
 
 首次切换 Fish 前可先运行 `fish` 测试，再执行：
 
@@ -91,20 +99,3 @@ Niri、Noctalia 和 `niri-screenshot` 共用
 `.chezmoitemplates/screenshot-directory`：应用配置时读取 `xdg-user-dir PICTURES`，
 将截图保存到其中的 `Screenshots` 子目录；未安装该命令或返回非绝对路径时，
 使用 `~/Pictures/Screenshots`。修改 XDG 图片目录后，重新运行 `chezmoi apply`。
-
-## 系统维护
-
-Pacman 缓存默认保留两个版本。首次在一台机器上启用每周清理：
-
-```sh
-pacman-cache-prune --enable-timer
-```
-
-立即查看清理候选或执行清理：
-
-```sh
-pacman-cache-prune --dry-run
-pacman-cache-prune --prune
-```
-
-后两项不会更改定时器配置；实际删除和首次启用需要 `sudo`。

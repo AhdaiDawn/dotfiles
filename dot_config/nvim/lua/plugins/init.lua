@@ -1,11 +1,7 @@
 return {
   {
     "ellisonleao/gruvbox.nvim",
-    config = function()
-      require("gruvbox").setup({
-        contrast = "hard",
-      })
-    end,
+    opts = { contrast = "hard" },
   },
 
   {
@@ -32,11 +28,9 @@ return {
       },
       picker = {
         hidden = true,
-        -- ignored = true,
         sources = {
           files = {
             hidden = true,
-            -- ignored = true,
           },
         },
       },
@@ -51,7 +45,7 @@ return {
   {
     "mikavilpas/yazi.nvim",
     version = "*",
-    event = "VeryLazy",
+    cmd = "Yazi",
     dependencies = {
       { "nvim-lua/plenary.nvim", lazy = true },
     },
