@@ -1,13 +1,13 @@
 # dotfiles
 
-由 chezmoi 管理的个人配置。目前同时服务于家用笔记本和公司 PC，两台机器共用
+由 chezmoi 管理的个人配置。目前同时服务于 home 笔记本和公司 PC，两台机器共用
 终端、编辑器、niri 与 Noctalia 的主体配置，只在硬件相关位置使用模板分支。
 
 ## 设备配置
 
 设备映射集中在 [`.chezmoidata.toml`](.chezmoidata.toml)：
 
-- `ahdai-pc`：家用笔记本，保留 eDP-1 和笔记本专用快捷键；
+- `ahdai-pc`：home 笔记本，保留 eDP-1 和笔记本专用快捷键；
 - `gxy`：公司 PC，双外接显示器；
 
 模板只接受上面显式登记的主机名。新设备必须先在 `.chezmoidata.toml` 中指定
@@ -18,7 +18,7 @@
 - `dot_config/niri/outputs.kdl.tmpl`：输出、刷新率、缩放和位置；
 - `dot_config/niri/binds.kdl.tmpl`：只在笔记本生成内屏安全切换快捷键；
 - `dot_config/noctalia/private_config.toml.tmpl`：UI 缩放、电池和 DDC 显示器；
-- `dot_local/bin/executable_niri-output-autoswitch`：家用笔记本连接外屏时关闭
+- `dot_local/bin/executable_niri-output-autoswitch`：home 笔记本连接外屏时关闭
   内屏，断开外屏时恢复内屏；
 - `dot_config/niri/switcher.kdl`：多显示器窗口切换策略；动态配色由 Noctalia
   内置 niri 模板单独生成。
@@ -73,12 +73,13 @@ sudo systemctl enable sddm.service
 
 ## 包清单
 
-`dot_pkglist/` 只保存家用笔记本的当前快照，不保留迁移阶段的前后副本：
+`dot_pkglist/` 只保存 home 笔记本的软件清单备忘，不用于恢复安装包：
 
 - `home-laptop-pacman.txt`；
 - `home-laptop-aur.txt`。
 
-运行脚本更新这两份清单：
+在 home 笔记本 `ahdai-pc` 上运行脚本更新这两份清单。脚本会拒绝其他主机，
+并在两份清单都导出成功后才替换旧文件；导出失败时保留原有内容。
 
 ```sh
 ./dot_pkglist/help.sh
