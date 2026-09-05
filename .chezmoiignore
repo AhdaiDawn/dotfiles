@@ -1,7 +1,4 @@
 {{- $device := includeTemplate ".chezmoitemplates/device-profile" . | trim -}}
-# Neovim plugin lock file (auto-generated)
-.config/nvim/lazy-lock.json
-
 # Repository-only LazyVim starter metadata
 .config/nvim/.gitignore
 .config/nvim/LICENSE
