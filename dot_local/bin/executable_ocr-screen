@@ -22,12 +22,22 @@ for dependency in grim slurp ocr-image; do
     fi
 done
 
-if ! geometry=$(slurp); then
-    exit 0
-fi
+work_dir=$(mktemp -d "${XDG_RUNTIME_DIR:-/tmp}/ocr-screen-XXXXXX")
+trap 'rm -rf -- "$work_dir"' EXIT
 
-image=$(mktemp "${XDG_RUNTIME_DIR:-/tmp}/ocr-screen-XXXXXX.png")
-trap 'rm -f -- "$image"' EXIT
+if geometry=$(LC_ALL=C slurp 2>"$work_dir/selection-error"); then
+    image=$work_dir/image.png
+else
+    selection_status=$?
+    # slurp uses status 1 for both cancellation and display errors.
+    if ((selection_status == 1)) &&
+        [[ $(<"$work_dir/selection-error") == *"selection cancelled" ]]; then
+        exit 0
+    fi
+    cat -- "$work_dir/selection-error" >&2
+    notify "OCR failed" "Could not select a screen region"
+    exit "$selection_status"
+fi
 
 if ! grim -g "$geometry" "$image"; then
     notify "OCR failed" "Could not capture the selected region"

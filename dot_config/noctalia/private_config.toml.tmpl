@@ -7,7 +7,6 @@ ui_scale = {{ if eq $device "company-pc" }}1.0{{ else }}1.25{{ end }}
 # ext-background-effect-v1. Disable Noctalia's older pre-blurred wallpaper
 # backdrop so it cannot masquerade as compositor blur.
 enabled = false
-tint_intensity = 0.29999999329447746
 
 [bar.default]
 background_opacity = 0.72
@@ -41,8 +40,6 @@ backend = "ddcutil"
 [brightness.monitor.DP-2]
 backend = "ddcutil"
 {{- end }}
-
-[control_center]
 
 [control_center.calendar]
 show_events_card = false
@@ -114,17 +111,15 @@ transparency_mode = "glass"
 
 [shell.screenshot]
 copy_to_clipboard = true
-directory = "~/Pictures/Screenshots"
+directory = {{ includeTemplate ".chezmoitemplates/screenshot-directory" . | quote }}
 filename_pattern = "Screenshot from %Y-%m-%d %H-%M-%S"
 freeze_screen = true
 save_to_file = true
 
 [theme]
 builtin = "Gruvbox"
-community_palette = "Gruvbox Material"
 mode = "dark"
 source = "builtin"
-wallpaper_scheme = "m3-content"
 
 [theme.templates]
 builtin_ids = [ "ghostty", "gtk3", "gtk4", "niri", "qt", "scroll", "starship" ]

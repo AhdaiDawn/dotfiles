@@ -57,12 +57,8 @@ if [[ $mode == region ]] && ! command -v slurp >/dev/null 2>&1; then
     exit 127
 fi
 
-pictures_dir=$(xdg-user-dir PICTURES 2>/dev/null || true)
-if [[ -z $pictures_dir || $pictures_dir != /* ]]; then
-    pictures_dir=$HOME/Pictures
-fi
-
-screenshot_dir=$pictures_dir/Screenshots
+# Keep the directory aligned with niri and Noctalia at chezmoi apply time.
+screenshot_dir='{{ includeTemplate ".chezmoitemplates/screenshot-directory" . | replace "'" "'\\''" }}'
 mkdir -p "$screenshot_dir"
 
 next_screenshot_path() {

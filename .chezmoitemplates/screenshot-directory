@@ -1,0 +1,9 @@
+{{- /* Resolve once at apply time so all screenshot entry points agree. */ -}}
+{{- $pictures := joinPath .chezmoi.homeDir "Pictures" -}}
+{{- if lookPath "xdg-user-dir" -}}
+{{- $xdgPictures := output "xdg-user-dir" "PICTURES" | trim -}}
+{{- if hasPrefix "/" $xdgPictures -}}
+{{- $pictures = $xdgPictures -}}
+{{- end -}}
+{{- end -}}
+{{- joinPath $pictures "Screenshots" -}}

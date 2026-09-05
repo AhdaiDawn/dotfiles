@@ -60,7 +60,7 @@ spawn-at-startup "noctalia"
 // from niri's active output scale before Fcitx opens its X11 connection.
 spawn-at-startup "sh" "-c" "$HOME/.local/bin/refresh-xwayland-dpi; exec fcitx5 -d"
 
-screenshot-path "~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png"
+screenshot-path {{ printf "%s/Screenshot from %%Y-%%m-%%d %%H-%%M-%%S.png" (includeTemplate ".chezmoitemplates/screenshot-directory" .) | quote }}
 
 // Allow common tray applications to activate their window after an explicit click.
 debug {

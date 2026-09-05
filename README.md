@@ -84,6 +84,13 @@ sudo systemctl enable sddm.service
 ./dot_pkglist/help.sh
 ```
 
+## 截图目录
+
+Niri、Noctalia 和 `niri-screenshot` 共用
+`.chezmoitemplates/screenshot-directory`：应用配置时读取 `xdg-user-dir PICTURES`，
+将截图保存到其中的 `Screenshots` 子目录；未安装该命令或返回非绝对路径时，
+使用 `~/Pictures/Screenshots`。修改 XDG 图片目录后，重新运行 `chezmoi apply`。
+
 ## 系统维护
 
 Pacman 缓存默认保留两个版本。首次在一台机器上启用每周清理：
